@@ -17,7 +17,7 @@ export class RouteManager {
         guest: {
             top: '/',
             auth: {
-                register: 'guest/auth/register',
+                register: '/guest/auth/register',
                 login: '/guest/auth/login',
             }
         },

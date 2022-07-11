@@ -5,6 +5,10 @@ import axios from 'axios';
 import { getSession, signIn } from 'next-auth/react';
 import { GetServerSideProps } from "next";
 import { AuthService } from "../../../app/services/authService";
+import { BaseInput } from "../../../components/atoms/input/baseInput";
+import { BaseButton } from "../../../components/atoms/buttons/baseButton";
+import Link from "next/link";
+import { RouteManager } from "../../../app/manages/routeManager";
 
 type formData = {
     email: string;
@@ -43,14 +47,16 @@ export default function Login() {
         <_BaseGuestLayout>
             <Head>
                 <title>Login</title>
-                <meta name="description" content="ログイン概要" />
             </Head>
-            <h1 className="text-6xl text-slate-600 text-center font-serif">ログイン画面</h1>
-            <div>
+            <div className="text-center py-20">
+                <h1 className="text-3xl text-sub">ログイン</h1>
+            </div>
+            <div className="bg-p-sub px-10 py-10 text-lg">
                 <div>
-                    <label htmlFor="email">メールアドレス</label>
-                    <input
-                        className="border border-slate-800"
+                    <div className="mb-2">
+                        <label htmlFor="email" className="text-xl font-bold">メールアドレス</label>
+                    </div>
+                    <BaseInput
                         type="text"
                         id="email"
                         name="email"
@@ -58,10 +64,11 @@ export default function Login() {
                         onChange={changeHandler}
                     />
                 </div>
-                <div>
-                    <label htmlFor="password">パスワード</label>
-                    <input
-                        className="border border-slate-800"
+                <div className="mt-4">
+                    <div className="mb-2">
+                        <label htmlFor="password" className="text-xl font-bold">パスワード</label>
+                    </div>
+                    <BaseInput
                         type="password"
                         id="password"
                         name="password"
@@ -69,15 +76,21 @@ export default function Login() {
                         onChange={changeHandler}
                     />
                 </div>
+                <div className="text-center mt-6">
+                    <BaseButton
+                        onClick={() => {
+                            signIn('credentials', { email: formData.email, password: formData.password })
+                        }}
+                    >
+                        ログイン
+                    </BaseButton>
+                </div>
             </div>
-            <button
-                className='bg-green-500 text-white rounded px-2 py-2'
-                onClick={() => {
-                    signIn('credentials', { email: formData.email, password: formData.password })
-                }}
-            >
-                ログイン
-            </button>
+            <div className="mt-6 text-center text-lg">
+                <Link href={RouteManager.webRoute.guest.auth.register}>
+                    <a className="underline">新規会員登録はこちら</a>
+                </Link>
+            </div>
         </_BaseGuestLayout>
     )
 }

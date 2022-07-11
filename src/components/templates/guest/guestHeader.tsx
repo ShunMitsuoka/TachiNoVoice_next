@@ -3,8 +3,11 @@ import Link from 'next/link';
 
 export const GuestHeader = () => {
     return (
-        <header className={'relative top-0 left-0 w-full z-10'}>
-            <div className=''>
+        <header className='relative top-0 left-0 w-full h-16 z-10 bg-sub'>
+            <div>
+                
+            </div>
+            {/* <div className=''>
                 <div className='pt-6 flex item-center justifty-between'>
                     <div className='text-2xl font-bold'>
                         TACHI-NO-VOICE
@@ -28,7 +31,7 @@ export const GuestHeader = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </header>
     )
 }
