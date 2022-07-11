@@ -4,8 +4,10 @@ import Link from 'next/link';
 export const GuestHeader = () => {
     return (
         <header className='relative top-0 left-0 w-full h-16 z-10 bg-sub'>
-            <div>
-                
+            <div className='absolute right-0 w-10 h-full flex flex-col justify-center items-center mr-2'>
+                <div className='w-full h-1 bg-main rounded-full'></div>
+                <div className='w-full h-1 bg-main rounded-full mt-2'></div>
+                <div className='w-full h-1 bg-main rounded-full mt-2'></div>
             </div>
             {/* <div className=''>
                 <div className='pt-6 flex item-center justifty-between'>

@@ -49,7 +49,7 @@ export default function Login() {
                 <title>Login</title>
             </Head>
             <div className="text-center py-20">
-                <h1 className="text-3xl text-sub">ログイン</h1>
+                <h1 className="text-3xl">ログイン</h1>
             </div>
             <div className="bg-p-sub px-10 py-10 text-lg">
                 <div>
