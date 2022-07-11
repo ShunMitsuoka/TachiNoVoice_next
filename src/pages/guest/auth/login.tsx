@@ -6,8 +6,6 @@ import { getSession, signIn } from 'next-auth/react';
 import { GetServerSideProps } from "next";
 import { AuthService } from "../../../app/services/authService";
 
-
-
 type formData = {
     email: string;
     password: string;

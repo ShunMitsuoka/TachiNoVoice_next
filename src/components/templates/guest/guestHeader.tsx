@@ -18,6 +18,11 @@ export const GuestHeader = () => {
                                             <a>TOP</a>
                                         </Link>
                                     </li>
+                                    <li>
+                                        <Link href="/guest/auth/login">
+                                            <a>LOGIN</a>
+                                        </Link>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
