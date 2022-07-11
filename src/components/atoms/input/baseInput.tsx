@@ -24,7 +24,7 @@ export const BaseInput: React.FC<Props> = ({
             name={name}
             id={id}
             value={value}
-            className={'w-full rounded-md px-2 py-2 text-sub border border-sub' + _class}
+            className={'w-full rounded-md px-2 py-2 text-sub border border-sub ' + _class}
         />
     );
 }

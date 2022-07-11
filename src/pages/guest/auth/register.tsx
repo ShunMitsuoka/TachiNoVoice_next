@@ -2,6 +2,9 @@ import axios from 'axios';
 import _BaseGuestLayout from '../../../layouts/_baseGuestLayout';
 import Head from 'next/head';
 import React, { useState } from 'react';
+import { BaseInput } from '../../../components/atoms/input/baseInput';
+import { BaseButton } from '../../../components/atoms/buttons/baseButton';
+import { FormLabel } from '../../../components/atoms/label/formLabel';
 
 type formDate = {
     name: string,
@@ -47,21 +50,26 @@ export default function Register() {
             birthmonth: formData.birthmonth,
             birthday: formData.birthday,
         })
-            .then(function (response) {
-                console.log(response);
-            })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch((error) =>{
+            console.log(error);
+        })
     }
     return (
         <_BaseGuestLayout>
             <Head>
                 <title>Register</title>
             </Head>
-            <h1>Register</h1>
-            <div>
+            <div className="text-center py-20">
+                <h1 className="text-3xl">会員登録</h1>
+            </div>
+            <div className="bg-p-sub px-10 py-10 text-lg">
+                {/* 氏名 */}
                 <div>
-                    <label htmlFor='name'>氏名 ※必須</label>
-                    <input
-                        className="border border-slate-800"
+                    <FormLabel htmlFor='name'>氏名 ※必須</FormLabel>
+                    <BaseInput
                         type="text"
                         id="name"
                         name="name"
@@ -69,10 +77,10 @@ export default function Register() {
                         onChange={changeHandler}
                     />
                 </div>
-                <div>
-                    <label htmlFor='nickname'>ニックネーム</label>
-                    <input
-                        className="border border-slate-800"
+                {/* ニックネーム */}
+                <div className="mt-4">
+                    <FormLabel htmlFor='nickname'>ニックネーム</FormLabel>
+                    <BaseInput
                         type="text"
                         id="nickname"
                         name="nickname"
@@ -80,10 +88,10 @@ export default function Register() {
                         onChange={changeHandler}
                     />
                 </div>
-                <div>
-                    <label htmlFor='email'>メールアドレス※必須</label>
-                    <input
-                        className="border border-slate-800"
+                {/* メールアドレス */}
+                <div className="mt-4">
+                    <FormLabel htmlFor='email'>メールアドレス ※必須</FormLabel>
+                    <BaseInput
                         type="text"
                         id="email"
                         name="email"
@@ -91,10 +99,10 @@ export default function Register() {
                         onChange={changeHandler}
                     />
                 </div>
-                <div>
-                    <label htmlFor='password'>パスワード※必須</label>
-                    <input
-                        className="border border-slate-800"
+                {/* パスワード */}
+                <div className="mt-4">
+                    <FormLabel htmlFor='password'>パスワード ※必須</FormLabel>
+                    <BaseInput
                         type="password"
                         id="password"
                         name="password"
@@ -102,10 +110,10 @@ export default function Register() {
                         onChange={changeHandler}
                     />
                 </div>
-                <div>
-                    <label htmlFor='passwordConfirmation'>Password確認用※必須</label>
-                    <input
-                        className="border border-slate-800"
+                {/* パスワード確認用 */}
+                <div className="mt-4">
+                    <FormLabel htmlFor='passwordConfirmation'>パスワード確認用 ※必須</FormLabel>
+                    <BaseInput
                         type="password"
                         id="passwordConfirmation"
                         name="passwordConfirmation"
@@ -113,10 +121,10 @@ export default function Register() {
                         onChange={changeHandler}
                     />
                 </div>
-                <div>
-                    <label htmlFor='gender'>性別</label>
-                    <input
-                        className="border border-slate-800"
+                {/* 性別 */}
+                <div className="mt-4">
+                    <FormLabel htmlFor='gender'>性別 ※必須</FormLabel>
+                    <BaseInput
                         type="text"
                         id="gender"
                         name="gender"
@@ -124,47 +132,53 @@ export default function Register() {
                         onChange={changeHandler}
                     />
                 </div>
-                <div>生年月日</div>
-                <div>
-                    <label htmlFor='birthyear'>年</label>
-                    <input
-                        className="border border-slate-800"
-                        type="number"
-                        id="birthyear"
-                        name="birthyear"
-                        value={formData.birthyear}
-                        onChange={changeHandler}
-                    />
+                {/* 生年月日 */}
+                <div className="mt-4">
+                    <FormLabel htmlFor=''>生年月日 ※必須</FormLabel>
+                    <div className='grid grid-cols-10'>
+                        <div className='col-span-4'>
+                            <BaseInput
+                                type="number"
+                                id="birthyear"
+                                name="birthyear"
+                                value={formData.birthyear}
+                                onChange={changeHandler}
+                                _class='w-20 text-right'
+                            />
+                            <span className='pl-2 align-bottom'>年</span>
+                        </div>
+                        <div className='col-span-3'>
+                            <BaseInput
+                                type="number"
+                                id="birthmonth"
+                                name="birthmonth"
+                                value={formData.birthmonth}
+                                onChange={changeHandler}
+                                _class='w-14 text-right'
+                            />
+                            <span className='pl-2 align-bottom'>月</span>
+                        </div>
+                        <div className='col-span-3'>
+                            <BaseInput
+                                type="text"
+                                id="birthday"
+                                name="birthday"
+                                value={formData.birthday}
+                                onChange={changeHandler}
+                                _class='w-14 text-right'
+                                />
+                                <span className='pl-2 align-bottom'>日</span>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor='birthmonth'>月</label>
-                    <input
-                        className="border border-slate-800"
-                        type="number"
-                        id="birthmonth"
-                        name="birthmonth"
-                        value={formData.birthmonth}
-                        onChange={changeHandler}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='birthday'>日</label>
-                    <input
-                        className="border border-slate-800"
-                        type="text"
-                        id="birthday"
-                        name="birthday"
-                        value={formData.birthday}
-                        onChange={changeHandler}
-                    />
+                <div className="text-center mt-6">
+                    <BaseButton
+                        onClick={onClickSave}
+                    >
+                        会員登録
+                    </BaseButton>
                 </div>
             </div>
-            <button
-                className='bg-green-500 text-white rounded px-2 py-2'
-                onClick={onClickSave}
-            >
-                会員登録
-            </button>
         </_BaseGuestLayout>
     )
 } 
