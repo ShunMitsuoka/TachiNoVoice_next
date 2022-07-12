@@ -1,7 +1,6 @@
 import _BaseGuestLayout from "../../../layouts/_baseGuestLayout";
 import Head from 'next/head';
 import React, { useState } from "react";
-import axios from 'axios';
 import { getSession, signIn } from 'next-auth/react';
 import { GetServerSideProps } from "next";
 import { AuthService } from "../../../app/services/authService";
@@ -9,6 +8,7 @@ import { BaseInput } from "../../../components/atoms/input/baseInput";
 import { BaseButton } from "../../../components/atoms/buttons/baseButton";
 import Link from "next/link";
 import { RouteManager } from "../../../app/manages/routeManager";
+import axios from "../../../libs/axios/axios";
 
 type formData = {
     email: string;
@@ -29,7 +29,7 @@ export default function Login() {
     }
 
     const onClickSave = () => {
-        axios.post('http://localhost/api/auth/login', {
+        axios.post('http://localhost:8000/api/auth/login', {
             email: formData.email,
             password: formData.password,
         })

@@ -8,9 +8,9 @@ export class ApiService {
     static getFullURL(url: string, ssFlg: boolean = false) {
         url = url.replace(/^\//, '');
         if (ssFlg) {
-            return 'http://host.docker.internal/' + url;
+            return 'http://host.docker.internal:8000/' + url;
         } else {
-            return 'http://localhost/' + url;
+            return 'http://localhost:8000/' + url;
         }
     }
 

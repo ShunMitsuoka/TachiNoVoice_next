@@ -1,10 +1,10 @@
-import axios from 'axios';
 import _BaseGuestLayout from '../../../layouts/_baseGuestLayout';
 import Head from 'next/head';
 import React, { useState } from 'react';
 import { BaseInput } from '../../../components/atoms/input/baseInput';
 import { BaseButton } from '../../../components/atoms/buttons/baseButton';
 import { FormLabel } from '../../../components/atoms/label/formLabel';
+import axios from '../../../libs/axios/axios';
 
 type formDate = {
     name: string,
@@ -39,7 +39,7 @@ export default function Register() {
     }
 
     const onClickSave = () => {
-        axios.post('http://localhost/api/auth/register', {
+        const params = {
             name: formData.name,
             nickname: formData.nickname,
             email: formData.email,
@@ -49,7 +49,9 @@ export default function Register() {
             birthyear: formData.birthyear,
             birthmonth: formData.birthmonth,
             birthday: formData.birthday,
-        })
+        };
+        console.log(params);
+        axios.post('http://localhost:8000/api/auth/register', params)
         .then(function (response) {
             console.log(response);
         })
