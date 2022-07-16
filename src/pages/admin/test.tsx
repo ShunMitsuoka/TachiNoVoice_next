@@ -1,10 +1,10 @@
-import _BaseAdminLayout from '../../layouts/_baseAdminLayout';
+import _BaseAdminLayout from '../../layouts/_baseMemberLayout';
 import Head from 'next/head';
 import { AuthService } from '../../app/services/authService';
 import type { GetServerSideProps } from 'next';
 import { getSession, useSession } from 'next-auth/react';
 import _BaseLayout from '../../layouts/_baseLayout';
-import { AdminHeader } from '../../components/templates/admin/adminHeader';
+import _BaseMemberLayout from '../../layouts/_baseMemberLayout';
 
 
 export default function Test() {
@@ -12,10 +12,10 @@ export default function Test() {
     const { data: session, status } = useSession();
 
     return (
-        <_BaseLayout>
+        <_BaseMemberLayout>
             <h1>aaafafafaf</h1>
             <div>{session?.user.email}</div>
-        </_BaseLayout>
+        </_BaseMemberLayout>
     )
 }
 
