@@ -14,10 +14,10 @@ export class ApiService {
         }
     }
 
-    static async getCSRF(ssFlg: boolean = true) {
+    static async getCSRF(ssFlg: boolean = false) {
         return new Promise((resolve) => {
             axios
-                .get(ApiService.getFullURL('sanctum/csrf-cookie', ssFlg))
+                .get(ApiService.getFullURL('/sanctum/csrf-cookie', ssFlg))
                 .then((res) => {
                     resolve(res);
                 });

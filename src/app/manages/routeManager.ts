@@ -11,6 +11,12 @@ type route = {
     }
 }
 
+type apiRoute = {
+    member: {
+        village: string,
+    }
+}
+
 export class RouteManager {
 
     static readonly webRoute: route = {
@@ -23,6 +29,12 @@ export class RouteManager {
         },
         admin: {
             test: '/admin/test',
+        }
+    }
+
+    static readonly apiRoute: apiRoute = {
+        member: {
+            village: '/api/village',
         }
     }
 }
