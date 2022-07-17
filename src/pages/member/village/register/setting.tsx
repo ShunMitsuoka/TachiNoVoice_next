@@ -4,6 +4,7 @@ import { AuthService } from '@/app/services/authService'
 import { BaseButton } from '@/components/atoms/buttons/baseButton'
 import { FormInput } from '@/components/atoms/input/formInput'
 import { FormLabel } from '@/components/atoms/label/formLabel'
+import { SetTopic } from '@/components/templates/member/village/register/setting/setTopic'
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
 import axios from '@/libs/axios/axios'
 import type { GetServerSideProps, NextPage } from 'next'
@@ -105,51 +106,13 @@ const Register: NextPage = () => {
         switch (page) {
             case 1:
                 return(
-                    <>
-                        <div>
-                            <FormLabel htmlFor={'title'}>タイトル</FormLabel>
-                            <FormInput
-                                id='title'
-                                name='title'
-                                value={formData.title}
-                                onChange={changeInputHandler}
-                            />
-                        </div>
-                        <div className='mt-2'>
-                            <FormLabel htmlFor={'content'}>説明</FormLabel>
-                            <textarea
-                                name="content"
-                                id="content"
-                                cols={30}
-                                rows={6}
-                                className='w-full border border-sub rounded-lg px-2 py-2'
-                                value={formData.content}
-                                onChange={changeTextAreaHandler}
-                            >
-                            </textarea>
-                        </div>
-                        <div className='mt-2'>
-                            <FormLabel htmlFor={'note'}>注意事項</FormLabel>
-                            <textarea
-                                name="note"
-                                id="note"
-                                cols={30}
-                                rows={6}
-                                className='w-full border border-sub rounded-lg px-2 py-2'
-                                value={formData.note}
-                                onChange={changeTextAreaHandler}
-                            >
-                            </textarea>
-                        </div>
-                        <div className='flex justify-between mt-4'>
-                            <div>
-                                <BaseButton>キャンセル</BaseButton>
-                            </div>
-                            <div>
-                                <BaseButton onClick={onClickNext}>次へ</BaseButton>
-                            </div>
-                        </div>
-                    </>
+                    <SetTopic 
+                        formData={formData} 
+                        changeInputHandler={changeInputHandler} 
+                        changeTextAreaHandler={changeTextAreaHandler}
+                        onClickNext={onClickNext} 
+                        onClickCancel={onClickCancel} 
+                    />
                 );
                 break;
             case 2:
@@ -367,7 +330,20 @@ const Register: NextPage = () => {
             <Head>
                 <title>ビレッジ設定</title>
             </Head>
-            <div className='px-10 mt-10'>
+            <div className='relative h-32 grid grid-cols-5 px-10'>
+                {
+                    [1,2,3,4,5].map((ele) => {
+                        return (
+                            <div className='relative col-span-1 flex justify-center items-center'>
+                                <div className='h-7 w-7 rounded-full bg-sub'></div>
+                                <div className='absolute h-1 w-full bg-sub'></div>
+                            </div>
+                        );
+                    })
+                }
+
+            </div>
+            <div className=''>
                 {pageSegue()}
             </div>
         </_BaseMemberLayout>

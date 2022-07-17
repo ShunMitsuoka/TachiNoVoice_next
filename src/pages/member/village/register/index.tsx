@@ -1,3 +1,4 @@
+import { RouteManager } from '@/app/manages/routeManager'
 import { AuthService } from '@/app/services/authService'
 import { BaseButton } from '@/components/atoms/buttons/baseButton'
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
@@ -14,7 +15,7 @@ const Register: NextPage = () => {
       </Head>
 
       <div className='text-center mt-96'>
-        <Link href={'/member/village/register/setting'}>
+        <Link href={RouteManager.webRoute.member.village.register.setting}>
           <a className='bg-sub text-main rounded px-4 py-2'>
             ビレッジを作成する
           </a>
