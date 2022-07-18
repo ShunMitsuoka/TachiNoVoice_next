@@ -12,7 +12,7 @@ const _BaseGuestLayout: NextPage<Props> = ({ children }: Props) => {
         <_BaseLayout>
             <div className="relative flex flex-col bg-main text-sub font-main min-h-screen">
                 <GuestHeader />
-                <div className="pb-32">
+                <div className="flex-1 pb-32">
                     {children}
                 </div>
                 <div className="mt-auto">
