@@ -9,6 +9,7 @@ import { BaseButton } from "../../../components/atoms/buttons/baseButton";
 import Link from "next/link";
 import { RouteManager } from "../../../app/manages/routeManager";
 import axios from "../../../libs/axios/axios";
+import { usePageLoading } from "@/hooks/common/usePageLoading";
 
 type formData = {
     email: string;
@@ -16,6 +17,8 @@ type formData = {
 };
 
 export default function Login() {
+
+    const pageLoading = usePageLoading();
 
     const [formData, setFormData] = useState<formData>({
         email: "",
@@ -28,23 +31,8 @@ export default function Login() {
         });
     }
 
-    const onClickSave = () => {
-        axios.post('http://localhost:8000/api/auth/login', {
-            email: formData.email,
-            password: formData.password,
-        })
-            .then(function (response) {
-                console.log('true');
-                console.log(response);
-            })
-            .catch((error) => {
-
-            });
-    }
-
-
     return (
-        <_BaseGuestLayout>
+        <_BaseGuestLayout pageLoding={pageLoading.isPageLaoding}>
             <Head>
                 <title>Login</title>
             </Head>
@@ -79,7 +67,11 @@ export default function Login() {
                 <div className="text-center mt-6">
                     <BaseButton
                         onClick={() => {
+                            pageLoading.setPageLaoding(true);
                             signIn('credentials', { email: formData.email, password: formData.password })
+                            .finally(() => {
+                                pageLoading.setPageLaoding(false);
+                            });
                         }}
                     >
                         ログイン

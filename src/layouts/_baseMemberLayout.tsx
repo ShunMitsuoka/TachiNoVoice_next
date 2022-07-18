@@ -6,11 +6,15 @@ import Head from 'next/head';
 
 type Props = {
     children?: React.ReactNode;
+    pageLoding : boolean;
 };
 
-const _BaseMemberLayout: NextPage<Props> = ({ children }: Props) => {
+const _BaseMemberLayout: NextPage<Props> = ({ 
+    children,
+    pageLoding = false
+}) => {
     return (
-        <_BaseLayout>
+        <_BaseLayout pageLoding={pageLoding}>
             <Head>
                 <meta name="robots" content="noindex" />
             </Head>
