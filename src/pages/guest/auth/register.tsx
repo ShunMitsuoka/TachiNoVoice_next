@@ -1,6 +1,6 @@
 import _BaseGuestLayout from '../../../layouts/_baseGuestLayout';
 import Head from 'next/head';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BaseInput } from '../../../components/atoms/input/baseInput';
 import { BaseButton } from '../../../components/atoms/buttons/baseButton';
 import { FormLabel } from '../../../components/atoms/label/formLabel';
@@ -10,6 +10,11 @@ import { ValidationErrorService } from '@/app/services/validationErrorService';
 import { ValidationErrors } from '@/components/modules/common/validation/validationErrors';
 import Link from 'next/link';
 import { RouteManager } from '@/app/manages/routeManager';
+import { FormSelect } from '@/components/atoms/select/formSelect';
+import { YearSelect } from '@/components/modules/common/dateSelect/yearSelect';
+import { MonthSelect } from '@/components/modules/common/dateSelect/monthSelect';
+import { DateSelect } from '@/components/modules/common/dateSelect/dateSelect';
+import { usePageLoading } from '@/hooks/common/usePageLoading';
 
 type formDate = {
     user_name: string,
@@ -27,6 +32,8 @@ export default function Register() {
 
     const [validationError, setValidationError] = useState<any>(null);
 
+    const pageLoading = usePageLoading();
+
     const [formData, setFormData] = useState<formDate>({
         user_name: "",
         nickname: "",
@@ -39,13 +46,19 @@ export default function Register() {
         birthday: "",
     });
 
-    const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const getValue = useEffect(() => {
+
+    }, []);
+
+    const changeHandler = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
         setFormData(prevValues => {
             return { ...prevValues, [e.target.name]: e.target.value }
         });
     }
 
     const onClickSave = () => {
+        pageLoading.setPageLaoding(true);
+        setValidationError(null);
         const params = {
             user_name: formData.user_name,
             nickname: formData.nickname,
@@ -60,15 +73,18 @@ export default function Register() {
         console.log(params);
         axios.post('http://localhost:8000/api/auth/register', params)
         .then(function (response) {
-            console.log(response);
+            alert('会員登録に成功しました。\nログインしてください。')
         })
         .catch((error) =>{
             const res = ApiService.makeApiErrorResponse(error);
             ValidationErrorService.setValidtionError(res, setValidationError);
         })
+        .finally(() => {
+            pageLoading.setPageLaoding(false);
+        });
     }
     return (
-        <_BaseGuestLayout>
+        <_BaseGuestLayout title="会員登録" pageLoding={pageLoading.isPageLaoding}>
             <Head>
                 <title>Register</title>
             </Head>
@@ -139,51 +155,53 @@ export default function Register() {
                 {/* 性別 */}
                 <div className="mt-4">
                     <FormLabel htmlFor='gender'>性別 ※必須</FormLabel>
-                    <BaseInput
-                        type="text"
-                        id="gender"
-                        name="gender"
-                        value={formData.gender}
-                        onChange={changeHandler}
-                    />
+                    <FormSelect name="gender" id="gender" value={formData.gender} onChange={changeHandler}>
+                        <option value=""></option>
+                        <option value="1">男性</option>
+                        <option value="2">女性</option>
+                        <option value="3">どちらでもない</option>
+                    </FormSelect>
                     <ValidationErrors validationErrors={validationError} id={'gender'}/>
                 </div>
                 {/* 生年月日 */}
                 <div className="mt-4">
                     <FormLabel htmlFor=''>生年月日 ※必須</FormLabel>
                     <div className='grid grid-cols-10'>
-                        <div className='col-span-4'>
-                            <BaseInput
-                                type="number"
+                        <div className='col-span-3'>
+                            <YearSelect 
                                 id="birthyear"
                                 name="birthyear"
                                 value={formData.birthyear}
                                 onChange={changeHandler}
-                                _class='w-20 text-right'
+                                defaultValue='2000' 
                             />
+                        </div>
+                        <div className='flex items-end col-span-1'>
                             <span className='pl-2 align-bottom'>年</span>
                         </div>
-                        <div className='col-span-3'>
-                            <BaseInput
-                                type="number"
+                        <div className='col-span-2'>
+                            <MonthSelect 
                                 id="birthmonth"
                                 name="birthmonth"
                                 value={formData.birthmonth}
                                 onChange={changeHandler}
-                                _class='w-14 text-right'
                             />
+                        </div>
+                        <div className='flex items-end col-span-1'>
                             <span className='pl-2 align-bottom'>月</span>
                         </div>
-                        <div className='col-span-3'>
-                            <BaseInput
-                                type="text"
+                        <div className='col-span-2'>
+                            <DateSelect 
+                                year={formData.birthyear} 
+                                month={formData.birthmonth}
                                 id="birthday"
                                 name="birthday"
                                 value={formData.birthday}
                                 onChange={changeHandler}
-                                _class='w-14 text-right'
-                                />
-                                <span className='pl-2 align-bottom'>日</span>
+                            />
+                        </div>
+                        <div className='flex items-end col-span-1'>
+                            <span className='pl-2 align-bottom'>日</span>
                         </div>
                         <div className='col-span-10'>
                             <ValidationErrors validationErrors={validationError} id={'birthyear'}/>
