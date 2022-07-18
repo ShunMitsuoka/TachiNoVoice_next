@@ -1,4 +1,5 @@
 import { RouteManager } from '@/app/manages/routeManager'
+import { LinkButton } from '@/components/atoms/buttons/linkButton'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -16,9 +17,9 @@ const Home: NextPage = () => {
       </div>
       <div className='flex flex-col justify-center'>
         <div className='text-center'>
-          <Link href={RouteManager.webRoute.guest.auth.login}>
-            ログイン
-          </Link>
+          <LinkButton href={RouteManager.webRoute.guest.auth.login}>
+            ログインはこちら
+          </LinkButton>
         </div>
         <div className='text-center mt-6'>
           <Link href={RouteManager.webRoute.guest.auth.register}>
