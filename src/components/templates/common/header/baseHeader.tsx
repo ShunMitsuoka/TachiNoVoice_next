@@ -15,7 +15,7 @@ export const BaseHeader: React.FC<Props> = ({
             <div className='h-full w-full flex justify-center items-end pb-2 text-slate-50 text-2xl'>
                 {title}
             </div>
-            <div className='fixed top-0 h-full w-full'>
+            <div className='fixed top-0'>
                 <Menu right className='text-slate-50' outerContainerId='outer-container'>
                     {children}
                 </Menu>
