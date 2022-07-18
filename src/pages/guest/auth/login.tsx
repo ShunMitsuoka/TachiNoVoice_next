@@ -64,7 +64,7 @@ export default function Login() {
             <div className="text-center py-20">
                 <h1 className="text-3xl">ログイン</h1>
             </div>
-            <div className="bg-p-sub px-10 py-8 text-lg">
+            <div className="bg-p-sub px-8 py-8 text-lg">
                 {
                     isError && 
                     <div className="text-center mb-4">

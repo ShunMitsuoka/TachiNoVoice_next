@@ -28,7 +28,7 @@ export class ApiResponse {
         return this.result;
     }
 
-    public getError(): any {
+    public getErrors(): any {
         return this.errors;
     }
 }

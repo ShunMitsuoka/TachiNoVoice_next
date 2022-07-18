@@ -42,4 +42,13 @@ export class ApiService {
             response.data.errors,
         );
     }
+
+    static makeApiErrorResponse(error: any): ApiResponse {
+        return new ApiResponse(
+            error.response.status,
+            error.response.data.success,
+            error.response.data.result,
+            error.response.data.errors,
+        );
+    }
 }

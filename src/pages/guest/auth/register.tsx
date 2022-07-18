@@ -5,9 +5,14 @@ import { BaseInput } from '../../../components/atoms/input/baseInput';
 import { BaseButton } from '../../../components/atoms/buttons/baseButton';
 import { FormLabel } from '../../../components/atoms/label/formLabel';
 import axios from '../../../libs/axios/axios';
+import { ApiService } from '@/app/services/apiService';
+import { ValidationErrorService } from '@/app/services/validationErrorService';
+import { ValidationErrors } from '@/components/modules/common/validation/validationErrors';
+import Link from 'next/link';
+import { RouteManager } from '@/app/manages/routeManager';
 
 type formDate = {
-    name: string,
+    user_name: string,
     nickname: string,
     email: string,
     password: string,
@@ -20,8 +25,10 @@ type formDate = {
 
 export default function Register() {
 
+    const [validationError, setValidationError] = useState<any>(null);
+
     const [formData, setFormData] = useState<formDate>({
-        name: "",
+        user_name: "",
         nickname: "",
         email: "",
         password: "",
@@ -40,11 +47,11 @@ export default function Register() {
 
     const onClickSave = () => {
         const params = {
-            name: formData.name,
+            user_name: formData.user_name,
             nickname: formData.nickname,
             email: formData.email,
             password: formData.password,
-            passwordConfirmation: formData.passwordConfirmation,
+            password_confirmation: formData.passwordConfirmation,
             gender: formData.gender,
             birthyear: formData.birthyear,
             birthmonth: formData.birthmonth,
@@ -56,7 +63,8 @@ export default function Register() {
             console.log(response);
         })
         .catch((error) =>{
-            console.log(error);
+            const res = ApiService.makeApiErrorResponse(error);
+            ValidationErrorService.setValidtionError(res, setValidationError);
         })
     }
     return (
@@ -67,17 +75,18 @@ export default function Register() {
             <div className="text-center py-20">
                 <h1 className="text-3xl">会員登録</h1>
             </div>
-            <div className="bg-p-sub px-10 py-10 text-lg">
+            <div className="bg-p-sub px-8 py-10 text-lg">
                 {/* 氏名 */}
                 <div>
                     <FormLabel htmlFor='name'>氏名 ※必須</FormLabel>
                     <BaseInput
                         type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
+                        id="user_name"
+                        name="user_name"
+                        value={formData.user_name}
                         onChange={changeHandler}
                     />
+                    <ValidationErrors validationErrors={validationError} id={'user_name'}/>
                 </div>
                 {/* ニックネーム */}
                 <div className="mt-4">
@@ -89,6 +98,7 @@ export default function Register() {
                         value={formData.nickname}
                         onChange={changeHandler}
                     />
+                    <ValidationErrors validationErrors={validationError} id={'nickname'}/>
                 </div>
                 {/* メールアドレス */}
                 <div className="mt-4">
@@ -100,6 +110,7 @@ export default function Register() {
                         value={formData.email}
                         onChange={changeHandler}
                     />
+                    <ValidationErrors validationErrors={validationError} id={'email'}/>
                 </div>
                 {/* パスワード */}
                 <div className="mt-4">
@@ -111,6 +122,7 @@ export default function Register() {
                         value={formData.password}
                         onChange={changeHandler}
                     />
+                    <ValidationErrors validationErrors={validationError} id={'password'}/>
                 </div>
                 {/* パスワード確認用 */}
                 <div className="mt-4">
@@ -122,6 +134,7 @@ export default function Register() {
                         value={formData.passwordConfirmation}
                         onChange={changeHandler}
                     />
+                    <ValidationErrors validationErrors={validationError} id={'password_confirmation'}/>
                 </div>
                 {/* 性別 */}
                 <div className="mt-4">
@@ -133,6 +146,7 @@ export default function Register() {
                         value={formData.gender}
                         onChange={changeHandler}
                     />
+                    <ValidationErrors validationErrors={validationError} id={'gender'}/>
                 </div>
                 {/* 生年月日 */}
                 <div className="mt-4">
@@ -171,6 +185,11 @@ export default function Register() {
                                 />
                                 <span className='pl-2 align-bottom'>日</span>
                         </div>
+                        <div className='col-span-10'>
+                            <ValidationErrors validationErrors={validationError} id={'birthyear'}/>
+                            <ValidationErrors validationErrors={validationError} id={'birthmonth'}/>
+                            <ValidationErrors validationErrors={validationError} id={'birthday'}/>
+                        </div>
                     </div>
                 </div>
                 <div className="text-center mt-6">
@@ -180,6 +199,11 @@ export default function Register() {
                         会員登録
                     </BaseButton>
                 </div>
+            </div>
+            <div className="mt-6 text-center text-lg">
+                <Link href={RouteManager.webRoute.guest.auth.login}>
+                    <a className="underline">既に会員の方はこちら</a>
+                </Link>
             </div>
         </_BaseGuestLayout>
     )
