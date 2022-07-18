@@ -16,6 +16,7 @@ export const SetTopic: React.FC<Props> = ({
     changeInputHandler,
     changeTextAreaHandler,
     onClickNext,
+    onClickCancel,
 }) => {
 
     return (
@@ -63,7 +64,7 @@ export const SetTopic: React.FC<Props> = ({
             </div>
             <div className='flex justify-between mt-6'>
                 <div>
-                    <BaseButton>キャンセル</BaseButton>
+                    <BaseButton onClick={onClickCancel}>キャンセル</BaseButton>
                 </div>
                 <div>
                     <BaseButton onClick={onClickNext}>次へ</BaseButton>

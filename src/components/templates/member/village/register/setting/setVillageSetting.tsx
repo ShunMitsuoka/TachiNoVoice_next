@@ -88,7 +88,7 @@ export const SetVillageSetting: React.FC<Props> = ({
                     <FormLabel htmlFor={'gender_flg'} _class={'ml-3'}>性別</FormLabel>
                 </div>
             </div>
-            <div className='flex justify-between mt-4'>
+            <div className='flex justify-between mt-6'>
                 <div>
                     <BaseButton onClick={onClickCancel}>キャンセル</BaseButton>
                 </div>
