@@ -6,7 +6,7 @@ import _BaseGuestLayout from '../layouts/_baseGuestLayout'
 
 const Home: NextPage = () => {
   return (
-    <_BaseGuestLayout>
+    <_BaseGuestLayout title='TOP'>
       <Head>
           <title>Login</title>
           <meta name="description" content="ログイン概要" />

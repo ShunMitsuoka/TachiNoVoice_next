@@ -11,10 +11,10 @@ const _BaseLayout: NextPage<Props> = ({
     pageLoding
 }) => {
     return (
-        <>
+        <div id='outer-container'>
             <PageLoading isShow={pageLoding}/>
             {children}
-        </>
+        </div>
     )
 }
 export default _BaseLayout;

@@ -57,7 +57,7 @@ export default function Login() {
     }
 
     return (
-        <_BaseGuestLayout pageLoding={pageLoading.isPageLaoding}>
+        <_BaseGuestLayout title="LOGIN" pageLoding={pageLoading.isPageLaoding}>
             <Head>
                 <title>Login</title>
             </Head>

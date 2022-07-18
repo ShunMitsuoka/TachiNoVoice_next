@@ -7,11 +7,13 @@ import Head from 'next/head';
 type Props = {
     children?: React.ReactNode;
     pageLoding? : boolean;
+    title? : string;
 };
 
 const _BaseMemberLayout: NextPage<Props> = ({ 
     children,
-    pageLoding = false
+    pageLoding = false,
+    title,
 }) => {
     return (
         <_BaseLayout pageLoding={pageLoding}>
@@ -19,7 +21,7 @@ const _BaseMemberLayout: NextPage<Props> = ({
                 <meta name="robots" content="noindex" />
             </Head>
             <div className="relative flex flex-col bg-main text-sub font-main min-h-screen">
-                <MemberHeader />
+                <MemberHeader title={title}/>
                 <div className="pb-32">
                     {children}
                 </div>
