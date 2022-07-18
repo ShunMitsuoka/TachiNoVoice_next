@@ -13,8 +13,9 @@ export default function Dashboard() {
 
     return (
         <_BaseMemberLayout>
-            <div>
-                ようこそ、{session?.user.email}
+            <div className="text-center">
+                ようこそ<br />
+                {session?.user.name}さん
             </div>
             <div>
                 <Link href={RouteManager.webRoute.member.village.register.index}>

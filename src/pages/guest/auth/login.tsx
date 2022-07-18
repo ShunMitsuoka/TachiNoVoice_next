@@ -8,8 +8,8 @@ import { BaseInput } from "../../../components/atoms/input/baseInput";
 import { BaseButton } from "../../../components/atoms/buttons/baseButton";
 import Link from "next/link";
 import { RouteManager } from "../../../app/manages/routeManager";
-import axios from "../../../libs/axios/axios";
 import { usePageLoading } from "@/hooks/common/usePageLoading";
+import { useRouter } from "next/router";
 
 type formData = {
     email: string;
@@ -17,7 +17,7 @@ type formData = {
 };
 
 export default function Login() {
-
+    const router = useRouter()
     const pageLoading = usePageLoading();
 
     const [formData, setFormData] = useState<formData>({
@@ -25,9 +25,34 @@ export default function Login() {
         password: "",
     });
 
+    const [isError, setIsError] = useState<boolean>(false);
+
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData(prevValues => {
             return { ...prevValues, [e.target.name]: e.target.value }
+        });
+    }
+
+    const onClickLoginBtn = () => {
+        pageLoading.setPageLaoding(true);
+        signIn('credentials', { 
+            email: formData.email, 
+            password: formData.password,
+            redirect: false,
+        })
+        .then((response) => {
+            if(response?.ok){
+                setIsError(false);
+                router.replace(RouteManager.webRoute.member.dashboard);
+            }else{
+                setIsError(true);
+            }
+        })
+        .catch((error) => {
+            setIsError(true);
+        })
+        .finally(() => {
+            pageLoading.setPageLaoding(false);
         });
     }
 
@@ -39,7 +64,15 @@ export default function Login() {
             <div className="text-center py-20">
                 <h1 className="text-3xl">ログイン</h1>
             </div>
-            <div className="bg-p-sub px-10 py-10 text-lg">
+            <div className="bg-p-sub px-10 py-8 text-lg">
+                {
+                    isError && 
+                    <div className="text-center mb-4">
+                        <span className=" text-xl text-rose-500">
+                            ログインに失敗しました。
+                        </span>
+                    </div>
+                }
                 <div>
                     <div className="mb-2">
                         <label htmlFor="email" className="text-xl font-bold">メールアドレス</label>
@@ -66,13 +99,7 @@ export default function Login() {
                 </div>
                 <div className="text-center mt-6">
                     <BaseButton
-                        onClick={() => {
-                            pageLoading.setPageLaoding(true);
-                            signIn('credentials', { email: formData.email, password: formData.password })
-                            .finally(() => {
-                                pageLoading.setPageLaoding(false);
-                            });
-                        }}
+                        onClick={onClickLoginBtn}
                     >
                         ログイン
                     </BaseButton>
