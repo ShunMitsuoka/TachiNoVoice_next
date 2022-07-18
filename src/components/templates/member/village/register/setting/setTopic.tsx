@@ -31,7 +31,7 @@ export const SetTopic: React.FC<Props> = ({
                     onChange={changeInputHandler}
                 />
             </div>
-            <div className='mt-2'>
+            <div className='mt-4'>
                 <div className='mb-2'>
                     <FormLabel htmlFor={'content'}>説明</FormLabel>
                 </div>
@@ -46,7 +46,7 @@ export const SetTopic: React.FC<Props> = ({
                 >
                 </textarea>
             </div>
-            <div className='mt-2'>
+            <div className='mt-4'>
                 <div className='mb-2'>
                     <FormLabel htmlFor={'note'}>注意事項</FormLabel>
                 </div>

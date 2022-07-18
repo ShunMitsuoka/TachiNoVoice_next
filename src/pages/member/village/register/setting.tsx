@@ -5,6 +5,7 @@ import { BaseButton } from '@/components/atoms/buttons/baseButton'
 import { FormInput } from '@/components/atoms/input/formInput'
 import { FormLabel } from '@/components/atoms/label/formLabel'
 import { SetTopic } from '@/components/templates/member/village/register/setting/setTopic'
+import { SetVillageSetting } from '@/components/templates/member/village/register/setting/setVillageSetting'
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
 import axios from '@/libs/axios/axios'
 import type { GetServerSideProps, NextPage } from 'next'
@@ -102,7 +103,7 @@ const Register: NextPage = () => {
     }
 
 
-    const pageSegue = () => {
+    const pageContent = () => {
         switch (page) {
             case 1:
                 return(
@@ -117,78 +118,13 @@ const Register: NextPage = () => {
                 break;
             case 2:
                 return(
-                    <>
-                        <div>
-                            <FormLabel htmlFor={'core_member_limit'}>コアメンバー</FormLabel>
-                            <div className='w-96'>
-                                <FormInput
-                                    type='number'
-                                    id='core_member_limit'
-                                    name='core_member_limit'
-                                    value={formData.core_member_limit}
-                                    onChange={changeInputHandler}
-                                    _class='w-24 text-right'
-                                />
-                                <div className='inline-block ml-4'>
-                                    人
-                                </div>
-                            </div>
-                        </div>
-                        <div className='mt-2'>
-                            <FormLabel htmlFor={'requirement'}>条件</FormLabel>
-                            <textarea
-                                name="requirement"
-                                id="requirement"
-                                cols={30}
-                                rows={6}
-                                className='w-full border border-sub rounded-lg px-2 py-2'
-                                value={formData.requirement}
-                                onChange={changeTextAreaHandler}
-                            >
-                            </textarea>
-                        </div>
-                        <div className='mt-2'>
-                            <FormLabel htmlFor={''}>開始条件</FormLabel>
-                            <div className='flex items-center'>
-                                <input 
-                                    type={'checkbox'} 
-                                    name="nickname_flg" 
-                                    id="nickname_flg" 
-                                    checked={formData.nickname_flg}
-                                    onChange={changeInputHandler}
-                                /> 
-                                <FormLabel htmlFor={'nickname_flg'}>ニックネーム</FormLabel>
-                            </div>
-                            <div className='flex items-center'>
-                                <input 
-                                    type={'checkbox'} 
-                                    name="age_flg" 
-                                    id="age_flg" 
-                                    checked={formData.age_flg}
-                                    onChange={changeInputHandler}
-                                /> 
-                                <FormLabel htmlFor={'age_flg'}>年齢</FormLabel>
-                            </div>
-                            <div className='flex items-center'>
-                                <input 
-                                    type={'checkbox'} 
-                                    name="gender_flg" 
-                                    id="gender_flg" 
-                                    checked={formData.gender_flg}
-                                    onChange={changeInputHandler}
-                                /> 
-                                <FormLabel htmlFor={'gender_flg'}>性別</FormLabel>
-                            </div>
-                        </div>
-                        <div className='flex justify-between mt-4'>
-                            <div>
-                                <BaseButton onClick={onClickCancel}>キャンセル</BaseButton>
-                            </div>
-                            <div>
-                                <BaseButton onClick={onClickNext}>次へ</BaseButton>
-                            </div>
-                        </div>
-                    </>
+                    <SetVillageSetting 
+                        formData={formData} 
+                        changeInputHandler={changeInputHandler} 
+                        changeTextAreaHandler={changeTextAreaHandler}
+                        onClickNext={onClickNext} 
+                        onClickCancel={onClickCancel} 
+                    />
                 );
                 break;
                 case 3:
@@ -330,21 +266,25 @@ const Register: NextPage = () => {
             <Head>
                 <title>ビレッジ設定</title>
             </Head>
-            <div className='relative h-32 grid grid-cols-5 px-10'>
+            <div className='relative h-32 flex justify-center items-center px-10'>
                 {
-                    [1,2,3,4,5].map((ele) => {
+                    [1,2,3,4,5,6].map((index) => {
                         return (
-                            <div className='relative col-span-1 flex justify-center items-center'>
-                                <div className='h-7 w-7 rounded-full bg-sub'></div>
-                                <div className='absolute h-1 w-full bg-sub'></div>
+                            <div key={index} className='flex items-center'>
+                                { page == index ?
+                                    <div className='h-7 w-7 rounded-full bg-sub'></div>
+                                :   <div className='h-7 w-7 rounded-full bg-white border-2 border-sub'></div>
+                                }
+                                { index < 6 &&
+                                <div className='h-1 w-8 bg-sub'></div>
+                                }
                             </div>
                         );
                     })
                 }
-
             </div>
             <div className=''>
-                {pageSegue()}
+                {pageContent()}
             </div>
         </_BaseMemberLayout>
     )
