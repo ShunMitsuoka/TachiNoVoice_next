@@ -5,7 +5,7 @@ import _BaseLayout from "./_baseLayout";
 
 type Props = {
     children?: React.ReactNode;
-    pageLoding : boolean;
+    pageLoding? : boolean;
 };
 
 const _BaseGuestLayout: NextPage<Props> = ({ 

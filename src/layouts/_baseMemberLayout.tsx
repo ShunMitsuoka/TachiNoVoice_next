@@ -6,7 +6,7 @@ import Head from 'next/head';
 
 type Props = {
     children?: React.ReactNode;
-    pageLoding : boolean;
+    pageLoding? : boolean;
 };
 
 const _BaseMemberLayout: NextPage<Props> = ({ 
