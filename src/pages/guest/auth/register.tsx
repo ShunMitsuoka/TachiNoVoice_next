@@ -2,7 +2,6 @@ import _BaseGuestLayout from '../../../layouts/_baseGuestLayout';
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 import { BaseInput } from '../../../components/atoms/input/baseInput';
-import { BaseButton } from '../../../components/atoms/buttons/baseButton';
 import { FormLabel } from '../../../components/atoms/label/formLabel';
 import axios from '../../../libs/axios/axios';
 import { ApiService } from '@/app/services/apiService';
@@ -15,6 +14,7 @@ import { YearSelect } from '@/components/modules/common/dateSelect/yearSelect';
 import { MonthSelect } from '@/components/modules/common/dateSelect/monthSelect';
 import { DateSelect } from '@/components/modules/common/dateSelect/dateSelect';
 import { usePageLoading } from '@/hooks/common/usePageLoading';
+import { LargeButton } from '@/components/atoms/buttons/largeButton';
 
 type formDate = {
     user_name: string,
@@ -211,11 +211,11 @@ export default function Register() {
                     </div>
                 </div>
                 <div className="text-center mt-6">
-                    <BaseButton
+                    <LargeButton
                         onClick={onClickSave}
                     >
                         会員登録
-                    </BaseButton>
+                    </LargeButton>
                 </div>
             </div>
             <div className="mt-6 text-center text-lg">

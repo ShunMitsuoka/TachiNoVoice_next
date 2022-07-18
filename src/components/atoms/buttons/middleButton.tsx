@@ -1,4 +1,5 @@
 import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+import { BaseButton } from './baseButton';
 
 interface Props {
     children?: React.ReactNode;
@@ -7,19 +8,19 @@ interface Props {
     isSubmit?: boolean;
 }
 
-export const BaseButton: React.FC<Props> = ({
+export const MiddleButton: React.FC<Props> = ({
     children,
     onClick,
     _class,
     isSubmit = true,
 }) => {
     return (
-        <button
-            type={isSubmit ? 'submit' : 'button'}
-            className={'font-semibold px-5 py-3 rounded-lg w-auto bg-sub text-main ' + _class}
+        <BaseButton
             onClick={onClick}
+            _class={_class}
+            isSubmit={isSubmit}
         >
             {children}
-        </button>
+        </BaseButton>
     )
 }

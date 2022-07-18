@@ -5,11 +5,11 @@ import { getSession, signIn } from 'next-auth/react';
 import { GetServerSideProps } from "next";
 import { AuthService } from "../../../app/services/authService";
 import { BaseInput } from "../../../components/atoms/input/baseInput";
-import { BaseButton } from "../../../components/atoms/buttons/baseButton";
 import Link from "next/link";
 import { RouteManager } from "../../../app/manages/routeManager";
 import { usePageLoading } from "@/hooks/common/usePageLoading";
 import { useRouter } from "next/router";
+import { LargeButton } from "@/components/atoms/buttons/largeButton";
 
 type formData = {
     email: string;
@@ -98,11 +98,11 @@ export default function Login() {
                     />
                 </div>
                 <div className="text-center mt-6">
-                    <BaseButton
+                    <LargeButton
                         onClick={onClickLoginBtn}
                     >
                         ログイン
-                    </BaseButton>
+                    </LargeButton>
                 </div>
             </div>
             <div className="mt-6 text-center text-lg">
