@@ -6,8 +6,14 @@ type route = {
             login: string,
         },
     },
-    admin: {
-        test: string,
+    member: {
+        dashboard: string,
+        village: {
+            register: {
+                index : string,
+                setting : string,
+            },
+        },
     }
 }
 
@@ -27,8 +33,15 @@ export class RouteManager {
                 login: '/guest/auth/login',
             }
         },
-        admin: {
-            test: '/admin/test',
+        member: {
+            dashboard: '/member/dashboard',
+            village: {
+                register: {
+                    index : '/member/village/register',
+                    setting : '/member/village/register/setting',
+                },
+            },
+
         }
     }
 

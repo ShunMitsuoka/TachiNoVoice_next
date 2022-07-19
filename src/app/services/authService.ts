@@ -21,7 +21,7 @@ export class AuthService {
         return {
             redirect: {
                 permanent: false,
-                destination: RouteManager.webRoute.admin.test,
+                destination: RouteManager.webRoute.member.dashboard,
             }
         }
     }

@@ -5,10 +5,11 @@ import { getSession, signIn } from 'next-auth/react';
 import { GetServerSideProps } from "next";
 import { AuthService } from "../../../app/services/authService";
 import { BaseInput } from "../../../components/atoms/input/baseInput";
-import { BaseButton } from "../../../components/atoms/buttons/baseButton";
 import Link from "next/link";
 import { RouteManager } from "../../../app/manages/routeManager";
-import axios from "../../../libs/axios/axios";
+import { usePageLoading } from "@/hooks/common/usePageLoading";
+import { useRouter } from "next/router";
+import { LargeButton } from "@/components/atoms/buttons/largeButton";
 
 type formData = {
     email: string;
@@ -16,11 +17,15 @@ type formData = {
 };
 
 export default function Login() {
+    const router = useRouter()
+    const pageLoading = usePageLoading();
 
     const [formData, setFormData] = useState<formData>({
         email: "",
         password: "",
     });
+
+    const [isError, setIsError] = useState<boolean>(false);
 
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData(prevValues => {
@@ -28,30 +33,46 @@ export default function Login() {
         });
     }
 
-    const onClickSave = () => {
-        axios.post('http://localhost:8000/api/auth/login', {
-            email: formData.email,
+    const onClickLoginBtn = () => {
+        pageLoading.setPageLaoding(true);
+        signIn('credentials', { 
+            email: formData.email, 
             password: formData.password,
+            redirect: false,
         })
-            .then(function (response) {
-                console.log('true');
-                console.log(response);
-            })
-            .catch((error) => {
-
-            });
+        .then((response) => {
+            if(response?.ok){
+                setIsError(false);
+                router.replace(RouteManager.webRoute.member.dashboard);
+            }else{
+                setIsError(true);
+            }
+        })
+        .catch((error) => {
+            setIsError(true);
+        })
+        .finally(() => {
+            pageLoading.setPageLaoding(false);
+        });
     }
 
-
     return (
-        <_BaseGuestLayout>
+        <_BaseGuestLayout title="LOGIN" pageLoding={pageLoading.isPageLaoding}>
             <Head>
                 <title>Login</title>
             </Head>
             <div className="text-center py-20">
                 <h1 className="text-3xl">ログイン</h1>
             </div>
-            <div className="bg-p-sub px-10 py-10 text-lg">
+            <div className="bg-p-sub px-8 py-8 text-lg">
+                {
+                    isError && 
+                    <div className="text-center mb-4">
+                        <span className=" text-xl text-rose-500">
+                            ログインに失敗しました。
+                        </span>
+                    </div>
+                }
                 <div>
                     <div className="mb-2">
                         <label htmlFor="email" className="text-xl font-bold">メールアドレス</label>
@@ -77,13 +98,11 @@ export default function Login() {
                     />
                 </div>
                 <div className="text-center mt-6">
-                    <BaseButton
-                        onClick={() => {
-                            signIn('credentials', { email: formData.email, password: formData.password })
-                        }}
+                    <LargeButton
+                        onClick={onClickLoginBtn}
                     >
                         ログイン
-                    </BaseButton>
+                    </LargeButton>
                 </div>
             </div>
             <div className="mt-6 text-center text-lg">

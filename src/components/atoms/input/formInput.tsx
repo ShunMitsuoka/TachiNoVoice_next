@@ -6,6 +6,7 @@ interface Props {
     id?: string;
     value?: string;
     _class?: string;
+    widthClass?: string;
     onChange?: (e: any) => void
 }
 
@@ -16,7 +17,13 @@ export const FormInput: React.FC<Props> = ({
     onChange,
     value = '',
     _class = '',
+    widthClass,
 }) => {
+
+    if(!widthClass){
+        widthClass = 'w-full'
+    }
+
     return (
         <input
             type={type}
@@ -24,7 +31,7 @@ export const FormInput: React.FC<Props> = ({
             name={name}
             id={id}
             value={value}
-            className={'w-full rounded-md px-2 py-2 text-sub border border-sub ' + _class}
+            className={widthClass + ' rounded-md px-2 py-2 text-sub border border-sub ' + _class}
         />
     );
 }

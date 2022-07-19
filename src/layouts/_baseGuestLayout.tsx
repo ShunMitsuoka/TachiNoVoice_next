@@ -5,14 +5,20 @@ import _BaseLayout from "./_baseLayout";
 
 type Props = {
     children?: React.ReactNode;
+    pageLoding? : boolean;
+    title? : string;
 };
 
-const _BaseGuestLayout: NextPage<Props> = ({ children }: Props) => {
+const _BaseGuestLayout: NextPage<Props> = ({ 
+    children,
+    pageLoding = false,
+    title,
+}) => {
     return (
-        <_BaseLayout>
+        <_BaseLayout pageLoding={pageLoding}>
             <div className="relative flex flex-col bg-main text-sub font-main min-h-screen">
-                <GuestHeader />
-                <div className="pb-32">
+                <GuestHeader title={title}/>
+                <div className="flex-1 pb-32">
                     {children}
                 </div>
                 <div className="mt-auto">

@@ -12,7 +12,7 @@ export const FormLabel: React.FC<Props> = ({
     _class = '',
 }) => {
     return (
-        <div className="">
+        <div className={_class}>
             <label htmlFor={htmlFor} className="text-xl font-bold">{children}</label>
         </div>
     );
