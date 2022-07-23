@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { FormLabel } from '@/components/atoms/label/formLabel'
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import axios from 'axios'
 import { format } from 'path'
+import { getSession } from 'next-auth/react'
+import { AuthService } from '@/app/services/authService'
 
 type formData = {
     keyword: string,
@@ -63,5 +65,12 @@ const Search: NextPage = () => {
         </_BaseMemberLayout>
     )
 }
-
 export default Search
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const session = await getSession(context);
+    if (AuthService.check(session)) {
+        return { props: {} }
+    }
+    return AuthService.authFailed();
+}
