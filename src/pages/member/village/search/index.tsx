@@ -5,19 +5,23 @@ import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import axios from 'axios'
-import { format } from 'path'
-import { getSession } from 'next-auth/react'
+import { getSession, useSession } from 'next-auth/react'
 import { AuthService } from '@/app/services/authService'
+import { ApiService } from '@/app/services/apiService'
+import { RouteManager } from '@/app/manages/routeManager'
+
 
 type formData = {
     keyword: string,
-}
+};
 
 const Search: NextPage = () => {
+    const { data: session, status } = useSession();
 
-    const [keyword, setKeyword] = useState<formData>({
+    const [formkeyword, setKeyword] = useState<formData>({
         keyword: "",
     });
+
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setKeyword(prevValues => {
             return { ...prevValues, [e.target.name]: e.target.value }
@@ -25,7 +29,14 @@ const Search: NextPage = () => {
     }
 
     const onClickSearch = () => {
-        axios.get('/member/village')
+        const params = {
+            keyword: formkeyword.keyword,
+        };
+        const config = ApiService.getAuthHeader(session);
+        ApiService.setConfig('params', params, config);
+
+        console.log(config);
+        axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village), config)
             .then(function (response) {
                 console.log('true');
                 console.log(response);
@@ -33,7 +44,6 @@ const Search: NextPage = () => {
             .catch((error) => {
                 console.error(error);
             });
-
     }
     //データをとってきて、とってきたデータ分のタイトルとcontentを表示する
 
@@ -62,6 +72,10 @@ const Search: NextPage = () => {
                     onClick={onClickSearch}
                 >検索</button>
             </div>
+            <div>
+
+            </div>
+
         </_BaseMemberLayout>
     )
 }
