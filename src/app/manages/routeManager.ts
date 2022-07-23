@@ -14,6 +14,15 @@ type route = {
                 index: string,
                 setting: string,
             },
+            my: {
+                index: string,
+            },
+        },
+        setting: {
+            index: string,
+        },
+        news: {
+            index: string,
         },
     }
 }
@@ -44,7 +53,16 @@ export class RouteManager {
                 search: {
                     index: '/member/village/search',
                     setting: '/member/village/search/setting',
-                }
+                },
+                my: {
+                    index: '/member/village/my',
+                },
+            },
+            setting: {
+                index: '/member/setting',
+            },
+            news: {
+                index: '/member/news',
             },
 
         }
