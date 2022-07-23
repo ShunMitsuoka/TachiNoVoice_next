@@ -22,6 +22,11 @@ export default function Dashboard() {
                     ビレッジ作成
                 </Link>
             </div>
+            <div>
+                <Link href={RouteManager.webRoute.member.village.search.index}>
+                    ビレッジ検索
+                </Link>
+            </div>
         </_BaseMemberLayout>
     )
 }

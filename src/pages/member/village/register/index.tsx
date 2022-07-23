@@ -11,7 +11,7 @@ const Register: NextPage = () => {
   return (
     <_BaseMemberLayout>
       <Head>
-          <title>ビレッジ作成</title>
+        <title>ビレッジ作成</title>
       </Head>
 
       <div className='text-center mt-96'>
@@ -21,7 +21,7 @@ const Register: NextPage = () => {
           </a>
         </Link>
       </div>
-  </_BaseMemberLayout>
+    </_BaseMemberLayout>
   )
 }
 
@@ -29,9 +29,8 @@ export default Register
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
-  console.log(session);
   if (AuthService.check(session)) {
-      return { props: {} }
+    return { props: {} }
   }
   return AuthService.authFailed();
 }

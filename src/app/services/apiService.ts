@@ -51,4 +51,9 @@ export class ApiService {
             error.response.data.errors,
         );
     }
+
+    static setConfig(key: string, data: any, config: any = {}) {
+        config[key] = data;
+        return config;
+    }
 }
