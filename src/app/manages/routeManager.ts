@@ -9,9 +9,10 @@ type route = {
     member: {
         dashboard: string,
         village: {
+            search: any
             register: {
-                index : string,
-                setting : string,
+                index: string,
+                setting: string,
             },
         },
     }
@@ -37,9 +38,13 @@ export class RouteManager {
             dashboard: '/member/dashboard',
             village: {
                 register: {
-                    index : '/member/village/register',
-                    setting : '/member/village/register/setting',
+                    index: '/member/village/register',
+                    setting: '/member/village/register/setting',
                 },
+                search: {
+                    index: '/member/village/search',
+                    setting: '/member/village/search/setting',
+                }
             },
 
         }
