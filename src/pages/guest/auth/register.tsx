@@ -57,7 +57,7 @@ export default function Register() {
     }
 
     const onClickSave = () => {
-        pageLoading.setPageLaoding(true);
+        pageLoading.show();
         validationError.clearError();
         const params = {
             user_name: formData.user_name,
@@ -80,7 +80,7 @@ export default function Register() {
             validationError.showError(res);
         })
         .finally(() => {
-            pageLoading.setPageLaoding(false);
+            pageLoading.close();
         });
     }
     return (

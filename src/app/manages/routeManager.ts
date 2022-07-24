@@ -29,7 +29,14 @@ type route = {
 
 type apiRoute = {
     member: {
-        village: string,
+        village: {
+            resource : string,
+            register : {
+                validation : {
+                    topic : string
+                }
+            } ,
+        },
     }
 }
 
@@ -70,7 +77,14 @@ export class RouteManager {
 
     static readonly apiRoute: apiRoute = {
         member: {
-            village: '/api/village',
+            village: {
+                resource : '/api/village',
+                register : {
+                    validation : {
+                        topic : '/api/village/register/validation/topic'
+                    }
+                } ,
+            },
         }
     }
 }

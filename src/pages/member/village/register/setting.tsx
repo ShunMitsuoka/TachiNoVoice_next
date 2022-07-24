@@ -6,6 +6,8 @@ import { SetTopic } from '@/components/templates/member/village/register/setting
 import { SetVillageEndRequirement } from '@/components/templates/member/village/register/setting/setVillageEndRequirement'
 import { SetVillageSetting } from '@/components/templates/member/village/register/setting/setVillageSetting'
 import { SetVillageStartRequirement } from '@/components/templates/member/village/register/setting/setVillageStartRequirement'
+import { usePageLoading } from '@/hooks/common/usePageLoading'
+import { useValidationError } from '@/hooks/common/useValidationError'
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
 import axios from '@/libs/axios/axios'
 import type { GetServerSideProps, NextPage } from 'next'
@@ -38,9 +40,9 @@ type formData = {
 const Register: NextPage = () => {
 
     const { data: session, status } = useSession();
+    const pageLoading = usePageLoading();
     const router = useRouter()
     const [page, setPage] = useState<number>(1);
-
     const [formData, setFormData] = useState<formData>({
         title: "",
         content: "",
@@ -61,6 +63,8 @@ const Register: NextPage = () => {
             by_date_flg:false,
         }
     });
+    const validationError = useValidationError();
+
 
     const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const target = e.target;
@@ -78,8 +82,20 @@ const Register: NextPage = () => {
         });
     }
 
-    const onClickNext = () => {
-        setPage(page+1);
+    const onClickNext = async () => {
+        pageLoading.show();
+        if(page == 1){
+            await ApiService.getCSRF();
+            await axios.post(ApiService.getFullURL(RouteManager.apiRoute.member.village.register.validation.topic), formData, ApiService.getAuthHeader(session))
+            .then(function (response) {
+                setPage(page+1);
+            })
+            .catch((error) => {
+                const res = ApiService.makeApiErrorResponse(error);
+                validationError.showError(res);
+            })
+        }
+        pageLoading.close();
     }
 
     const onClickCancel = () => {
@@ -92,7 +108,7 @@ const Register: NextPage = () => {
 
     const onClickRegister = async () => {
         await ApiService.getCSRF();
-        axios.post(ApiService.getFullURL(RouteManager.apiRoute.member.village), formData, ApiService.getAuthHeader(session))
+        axios.post(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource), formData, ApiService.getAuthHeader(session))
         .then(function (response) {
             const res = ApiService.makeApiResponse(response);
             if(res.getSuccess()){
@@ -118,6 +134,7 @@ const Register: NextPage = () => {
                         changeTextAreaHandler={changeTextAreaHandler}
                         onClickNext={onClickNext} 
                         onClickCancel={onClickCancelRegister} 
+                        validationError={validationError}
                     />
                 );
                 break;
@@ -178,7 +195,7 @@ const Register: NextPage = () => {
     }
 
     return (
-        <_BaseMemberLayout>
+        <_BaseMemberLayout pageLoding={pageLoading.isPageLaoding}>
             <Head>
                 <title>ビレッジ設定</title>
             </Head>

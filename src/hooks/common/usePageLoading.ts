@@ -2,5 +2,14 @@ import { useState } from 'react';
 
 export const usePageLoading = () => {
   const [isPageLaoding, setPageLaoding] = useState(false);
-  return {isPageLaoding, setPageLaoding};
+
+  const show = () => {
+    setPageLaoding(true);
+  }
+
+  const close = () => {
+    setPageLaoding(false);
+  }
+
+  return {isPageLaoding, show, close};
 }
