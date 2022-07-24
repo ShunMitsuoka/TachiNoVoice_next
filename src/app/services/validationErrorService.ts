@@ -2,7 +2,7 @@ import { SetStateAction } from "react";
 import { ApiResponse } from "../models/apiResponse";
 
 export class ValidationErrorService{
-    static setValidtionError(response :ApiResponse, setValidationError : (value: SetStateAction<any>) => void ){
+    static setValidationError(response :ApiResponse, setValidationError : (value: SetStateAction<any>) => void ){
         if(response.getStatusCode() != 422){
             return;
         }
