@@ -26,7 +26,7 @@ export const SetTopic: React.FC<Props> = ({
         <div className='px-10 py-10 bg-p-sub'>
             <div>
                 <div className='mb-2'>
-                    <FormLabel htmlFor={'title'}>タイトル</FormLabel>
+                    <FormLabel htmlFor={'title'} isRequired={true}>タイトル</FormLabel>
                 </div>
                 <FormInput
                     id='title'

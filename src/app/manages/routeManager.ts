@@ -33,7 +33,8 @@ type apiRoute = {
             resource : string,
             register : {
                 validation : {
-                    topic : string
+                    topic : string,
+                    setting : string,
                 }
             } ,
         },
@@ -81,7 +82,8 @@ export class RouteManager {
                 resource : '/api/village',
                 register : {
                     validation : {
-                        topic : '/api/village/register/validation/topic'
+                        topic : '/api/village/register/validation/topic',
+                        setting : '/api/village/register/validation/setting',
                     }
                 } ,
             },

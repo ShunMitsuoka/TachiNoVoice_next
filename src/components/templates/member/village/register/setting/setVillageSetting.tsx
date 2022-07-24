@@ -2,6 +2,7 @@ import { BaseButton } from '@/components/atoms/buttons/baseButton';
 import { FormCheckBox } from '@/components/atoms/checkbox/formCheckBox';
 import { FormInput } from '@/components/atoms/input/formInput';
 import { FormLabel } from '@/components/atoms/label/formLabel';
+import { ValidationErrors } from '@/components/modules/common/validation/validationErrors';
 import React from 'react';
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
     changeTextAreaHandler: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
     onClickNext: () => void;
     onClickCancel: () => void;
+    validationError: any;
 }
 
 export const SetVillageSetting: React.FC<Props> = ({
@@ -18,13 +20,34 @@ export const SetVillageSetting: React.FC<Props> = ({
     changeTextAreaHandler,
     onClickNext,
     onClickCancel,
+    validationError,
 }) => {
 
     return (
         <div className='px-10 py-10 bg-p-sub'>
             <div>
                 <div className='mb-2'>
-                    <FormLabel htmlFor={'core_member_limit'}>コアメンバー</FormLabel>
+                    <FormLabel htmlFor={'village_member_limit'} isRequired={true}>ビレッジメンバー定員数</FormLabel>
+                </div>
+                <div className=''>
+                    <FormInput
+                        type='number'
+                        id='village_member_limit'
+                        name='village_member_limit'
+                        value={formData.village_member_limit}
+                        onChange={changeInputHandler}
+                        _class='text-right'
+                        widthClass='w-16'
+                    />
+                    <div className='inline-block ml-4 align-bottom'>
+                        人
+                    </div>
+                </div>
+                <ValidationErrors validationErrors={validationError.errors} id={'village_member_limit'}/>
+            </div>
+            <div className='mt-4'>
+                <div className='mb-2'>
+                    <FormLabel htmlFor={'core_member_limit'} isRequired={true}>コアメンバー定員数</FormLabel>
                 </div>
                 <div className=''>
                     <FormInput
@@ -40,10 +63,11 @@ export const SetVillageSetting: React.FC<Props> = ({
                         人
                     </div>
                 </div>
+                <ValidationErrors validationErrors={validationError.errors} id={'core_member_limit'}/>
             </div>
             <div className='mt-4'>
                 <div className='mb-2'>
-                    <FormLabel htmlFor={'requirement'}>条件</FormLabel>
+                    <FormLabel htmlFor={'requirement'}>ビレッジ参加条件</FormLabel>
                 </div>
                 <textarea
                     name="requirement"
@@ -55,6 +79,7 @@ export const SetVillageSetting: React.FC<Props> = ({
                     onChange={changeTextAreaHandler}
                 >
                 </textarea>
+                <ValidationErrors validationErrors={validationError.errors} id={'requirement'}/>
             </div>
             <div className='mt-4'>
                 <div className='mb-2'>
@@ -68,6 +93,7 @@ export const SetVillageSetting: React.FC<Props> = ({
                         onChange={changeInputHandler}
                     />
                     <FormLabel htmlFor={'nickname_flg'} _class={'ml-3'}>ニックネーム</FormLabel>
+                    <ValidationErrors validationErrors={validationError.errors} id={'nickname_flg'}/>
                 </div>
                 <div className='flex items-center'>
                     <FormCheckBox 

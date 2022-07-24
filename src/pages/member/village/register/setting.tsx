@@ -20,6 +20,7 @@ type formData = {
     title: string,
     content: string,
     note: string,
+    village_member_limit : string,
     core_member_limit : string,
     requirement: string,
     nickname_flg:boolean,
@@ -47,6 +48,7 @@ const Register: NextPage = () => {
         title: "",
         content: "",
         note: "",
+        village_member_limit : '30',
         core_member_limit : '10',
         requirement : '',
         nickname_flg:false,
@@ -84,10 +86,22 @@ const Register: NextPage = () => {
 
     const onClickNext = async () => {
         pageLoading.show();
-        if(page == 1){
+        let validationUrl:string | null = null;
+        switch (page) {
+            case 1:
+                validationUrl = RouteManager.apiRoute.member.village.register.validation.topic;
+                break;
+            case 2:
+                validationUrl = RouteManager.apiRoute.member.village.register.validation.setting;
+                break;       
+            default:
+                break;
+        }
+        if(validationUrl){
             await ApiService.getCSRF();
-            await axios.post(ApiService.getFullURL(RouteManager.apiRoute.member.village.register.validation.topic), formData, ApiService.getAuthHeader(session))
+            await axios.post(ApiService.getFullURL(validationUrl), formData, ApiService.getAuthHeader(session))
             .then(function (response) {
+                validationError.clearError();
                 setPage(page+1);
             })
             .catch((error) => {
@@ -146,6 +160,7 @@ const Register: NextPage = () => {
                         changeTextAreaHandler={changeTextAreaHandler}
                         onClickNext={onClickNext} 
                         onClickCancel={onClickCancel} 
+                        validationError={validationError}
                     />
                 );
                 break;
