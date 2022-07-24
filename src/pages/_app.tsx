@@ -16,8 +16,8 @@ function MyApp({
   const pageLoading = usePageLoading();
 
   useEffect(() => {
-    const handleStart = (url:string) => url !== router.asPath && pageLoading.setPageLaoding(true);
-    const handleComplete = () => pageLoading.setPageLaoding(false);
+    const handleStart = (url:string) => url !== router.asPath && pageLoading.show();
+    const handleComplete = () => pageLoading.close();
 
     router.events.on('routeChangeStart', handleStart)
     router.events.on('routeChangeComplete', handleComplete)

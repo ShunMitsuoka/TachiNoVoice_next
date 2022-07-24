@@ -1,6 +1,8 @@
 import { BaseButton } from '@/components/atoms/buttons/baseButton';
 import { FormInput } from '@/components/atoms/input/formInput';
 import { FormLabel } from '@/components/atoms/label/formLabel';
+import { ValidationErrors } from '@/components/modules/common/validation/validationErrors';
+import { useValidationError } from '@/hooks/common/useValidationError';
 import React from 'react';
 
 interface Props {
@@ -9,6 +11,7 @@ interface Props {
     changeTextAreaHandler: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
     onClickNext: () => void;
     onClickCancel: () => void;
+    validationError: any;
 }
 
 export const SetTopic: React.FC<Props> = ({
@@ -17,13 +20,13 @@ export const SetTopic: React.FC<Props> = ({
     changeTextAreaHandler,
     onClickNext,
     onClickCancel,
+    validationError,
 }) => {
-
     return (
         <div className='px-10 py-10 bg-p-sub'>
             <div>
                 <div className='mb-2'>
-                    <FormLabel htmlFor={'title'}>タイトル</FormLabel>
+                    <FormLabel htmlFor={'title'} isRequired={true}>タイトル</FormLabel>
                 </div>
                 <FormInput
                     id='title'
@@ -31,6 +34,7 @@ export const SetTopic: React.FC<Props> = ({
                     value={formData.title}
                     onChange={changeInputHandler}
                 />
+                <ValidationErrors validationErrors={validationError.errors} id={'title'}/>
             </div>
             <div className='mt-4'>
                 <div className='mb-2'>
@@ -46,6 +50,7 @@ export const SetTopic: React.FC<Props> = ({
                     onChange={changeTextAreaHandler}
                 >
                 </textarea>
+                <ValidationErrors validationErrors={validationError.errors} id={'content'}/>
             </div>
             <div className='mt-4'>
                 <div className='mb-2'>
@@ -61,6 +66,7 @@ export const SetTopic: React.FC<Props> = ({
                     onChange={changeTextAreaHandler}
                 >
                 </textarea>
+                <ValidationErrors validationErrors={validationError.errors} id={'note'}/>
             </div>
             <div className='flex justify-between mt-6'>
                 <div>

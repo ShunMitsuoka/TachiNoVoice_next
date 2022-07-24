@@ -6,6 +6,8 @@ import { SetTopic } from '@/components/templates/member/village/register/setting
 import { SetVillageEndRequirement } from '@/components/templates/member/village/register/setting/setVillageEndRequirement'
 import { SetVillageSetting } from '@/components/templates/member/village/register/setting/setVillageSetting'
 import { SetVillageStartRequirement } from '@/components/templates/member/village/register/setting/setVillageStartRequirement'
+import { usePageLoading } from '@/hooks/common/usePageLoading'
+import { useValidationError } from '@/hooks/common/useValidationError'
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
 import axios from '@/libs/axios/axios'
 import type { GetServerSideProps, NextPage } from 'next'
@@ -18,6 +20,7 @@ type formData = {
     title: string,
     content: string,
     note: string,
+    village_member_limit : string,
     core_member_limit : string,
     requirement: string,
     nickname_flg:boolean,
@@ -38,13 +41,14 @@ type formData = {
 const Register: NextPage = () => {
 
     const { data: session, status } = useSession();
+    const pageLoading = usePageLoading();
     const router = useRouter()
     const [page, setPage] = useState<number>(1);
-
     const [formData, setFormData] = useState<formData>({
         title: "",
         content: "",
         note: "",
+        village_member_limit : '30',
         core_member_limit : '10',
         requirement : '',
         nickname_flg:false,
@@ -61,6 +65,8 @@ const Register: NextPage = () => {
             by_date_flg:false,
         }
     });
+    const validationError = useValidationError();
+
 
     const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const target = e.target;
@@ -78,8 +84,32 @@ const Register: NextPage = () => {
         });
     }
 
-    const onClickNext = () => {
-        setPage(page+1);
+    const onClickNext = async () => {
+        pageLoading.show();
+        let validationUrl:string | null = null;
+        switch (page) {
+            case 1:
+                validationUrl = RouteManager.apiRoute.member.village.register.validation.topic;
+                break;
+            case 2:
+                validationUrl = RouteManager.apiRoute.member.village.register.validation.setting;
+                break;       
+            default:
+                break;
+        }
+        if(validationUrl){
+            await ApiService.getCSRF();
+            await axios.post(ApiService.getFullURL(validationUrl), formData, ApiService.getAuthHeader(session))
+            .then(function (response) {
+                validationError.clearError();
+                setPage(page+1);
+            })
+            .catch((error) => {
+                const res = ApiService.makeApiErrorResponse(error);
+                validationError.showError(res);
+            })
+        }
+        pageLoading.close();
     }
 
     const onClickCancel = () => {
@@ -92,7 +122,7 @@ const Register: NextPage = () => {
 
     const onClickRegister = async () => {
         await ApiService.getCSRF();
-        axios.post(ApiService.getFullURL(RouteManager.apiRoute.member.village), formData, ApiService.getAuthHeader(session))
+        axios.post(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource), formData, ApiService.getAuthHeader(session))
         .then(function (response) {
             const res = ApiService.makeApiResponse(response);
             if(res.getSuccess()){
@@ -118,6 +148,7 @@ const Register: NextPage = () => {
                         changeTextAreaHandler={changeTextAreaHandler}
                         onClickNext={onClickNext} 
                         onClickCancel={onClickCancelRegister} 
+                        validationError={validationError}
                     />
                 );
                 break;
@@ -129,6 +160,7 @@ const Register: NextPage = () => {
                         changeTextAreaHandler={changeTextAreaHandler}
                         onClickNext={onClickNext} 
                         onClickCancel={onClickCancel} 
+                        validationError={validationError}
                     />
                 );
                 break;
@@ -178,7 +210,7 @@ const Register: NextPage = () => {
     }
 
     return (
-        <_BaseMemberLayout>
+        <_BaseMemberLayout pageLoding={pageLoading.isPageLaoding}>
             <Head>
                 <title>ビレッジ設定</title>
             </Head>

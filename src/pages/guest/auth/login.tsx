@@ -34,7 +34,7 @@ export default function Login() {
     }
 
     const onClickLoginBtn = () => {
-        pageLoading.setPageLaoding(true);
+        pageLoading.show();
         signIn('credentials', { 
             email: formData.email, 
             password: formData.password,
@@ -52,7 +52,7 @@ export default function Login() {
             setIsError(true);
         })
         .finally(() => {
-            pageLoading.setPageLaoding(false);
+            pageLoading.close();
         });
     }
 

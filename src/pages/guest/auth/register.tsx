@@ -5,7 +5,6 @@ import { BaseInput } from '../../../components/atoms/input/baseInput';
 import { FormLabel } from '../../../components/atoms/label/formLabel';
 import axios from '../../../libs/axios/axios';
 import { ApiService } from '@/app/services/apiService';
-import { ValidationErrorService } from '@/app/services/validationErrorService';
 import { ValidationErrors } from '@/components/modules/common/validation/validationErrors';
 import Link from 'next/link';
 import { RouteManager } from '@/app/manages/routeManager';
@@ -15,6 +14,7 @@ import { MonthSelect } from '@/components/modules/common/dateSelect/monthSelect'
 import { DateSelect } from '@/components/modules/common/dateSelect/dateSelect';
 import { usePageLoading } from '@/hooks/common/usePageLoading';
 import { LargeButton } from '@/components/atoms/buttons/largeButton';
+import { useValidationError } from '@/hooks/common/useValidationError';
 
 type formDate = {
     user_name: string,
@@ -30,7 +30,7 @@ type formDate = {
 
 export default function Register() {
 
-    const [validationError, setValidationError] = useState<any>(null);
+    const validationError = useValidationError();
 
     const pageLoading = usePageLoading();
 
@@ -57,8 +57,8 @@ export default function Register() {
     }
 
     const onClickSave = () => {
-        pageLoading.setPageLaoding(true);
-        setValidationError(null);
+        pageLoading.show();
+        validationError.clearError();
         const params = {
             user_name: formData.user_name,
             nickname: formData.nickname,
@@ -77,10 +77,10 @@ export default function Register() {
         })
         .catch((error) =>{
             const res = ApiService.makeApiErrorResponse(error);
-            ValidationErrorService.setValidtionError(res, setValidationError);
+            validationError.showError(res);
         })
         .finally(() => {
-            pageLoading.setPageLaoding(false);
+            pageLoading.close();
         });
     }
     return (
@@ -102,7 +102,7 @@ export default function Register() {
                         value={formData.user_name}
                         onChange={changeHandler}
                     />
-                    <ValidationErrors validationErrors={validationError} id={'user_name'}/>
+                    <ValidationErrors validationErrors={validationError.errors} id={'user_name'}/>
                 </div>
                 {/* ニックネーム */}
                 <div className="mt-4">
@@ -114,7 +114,7 @@ export default function Register() {
                         value={formData.nickname}
                         onChange={changeHandler}
                     />
-                    <ValidationErrors validationErrors={validationError} id={'nickname'}/>
+                    <ValidationErrors validationErrors={validationError.errors} id={'nickname'}/>
                 </div>
                 {/* メールアドレス */}
                 <div className="mt-4">
@@ -126,7 +126,7 @@ export default function Register() {
                         value={formData.email}
                         onChange={changeHandler}
                     />
-                    <ValidationErrors validationErrors={validationError} id={'email'}/>
+                    <ValidationErrors validationErrors={validationError.errors} id={'email'}/>
                 </div>
                 {/* パスワード */}
                 <div className="mt-4">
@@ -138,7 +138,7 @@ export default function Register() {
                         value={formData.password}
                         onChange={changeHandler}
                     />
-                    <ValidationErrors validationErrors={validationError} id={'password'}/>
+                    <ValidationErrors validationErrors={validationError.errors} id={'password'}/>
                 </div>
                 {/* パスワード確認用 */}
                 <div className="mt-4">
@@ -150,7 +150,7 @@ export default function Register() {
                         value={formData.passwordConfirmation}
                         onChange={changeHandler}
                     />
-                    <ValidationErrors validationErrors={validationError} id={'password_confirmation'}/>
+                    <ValidationErrors validationErrors={validationError.errors} id={'password_confirmation'}/>
                 </div>
                 {/* 性別 */}
                 <div className="mt-4">
@@ -161,7 +161,7 @@ export default function Register() {
                         <option value="2">女性</option>
                         <option value="3">どちらでもない</option>
                     </FormSelect>
-                    <ValidationErrors validationErrors={validationError} id={'gender'}/>
+                    <ValidationErrors validationErrors={validationError.errors} id={'gender'}/>
                 </div>
                 {/* 生年月日 */}
                 <div className="mt-4">
@@ -204,9 +204,9 @@ export default function Register() {
                             <span className='pl-2 align-bottom'>日</span>
                         </div>
                         <div className='col-span-10'>
-                            <ValidationErrors validationErrors={validationError} id={'birthyear'}/>
-                            <ValidationErrors validationErrors={validationError} id={'birthmonth'}/>
-                            <ValidationErrors validationErrors={validationError} id={'birthday'}/>
+                            <ValidationErrors validationErrors={validationError.errors} id={'birthyear'}/>
+                            <ValidationErrors validationErrors={validationError.errors} id={'birthmonth'}/>
+                            <ValidationErrors validationErrors={validationError.errors} id={'birthday'}/>
                         </div>
                     </div>
                 </div>

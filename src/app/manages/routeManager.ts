@@ -14,13 +14,30 @@ type route = {
                 index: string,
                 setting: string,
             },
+            my: {
+                index: string,
+            },
+        },
+        setting: {
+            index: string,
+        },
+        news: {
+            index: string,
         },
     }
 }
 
 type apiRoute = {
     member: {
-        village: string,
+        village: {
+            resource : string,
+            register : {
+                validation : {
+                    topic : string,
+                    setting : string,
+                }
+            } ,
+        },
     }
 }
 
@@ -44,7 +61,16 @@ export class RouteManager {
                 search: {
                     index: '/member/village/search',
                     setting: '/member/village/search/setting',
-                }
+                },
+                my: {
+                    index: '/member/village/my',
+                },
+            },
+            setting: {
+                index: '/member/setting',
+            },
+            news: {
+                index: '/member/news',
             },
 
         }
@@ -52,7 +78,15 @@ export class RouteManager {
 
     static readonly apiRoute: apiRoute = {
         member: {
-            village: '/api/village',
+            village: {
+                resource : '/api/village',
+                register : {
+                    validation : {
+                        topic : '/api/village/register/validation/topic',
+                        setting : '/api/village/register/validation/setting',
+                    }
+                } ,
+            },
         }
     }
 }
