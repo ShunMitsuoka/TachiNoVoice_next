@@ -1,6 +1,7 @@
 import { RouteManager } from '@/app/manages/routeManager'
 import { ApiService } from '@/app/services/apiService'
 import { AuthService } from '@/app/services/authService'
+import { CompleteRegisterVillage } from '@/components/templates/member/village/register/setting/completeRegisterVillage'
 import { ConfirmVillageSetting } from '@/components/templates/member/village/register/setting/confirmVillageSetting'
 import { SetTopic } from '@/components/templates/member/village/register/setting/setTopic'
 import { SetVillageEndRequirement } from '@/components/templates/member/village/register/setting/setVillageEndRequirement'
@@ -36,6 +37,11 @@ type formData = {
         by_limit_flg:boolean,
         by_date_flg:boolean,
     }
+}
+
+type pageInfo = {
+    title : React.ReactNode,
+    component : React.ReactNode,
 }
 
 const Register: NextPage = () => {
@@ -108,6 +114,8 @@ const Register: NextPage = () => {
                 const res = ApiService.makeApiErrorResponse(error);
                 validationError.showError(res);
             })
+        }else{
+            setPage(page+1);
         }
         pageLoading.close();
     }
@@ -121,6 +129,7 @@ const Register: NextPage = () => {
     }
 
     const onClickRegister = async () => {
+        pageLoading.show();
         await ApiService.getCSRF();
         axios.post(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource), formData, ApiService.getAuthHeader(session))
         .then(function (response) {
@@ -135,78 +144,80 @@ const Register: NextPage = () => {
             alert('登録失敗');
             const res = ApiService.makeApiResponse(error.response);
         })
+        .finally(() => {
+            pageLoading.close();
+        })
     }
 
-
-    const pageContent = () => {
+    const pageInfo = () : pageInfo => {
+        let result:pageInfo = {
+            title : null,
+            component : null,
+        }
         switch (page) {
             case 1:
-                return(
-                    <SetTopic 
-                        formData={formData} 
-                        changeInputHandler={changeInputHandler} 
-                        changeTextAreaHandler={changeTextAreaHandler}
-                        onClickNext={onClickNext} 
-                        onClickCancel={onClickCancelRegister} 
-                        validationError={validationError}
-                    />
-                );
+                result.title = '問題設定';
+                result.component =
+                <SetTopic 
+                    formData={formData} 
+                    changeInputHandler={changeInputHandler} 
+                    changeTextAreaHandler={changeTextAreaHandler}
+                    onClickNext={onClickNext} 
+                    onClickCancel={onClickCancelRegister} 
+                    validationError={validationError}
+                />;
                 break;
             case 2:
-                return(
-                    <SetVillageSetting 
+                result.title = (<>ビレッジメンバー<br />募集条件設定</>);
+                result.component =
+                <SetVillageSetting 
+                    formData={formData} 
+                    changeInputHandler={changeInputHandler} 
+                    changeTextAreaHandler={changeTextAreaHandler}
+                    onClickNext={onClickNext} 
+                    onClickCancel={onClickCancel} 
+                    validationError={validationError}
+                />;
+                break;
+                case 3:
+                    result.title = (<>ビレッジメンバー<br />募集開始条件設定</>);
+                    result.component =
+                    <SetVillageStartRequirement
                         formData={formData} 
                         changeInputHandler={changeInputHandler} 
                         changeTextAreaHandler={changeTextAreaHandler}
                         onClickNext={onClickNext} 
                         onClickCancel={onClickCancel} 
-                        validationError={validationError}
-                    />
-                );
-                break;
-                case 3:
-                    return(
-                        <SetVillageStartRequirement
-                            formData={formData} 
-                            changeInputHandler={changeInputHandler} 
-                            changeTextAreaHandler={changeTextAreaHandler}
-                            onClickNext={onClickNext} 
-                            onClickCancel={onClickCancel} 
-                        />
-                    );
+                    />;
                     break;
                 case 4:
-                    return(
-                        <SetVillageEndRequirement
-                            formData={formData} 
-                            changeInputHandler={changeInputHandler} 
-                            changeTextAreaHandler={changeTextAreaHandler}
-                            onClickNext={onClickNext} 
-                            onClickCancel={onClickCancel} 
-                        />
-                    );
+                    result.title = (<>ビレッジメンバー<br />募集終了条件設定</>);
+                    result.component =
+                    <SetVillageEndRequirement
+                        formData={formData} 
+                        changeInputHandler={changeInputHandler} 
+                        changeTextAreaHandler={changeTextAreaHandler}
+                        onClickNext={onClickNext} 
+                        onClickCancel={onClickCancel} 
+                    />;
                     break;
                 case 5:
-                    return(
-                        <ConfirmVillageSetting 
-                            formData={formData} 
-                            onClickRegister={onClickRegister} 
-                            onClickCancel={onClickCancel} 
-                        />
-                    );
+                    result.title = (<>ビレッジ確認</>);
+                    result.component =
+                    <ConfirmVillageSetting 
+                        formData={formData} 
+                        onClickRegister={onClickRegister} 
+                        onClickCancel={onClickCancel} 
+                    />;
                     break;
                 case 6:
-                    return(
-                        <>
-                            <div>
-                                ビレッジを作成しました
-                            </div>
-                        </>
-                    );
+                    result.title = (<>ビレッジを作成完了</>);
+                    result.component = <CompleteRegisterVillage/>;
                     break;
             default:
                 break;
         }
+        return result;
     }
 
     return (
@@ -231,8 +242,11 @@ const Register: NextPage = () => {
                     })
                 }
             </div>
-            <div className=''>
-                {pageContent()}
+            <div className='text-2xl text-center leading-relaxed'>
+                {pageInfo().title}
+            </div>
+            <div className='mt-6'>
+                {pageInfo().component}
             </div>
         </_BaseMemberLayout>
     )
