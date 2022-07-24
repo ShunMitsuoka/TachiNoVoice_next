@@ -36,7 +36,7 @@ const Search: NextPage = () => {
         ApiService.setConfig('params', params, config);
 
         console.log(config);
-        axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village), config)
+        axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource), config)
             .then(function (response) {
                 console.log('true');
                 console.log(response);

@@ -33,7 +33,7 @@ const Details: NextPage = () => {
   });
   useEffect(() => {
       if(status === "authenticated"){
-        axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village)+"/1", ApiService.getAuthHeader(session))
+        axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource)+"/1", ApiService.getAuthHeader(session))
         .then(function (response) {
             const res = ApiService.makeApiResponse(response);
             if(res.getSuccess()){
