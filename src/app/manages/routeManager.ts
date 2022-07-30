@@ -31,6 +31,7 @@ type apiRoute = {
     member: {
         village: {
             resource : string,
+            join : string,
             register : {
                 validation : {
                     topic : string,
@@ -83,6 +84,7 @@ export class RouteManager {
         member: {
             village: {
                 resource : '/api/village',
+                join : '/api/village/join',
                 register : {
                     validation : {
                         topic : '/api/village/register/validation/topic',
