@@ -22,7 +22,7 @@ export const SearchResultCard: React.FC<Props> = ({
         <div className=' col-span-12 md:col-span-6 text-sub mt-5 px-6 text-center rounded-lg drop-shadow bg-white'>
             <Link href={'/member/village/search/details/' + id}>
                 <a>
-                    <div className='text-3xl text-center font-bold'>{value1}</div>
+                    <div className='text-3xl text-center font-bold mt-2'>{value1}</div>
                     <div className='mt-4 scroll-m-9 h-24'>{value2}</div>
                 </a>
             </Link>
