@@ -88,13 +88,13 @@ const Search: NextPage = () => {
                     type='text'
                     name="keyword"
                     id="keyword"
-                    className='border border-solid rounded-lg border-sub text-2xl leading-relaxed'
+                    className='border border-solid rounded-lg border-sub text-2xl leading-relaxed px-2'
                     onChange={changeHandler}
                 />
             </div>
             <div className='flex  justify-end px-10 mt-2'>
                 <button
-                    className='font-semibold px-5 py-3 rounded-lg bg-sub text-main'
+                    className='font-semibold px-7 py-3 rounded-lg bg-sub text-main'
                     onClick={onClickSearch}
                 >検索</button>
             </div>
