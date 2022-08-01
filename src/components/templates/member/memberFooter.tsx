@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import React, { useMemo } from 'react';
 import { RouteManager } from '@/app/manages/routeManager';
-// import { AiTwotoneHome } from "react-icons/ai";
+import { AiTwotoneHome } from "react-icons/ai";
 // import { GiBarracksTent } from "react-icons/gi";
-// import { FaSearch } from "react-icons/fa";
-// import { MdMail } from "react-icons/md";
+import { FaSearch } from "react-icons/fa";
+import { MdMail } from "react-icons/md";
 // import { AiFillSetting } from "react-icons/ai";
 
 type footerInfo = {
@@ -36,7 +36,7 @@ export const MemberFooter = () => {
         const footer:footerInfo[] = [
             {
                 href : RouteManager.webRoute.member.dashboard,
-                icon : null,
+                icon : <AiTwotoneHome/>,
                 label : 'トップ',
             },
             {
@@ -46,11 +46,13 @@ export const MemberFooter = () => {
             },
             {
                 href :  RouteManager.webRoute.member.village.search.index,
+                // icon : <FaSearch />,
                 icon : null,
                 label : '検索',
             },
             {
                 href : RouteManager.webRoute.member.news.index,
+                // icon : <MdMail />,
                 icon : null,
                 label : 'お知らせ',
             },
