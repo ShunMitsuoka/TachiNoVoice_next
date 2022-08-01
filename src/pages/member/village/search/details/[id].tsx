@@ -103,9 +103,9 @@ const Details: NextPage = () => {
       .then(function (response) {
           const res = ApiService.makeApiResponse(response);
           if(res.getSuccess()){
-              alert('成功だよん');
+              alert("「"+villageData.title+"」に参加しました。");
           }else{
-              alert('登録失敗だよーん');
+              alert('失敗');
           }
       })
       .catch((error) => {
@@ -143,7 +143,7 @@ const Details: NextPage = () => {
               {villageData.content}
             </p>
         </div>
-        <div className='mt-2 text-center'>
+        <div className='mt-4 text-center'>
             <FormLabel htmlFor={'note'} _class=''>注意事項</FormLabel>
             <p
                 className='w-full rounded-lg px-2 py-2'
@@ -151,7 +151,7 @@ const Details: NextPage = () => {
               {villageData.note}
             </p>
         </div>
-        <div className='mt-2 text-center'>
+        <div className='mt-4 text-center'>
             <FormLabel htmlFor={'condition'}>参加条件</FormLabel>
             <p
                 className='w-full rounded-lg px-2 py-2'
@@ -159,12 +159,12 @@ const Details: NextPage = () => {
               {villageData.requirement}
             </p>
         </div>
-        <div className='mt-2 text-center'>
+        <div className='mt-4 text-center'>
             <FormLabel htmlFor={'recruitment_period'}>募集情報</FormLabel>
             <div
               className='w-full rounded-lg px-2 py-2'
             >
-              募集終了条件 <br />
+              {/* 募集終了条件 <br /> */}
               {
                 contents()
               }
