@@ -59,14 +59,8 @@ const Search: NextPage = () => {
         axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource), config)
             .then(function (response) {
                 console.log(response.data.result);
-                console.log('noresult: ' + noresult);
-                if (response.data.result == 0) {
-                    console.log('該当するビレッジはありません');
-                } else {
-                    setNoresult(false);
-                    setCards(response.data.result);
-                }
-
+                setNoresult(false);
+                setCards(response.data.result);
             })
             .catch((error) => {
                 console.error(error);
@@ -83,17 +77,17 @@ const Search: NextPage = () => {
         pageLoading.close();
     }
 
-    const resultfetch = (result: boolean) => {
-        if (noresult) {
-            return <div>
-                該当するビレッジはありません
-            </div>
-        } else {
-            formcards.map((elem, index) => {
-                return <SearchResultCard key={index} value1={elem.title} value2={elem.content} id={elem.id} />
-            })
-        }
-    }
+    // const resultfetch = (result: boolean) => {
+    //     if (noresult) {
+    //         return <div>
+    //             該当するビレッジはありません
+    //         </div>
+    //     } else {
+    //         formcards.map((elem, index) => {
+    //             return <SearchResultCard key={index} value1={elem.title} value2={elem.content} id={elem.id} />
+    //         })
+    //     }
+    // }
 
     return (
         <_BaseMemberLayout pageLoding={pageLoading.isPageLaoding}>
@@ -120,9 +114,10 @@ const Search: NextPage = () => {
             </div>
             <div className='grid grid-cols-12 px-6'>
                 {
-                    resultfetch(noresult)
+                    formcards.map((elem, index) => {
+                        return <SearchResultCard key={index} value1={elem.title} value2={elem.content} id={elem.id} />
+                    })
                 }
-
             </div>
 
         </_BaseMemberLayout>
