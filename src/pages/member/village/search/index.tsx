@@ -59,7 +59,7 @@ const Search: NextPage = () => {
         axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource), config)
             .then(function (response) {
                 console.log(response.data.result);
-                setNoresult(false);
+                // setNoresult(false);
                 setCards(response.data.result);
             })
             .catch((error) => {
