@@ -83,22 +83,22 @@ const Search: NextPage = () => {
             <div className='flex flex-col px-10 mt-2'>
                 <FormLabel
                     htmlFor={'keyword'}
-                    _class='block mb-2 pt-4 px-2text-sm font-medium text-gray-900 text-main'>キーワード</FormLabel>
+                    _class='block mb-2 pt-4 px-2text-sm font-medium text-sub text-gray-900 text-main'>キーワード</FormLabel>
                 <input
                     type='text'
                     name="keyword"
                     id="keyword"
-                    className='border border-solid border-sub text-2xl leading-relaxed'
+                    className='border border-solid rounded-lg border-sub text-2xl leading-relaxed px-2'
                     onChange={changeHandler}
                 />
             </div>
             <div className='flex  justify-end px-10 mt-2'>
                 <button
-                    className='font-semibold px-5 py-3 rounded-lg bg-sub text-main'
+                    className='font-semibold px-7 py-3 rounded-lg bg-sub text-main'
                     onClick={onClickSearch}
                 >検索</button>
             </div>
-            <div className='grid grid-cols-12 px-6 md:px-20'>
+            <div className='grid grid-cols-12 px-6'>
                 {
                     formcards.map((elem, index) => {
                         return <SearchResultCard key={index} value1={elem.title} value2={elem.content} id={elem.id} />
