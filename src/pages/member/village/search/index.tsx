@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FormLabel } from '@/components/atoms/label/formLabel'
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
 import type { GetServerSideProps, NextPage } from 'next'
@@ -10,6 +10,7 @@ import { AuthService } from '@/app/services/authService'
 import { ApiService } from '@/app/services/apiService'
 import { RouteManager } from '@/app/manages/routeManager'
 import { SearchResultCard } from '@/components/modules/member/village/searchresultcard'
+import { usePageLoading } from '@/hooks/common/usePageLoading'
 
 
 type formData = {
@@ -18,12 +19,6 @@ type formData = {
 type formresultnum = {
     resultnum: string,
 }
-// type responsetitle = {
-//     formtitle: string
-// }
-// type responsecontent = {
-//     formcontent: string
-// }
 
 type cardtype = {
     id: "",
@@ -31,15 +26,16 @@ type cardtype = {
     content: string,
 }
 
+
 const Search: NextPage = () => {
     const { data: session, status } = useSession();
-
+    const pageLoading = usePageLoading();
     const [formkeyword, setKeyword] = useState<formData>({
         keyword: "",
     });
+    const [noresult, setNoresult] = useState(true);
 
     const [formcards, setCards] = useState<cardtype[]>([]);
-
 
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setKeyword(prevValues => {
@@ -47,17 +43,13 @@ const Search: NextPage = () => {
         });
     }
 
-    const onClickSearch = () => {
+    const getsearchresult = () => {
         const params = {
             keyword: formkeyword.keyword,
         };
 
         const config = ApiService.getAuthHeader(session);
         ApiService.setConfig('params', params, config);
-        console.log(ApiService.setConfig('params', params, config));
-        console.log('aaaaaaaaaaaaaaaaaa');
-        console.log(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource));
-        console.log('bbbbbbbbbbbbbbbbbbbbbbb');
         console.log(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource), {
             params: {
                 keyword: formkeyword,
@@ -66,17 +58,45 @@ const Search: NextPage = () => {
 
         axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource), config)
             .then(function (response) {
-                console.log('true');
-                setCards(response.data.result);
+                console.log(response.data.result);
+                console.log('noresult: ' + noresult);
+                if (response.data.result == 0) {
+                    console.log('該当するビレッジはありません');
+                } else {
+                    setNoresult(false);
+                    setCards(response.data.result);
+                }
+
             })
             .catch((error) => {
                 console.error(error);
-            });
+            })
     }
-    //データをとってきて、とってきたデータ分のタイトルとcontentを表示するß
+    //初期表示はできたけど検索結果が何もなかった時の処理書いてない
+    useEffect(() => {
+        getsearchresult();
+    }, []);
+
+    const onClickSearch = () => {
+        pageLoading.show();
+        getsearchresult();
+        pageLoading.close();
+    }
+
+    const resultfetch = (result: boolean) => {
+        if (noresult) {
+            return <div>
+                該当するビレッジはありません
+            </div>
+        } else {
+            formcards.map((elem, index) => {
+                return <SearchResultCard key={index} value1={elem.title} value2={elem.content} id={elem.id} />
+            })
+        }
+    }
 
     return (
-        <_BaseMemberLayout>
+        <_BaseMemberLayout pageLoding={pageLoading.isPageLaoding}>
             <Head>
                 <title>検索</title>
             </Head>
@@ -100,10 +120,9 @@ const Search: NextPage = () => {
             </div>
             <div className='grid grid-cols-12 px-6'>
                 {
-                    formcards.map((elem, index) => {
-                        return <SearchResultCard key={index} value1={elem.title} value2={elem.content} id={elem.id} />
-                    })
+                    resultfetch(noresult)
                 }
+
             </div>
 
         </_BaseMemberLayout>
