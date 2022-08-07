@@ -64,28 +64,28 @@ const MyVillageDetails: NextPage = () => {
     let component = null;
     switch (phase) {
       case 1:
-        component =<Phase1 phaseId={phase} village={village}/>
+        component =<Phase1 key={1} phaseId={phase} village={village}/>
         break;
       case 2:
-        component =<Phase1 phaseId={phase} village={village}/>
+        component =<Phase1 key={2} phaseId={phase} village={village}/>
         break;
       case 3:
-        component =<Phase1 phaseId={phase} village={village}/>
+        component =<Phase1 key={3} phaseId={phase} village={village}/>
         break;
       case 4:
-        component =<Phase1 phaseId={phase} village={village}/>
+        component =<Phase1 key={4} phaseId={phase} village={village}/>
         break;
       case 5:
-        component =<Phase1 phaseId={phase} village={village}/>
+        component =<Phase1 key={5} phaseId={phase} village={village}/>
         break;
       case 6:
-        component =<Phase1 phaseId={phase} village={village}/>
+        component =<Phase1 key={6} phaseId={phase} village={village}/>
         break;
       case 7:
-        component =<Phase1 phaseId={phase} village={village}/>
+        component =<Phase1 key={7} phaseId={phase} village={village}/>
         break;
       case 8:
-        component =<Phase1 phaseId={phase} village={village}/>
+        component =<Phase1 key={8} phaseId={phase} village={village}/>
         break;
     
       default:

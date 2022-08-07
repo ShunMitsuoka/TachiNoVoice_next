@@ -49,7 +49,7 @@ export const Phase1: React.FC<Props> = ({
     );
 
     const roleComponent = useMemo(() => ({
-        host: villageMemberComponent,
+        host: hostComponent,
         villageMember: villageMemberComponent,
         coreMember: coreMemberComponent,
         riseMember: riseMemberComponent
