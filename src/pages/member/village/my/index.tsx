@@ -1,14 +1,16 @@
 import { RouteManager } from '@/app/manages/routeManager';
 import { ApiService } from '@/app/services/apiService';
+import { usePageLoading } from '@/hooks/common/usePageLoading';
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
 import axios from '@/libs/axios/axios';
 import type { NextPage } from 'next'
 import { useSession } from 'next-auth/react';
 import Head from 'next/head'
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 type villageType = {
-  id : number,
+  village_id : number,
   title : string,
   phase_name : string,
   content : string,
@@ -18,10 +20,11 @@ type villageType = {
 const MyVillage: NextPage = () => {
 
   const { data: session, status } = useSession();
-
+  const pageLoading = usePageLoading();
   const [lists, setLists] = useState<villageType[]>([]);
 
   useEffect(() => {
+    pageLoading.show();
     if(status === "authenticated"){
       axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.my.index), ApiService.getAuthHeader(session))
       .then(function (response) {
@@ -34,6 +37,9 @@ const MyVillage: NextPage = () => {
               alert('失敗');
           }
       })
+      .finally(() => {
+        pageLoading.close();
+      });
     }
   },[status]);
 
@@ -50,7 +56,7 @@ const MyVillage: NextPage = () => {
 
 
   return (
-    <_BaseMemberLayout title='ビレッジ'>
+    <_BaseMemberLayout title='ビレッジ' pageLoding={pageLoading.isPageLaoding}>
       <Head>
           <title>My ビレッジ</title>
       </Head>
@@ -60,10 +66,12 @@ const MyVillage: NextPage = () => {
             {
               lists.map((village, index) => {
                 return (
-                  <div key={index} className='bg-white rounded-lg drop-shadow-lg'>
-                    <div className='px-4 py-6 text-center'>{village.title}</div>
-                    <div></div>
-                  </div>
+                  <Link key={index} href={RouteManager.webRoute.member.village.my.details + '/' + village.village_id}>
+                    <div className='bg-white rounded-lg drop-shadow-lg mt-6'>
+                      <div className='px-4 py-6 text-center'>{village.title}</div>
+                      <div>{village.phase_name}</div>
+                    </div>
+                  </Link>
                 );
               })
             }

@@ -16,6 +16,7 @@ type route = {
             },
             my: {
                 index: string,
+                details : string,
             },
         },
         setting: {
@@ -68,6 +69,7 @@ export class RouteManager {
                 },
                 my: {
                     index: '/member/village/my',
+                    details : '/member/village/my/details',
                 },
             },
             setting: {
