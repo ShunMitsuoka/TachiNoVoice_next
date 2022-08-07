@@ -41,6 +41,7 @@ type apiRoute = {
             },
             my: {
                 index: string,
+                details: string,
             },
         },
     }
@@ -69,7 +70,7 @@ export class RouteManager {
                 },
                 my: {
                     index: '/member/village/my',
-                    details : '/member/village/my/details',
+                    details : '/member/village/my/details/',
                 },
             },
             setting: {
@@ -95,6 +96,7 @@ export class RouteManager {
                 },
                 my: {
                     index: '/api/my/village',
+                    details: '/api/my/village/',
                 },
             },
         }

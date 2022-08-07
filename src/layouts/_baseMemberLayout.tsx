@@ -25,9 +25,9 @@ const _BaseMemberLayout: NextPage<Props> = ({
                 <div className="pb-32">
                     {children}
                 </div>
-                <div className="mt-auto">
-                    <MemberFooter />
-                </div>
+            </div>
+            <div className="fixed bottom-0 w-full">
+                <MemberFooter />
             </div>
         </_BaseLayout>
     )

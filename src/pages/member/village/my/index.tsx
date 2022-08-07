@@ -66,7 +66,7 @@ const MyVillage: NextPage = () => {
             {
               lists.map((village, index) => {
                 return (
-                  <Link key={index} href={RouteManager.webRoute.member.village.my.details + '/' + village.village_id}>
+                  <Link key={index} href={RouteManager.webRoute.member.village.my.details + village.village_id}>
                     <div className='bg-white rounded-lg drop-shadow-lg mt-6'>
                       <div className='px-4 py-6 text-center'>{village.title}</div>
                       <div>{village.phase_name}</div>
