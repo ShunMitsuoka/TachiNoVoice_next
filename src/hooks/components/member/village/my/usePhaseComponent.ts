@@ -1,33 +1,41 @@
+import { appConst } from '@/app/const/appConst';
 import { myVillageType } from '@/pages/member/village/my/details/[id]';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
-export const usePhaseComponent = (phaseId:number, village:myVillageType) => {
+export type roleComponentType = {
+    host : React.ReactNode,
+    villageMember : React.ReactNode,
+    coreMember : React.ReactNode,
+    riseMember : React.ReactNode,
+}
+
+export const usePhaseComponent = (phaseId: number, village: myVillageType) => {
 
     const title: string = useMemo(() => {
         let result = '';
         switch (phaseId) {
-            case 1:
+            case appConst.village.phase.recruitmentOfMember:
                 result = 'ビレッジメンバー募集';
                 break;
-            case 2:
+            case appConst.village.phase.drawingCoreMember:
                 result = 'メンバー抽選';
                 break;
-            case 3:
+            case appConst.village.phase.askingOpinionsOfCoreMember:
                 result = 'コアメンバー意見募集';
                 break;
-            case 4:
+            case appConst.village.phase.categorizeOpinions:
                 result = 'カテゴリー分け';
                 break;
-            case 5:
+            case appConst.village.phase.askingOpinionsOfRiseMember:
                 result = 'ライズメンバー意見募集';
                 break;
-            case 6:
+            case appConst.village.phase.evaluation:
                 result = '評価';
                 break;
-            case 7:
+            case appConst.village.phase.decidingPolicy:
                 result = '方針決定';
                 break;
-            case 8:
+            case appConst.village.phase.surveyingSatisfaction:
                 result = '満足度調査';
                 break;
             default:
@@ -36,9 +44,37 @@ export const usePhaseComponent = (phaseId:number, village:myVillageType) => {
         return result;
     }, []);
 
-    const isActive : boolean = useMemo(() => {
+    const isActive: boolean = useMemo(() => {
         return village.phase == phaseId
-      }, [village]);
+    }, [village]);
 
-  return {title, isActive};
+    const isPreparing : boolean = useMemo(() => {
+        return village.is_phase_preparing && village.phase == phaseId
+    }, [village]);
+
+    const roleComponent = (roleComponent :roleComponentType) => {
+        let component = null;
+        if(!isActive){
+            return null;
+        }
+        switch (village.role_id) {
+            case appConst.member.role.host:
+                component = roleComponent.host;
+                break;
+            case appConst.member.role.villageMember:
+                component = roleComponent.villageMember;
+                break;
+            case appConst.member.role.coreMember:
+                component = roleComponent.coreMember;
+                break;
+            case appConst.member.role.riseMember:
+                component = roleComponent.riseMember;
+                break;
+            default:
+                break;
+        }
+        return component;
+    };
+
+    return { title, isActive, isPreparing, roleComponent};
 }

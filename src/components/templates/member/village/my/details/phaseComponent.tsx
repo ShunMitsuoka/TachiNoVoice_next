@@ -16,12 +16,15 @@ export const PhaseComponent: React.FC<Props> = ({
 
     return (
         <div className={'px-6 py-4 bg-white rounded-lg ' + (isActive && 'drop-shadow-lg')}>
-          <div className={'text-lg ' + (!isActive && 'text-gray-500')}>
+          <div className={'text-lg font-bold ' + (!isActive && 'text-gray-500')}>
             {title}
           </div>
-          <div className='text-center mt-2'>
-              {children}
-          </div>
+          {
+            isActive &&
+            <div className='text-center mt-2'>
+                {children}
+            </div>
+          }
         </div>
     )
 }
