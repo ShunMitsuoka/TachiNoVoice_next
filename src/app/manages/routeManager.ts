@@ -43,6 +43,9 @@ type apiRoute = {
                 index: string,
                 details: string,
             },
+            phase: {
+                start: string,
+            },
         },
     }
 }
@@ -98,7 +101,19 @@ export class RouteManager {
                     index: '/api/my/village',
                     details: '/api/my/village/',
                 },
+                phase: {
+                    start: '/api/my/village/:id/phase/start',
+                },
             },
         }
+    }
+
+    static getUrlWithParam(url: string, params?:any) : string {
+        if(params){
+            Object.keys(params).forEach(function (key) {
+                url = url.replace(':'+key, params[key]);
+            });
+        }
+        return url;
     }
 }

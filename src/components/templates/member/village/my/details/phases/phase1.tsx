@@ -21,7 +21,7 @@ export const Phase1: React.FC<Props> = ({
         <>
             {
                 phaseHook.isPreparing ?
-                    <MiddleButton>
+                    <MiddleButton onClick={phaseHook.startPhase}>
                         開始
                     </MiddleButton>
                 : 

@@ -1,5 +1,9 @@
 import { appConst } from '@/app/const/appConst';
+import { RouteManager } from '@/app/manages/routeManager';
+import { ApiService } from '@/app/services/apiService';
+import axios from '@/libs/axios/axios';
 import { myVillageType } from '@/pages/member/village/my/details/[id]';
+import { useSession } from 'next-auth/react';
 import React, { useMemo } from 'react';
 
 export type roleComponentType = {
@@ -10,6 +14,8 @@ export type roleComponentType = {
 }
 
 export const usePhaseComponent = (phaseId: number, village: myVillageType) => {
+
+  const { data: session, status } = useSession();
 
     const title: string = useMemo(() => {
         let result = '';
@@ -76,5 +82,19 @@ export const usePhaseComponent = (phaseId: number, village: myVillageType) => {
         return component;
     };
 
-    return { title, isActive, isPreparing, roleComponent};
+    const startPhase = () => {
+        axios.post(ApiService.getFullURL(
+            RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.phase.start, {'id' : village.village_id})
+        ), {}, ApiService.getAuthHeader(session))
+        .then((response) => {
+            const res = ApiService.makeApiResponse(response);
+            if(res.getSuccess()){
+                console.log(res);
+            }else{
+                alert('失敗');
+            }
+        });
+    }
+
+    return { title, isActive, isPreparing, roleComponent, startPhase};
 }
