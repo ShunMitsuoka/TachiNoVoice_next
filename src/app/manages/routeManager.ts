@@ -19,6 +19,7 @@ type route = {
                 details : {
                     index : string,
                     members : string,
+                    phaseSetting : string,
                 }
             },
         },
@@ -83,7 +84,7 @@ export class RouteManager {
                     details : {
                         index : '/member/village/my/details/',
                         members : '/member/village/my/details/members/',
-
+                        phaseSetting : '/member/village/my/details/phaseSetting/',
                     }
                 },
             },
