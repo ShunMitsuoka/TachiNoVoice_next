@@ -1,7 +1,9 @@
+import { appConst } from '@/app/const/appConst'
 import { RouteManager } from '@/app/manages/routeManager'
 import { ApiService } from '@/app/services/apiService'
 import { AuthService } from '@/app/services/authService'
 import { PhaseComponent } from '@/components/templates/member/village/my/details/phaseComponent'
+import { DrawingCoreMember } from '@/components/templates/member/village/my/details/phases/drawingCoreMember'
 import { Phase1 } from '@/components/templates/member/village/my/details/phases/phase1'
 import { usePageLoading } from '@/hooks/common/usePageLoading'
 import _BaseLayout from '@/layouts/_baseLayout'
@@ -49,32 +51,32 @@ const MyVillageDetails: NextPage = () => {
     }
   },[status]);
 
-  const phaseComponent = (phase : number) :React.ReactNode => {
+  const phaseComponent = (phaseNo : number) :React.ReactNode => {
     let component = null;
-    switch (phase) {
-      case 1:
-        component =<Phase1 key={1} phaseId={phase} village={village}/>
+    switch (phaseNo) {
+      case appConst.village.phase.recruitmentOfMember:
+        component =<Phase1 key={1} phaseNo={phaseNo} village={village}/>
         break;
-      case 2:
-        component =<Phase1 key={2} phaseId={phase} village={village}/>
+      case appConst.village.phase.drawingCoreMember:
+        component =<DrawingCoreMember key={2} phaseNo={phaseNo} village={village}/>
         break;
       case 3:
-        component =<Phase1 key={3} phaseId={phase} village={village}/>
+        component =<Phase1 key={3} phaseNo={phaseNo} village={village}/>
         break;
       case 4:
-        component =<Phase1 key={4} phaseId={phase} village={village}/>
+        component =<Phase1 key={4} phaseNo={phaseNo} village={village}/>
         break;
       case 5:
-        component =<Phase1 key={5} phaseId={phase} village={village}/>
+        component =<Phase1 key={5} phaseNo={phaseNo} village={village}/>
         break;
       case 6:
-        component =<Phase1 key={6} phaseId={phase} village={village}/>
+        component =<Phase1 key={6} phaseNo={phaseNo} village={village}/>
         break;
       case 7:
-        component =<Phase1 key={7} phaseId={phase} village={village}/>
+        component =<Phase1 key={7} phaseNo={phaseNo} village={village}/>
         break;
       case 8:
-        component =<Phase1 key={8} phaseId={phase} village={village}/>
+        component =<Phase1 key={8} phaseNo={phaseNo} village={village}/>
         break;
     
       default:

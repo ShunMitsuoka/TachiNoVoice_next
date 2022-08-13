@@ -7,10 +7,10 @@ import React, { useMemo } from 'react';
 import { Village } from 'villageType';
 
 export type roleComponentType = {
-    host : React.ReactNode,
-    villageMember : React.ReactNode,
-    coreMember : React.ReactNode,
-    riseMember : React.ReactNode,
+    host? : React.ReactNode,
+    villageMember? : React.ReactNode,
+    coreMember? : React.ReactNode,
+    riseMember? : React.ReactNode,
 }
 
 export const usePhaseComponent = (phaseId: number, village: Village) => {

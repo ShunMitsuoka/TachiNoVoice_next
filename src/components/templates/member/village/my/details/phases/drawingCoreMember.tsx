@@ -11,7 +11,7 @@ interface Props {
     village: Village
 }
 
-export const Phase1: React.FC<Props> = ({
+export const DrawingCoreMember: React.FC<Props> = ({
     phaseNo,
     village
 }) => {
@@ -21,21 +21,16 @@ export const Phase1: React.FC<Props> = ({
     const hostComponent = (
         <>
             {
-                phaseHook.isPreparing ?
-                    <MiddleButton onClick={phaseHook.startPhase}>
-                        開始
-                    </MiddleButton>
-                : 
-                <LinkButton href={RouteManager.webRoute.member.village.my.details.members + village.village_id}>
+                phaseHook.isPreparing &&
+                    <LinkButton href={RouteManager.webRoute.member.village.my.details.members + village.village_id}>
                         確認する
-                </LinkButton>
+                    </LinkButton>
             }
         </>
     );
 
     const villageMemberComponent = (
         <div>
-            メンバー募集中です。<br />
             メンバー抽選まで<br />
             しばらくお待ちください。
         </div>
@@ -43,7 +38,6 @@ export const Phase1: React.FC<Props> = ({
 
     const coreMemberComponent = (
         <div>
-            メンバー募集中です。<br />
             メンバー抽選まで<br />
             しばらくお待ちください。
         </div>
@@ -51,7 +45,6 @@ export const Phase1: React.FC<Props> = ({
 
     const riseMemberComponent = (
         <div>
-            メンバー募集中です。<br />
             メンバー抽選まで<br />
             しばらくお待ちください。
         </div>
