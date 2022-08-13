@@ -21,7 +21,7 @@ type formresultnum = {
 }
 
 type cardtype = {
-    id: "",
+    village_id: "",
     title: string,
     content: string,
 }
@@ -115,7 +115,7 @@ const Search: NextPage = () => {
             <div className='grid grid-cols-12 px-6'>
                 {
                     formcards.map((elem, index) => {
-                        return <SearchResultCard key={index} value1={elem.title} value2={elem.content} id={elem.id} />
+                        return <SearchResultCard key={index} value1={elem.title} value2={elem.content} id={elem.village_id} />
                     })
                 }
             </div>

@@ -62,6 +62,7 @@ const Details: NextPage = () => {
   });
   useEffect(() => {
       if(status === "authenticated"){
+        pageLoading.show();
         axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource)+"/"+id, ApiService.getAuthHeader(session))
         .then(function (response) {
             const res = ApiService.makeApiResponse(response);
@@ -88,6 +89,11 @@ const Details: NextPage = () => {
             }else{
                 alert('失敗');
             }
+        }).catch((error) => {
+          alert('');
+          const res = ApiService.makeApiResponse(error.response);
+        }).finally(() => {
+            pageLoading.close();
         })
       }
   },[status]);
@@ -131,7 +137,7 @@ const Details: NextPage = () => {
   }
 
   return (
-    <_BaseMemberLayout>
+    <_BaseMemberLayout pageLoding={pageLoading.isPageLaoding}>
       <div className='mt-5 flex justify-center'>
         <FormLabel htmlFor={'title'}>{villageData.title}</FormLabel>
       </div>
