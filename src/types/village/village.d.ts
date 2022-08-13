@@ -9,5 +9,11 @@ declare module "villageType" {
         village_member_limit : number,
         village_member_count : number,
         is_phase_preparing : boolean,
+        exists_phase_end_setting : boolean,
+        exists_phase_start_setting : boolean,
+        exists_phase_setting : boolean,
+        is_necessary_to_set_phase_end_setting : boolean,
+        is_necessary_to_set_phase_setting : boolean,
+        is_necessary_to_set_phase_start_setting : boolean,
     }
   }

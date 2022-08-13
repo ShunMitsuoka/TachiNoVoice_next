@@ -18,13 +18,29 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
 
     const phaseHook = usePhaseComponent(phaseNo, village);
 
+    const test = () => {
+        let component = null;
+        if(!village.exists_phase_end_setting){
+            component = (
+                <LinkButton href={RouteManager.webRoute.member.village.my.details.phaseSetting + village.village_id}>
+                    終了条件設定
+                </LinkButton>
+            );
+        }else{
+            component = (
+                <LinkButton href={RouteManager.webRoute.member.village.my.details.members + village.village_id}>
+                    確認する
+                </LinkButton>
+            );
+        }
+        return component;
+    }
+
     const hostComponent = (
         <>
             {
-                phaseHook.isPreparing &&
-                    <LinkButton href={RouteManager.webRoute.member.village.my.details.members + village.village_id}>
-                        確認する
-                    </LinkButton>
+                phaseHook.isPreparing && 
+                test()
             }
         </>
     );
@@ -52,7 +68,7 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
 
     const roleComponent = useMemo(() => ({
         host: hostComponent,
-        villageMember: villageMemberComponent,
+        villageMember: null,
         coreMember: coreMemberComponent,
         riseMember: riseMemberComponent
     }), [village]);
@@ -61,6 +77,7 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
         <PhaseComponent
             title={phaseHook.title}
             isActive={phaseHook.isActive}
+            village={village}
         >
             <div>
                 {phaseHook.roleComponent(roleComponent)}

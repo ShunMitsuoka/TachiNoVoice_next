@@ -61,6 +61,7 @@ export const DrawingCoreMember: React.FC<Props> = ({
         <PhaseComponent
             title={phaseHook.title}
             isActive={phaseHook.isActive}
+            village={village}
         >
             <div>
                 {phaseHook.roleComponent(roleComponent)}

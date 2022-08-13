@@ -3,9 +3,11 @@ import { RouteManager } from '@/app/manages/routeManager'
 import { ApiService } from '@/app/services/apiService'
 import { AuthService } from '@/app/services/authService'
 import { PhaseComponent } from '@/components/templates/member/village/my/details/phaseComponent'
+import { AskingOpinionsOfCoreMember } from '@/components/templates/member/village/my/details/phases/askingOpinionsOfCoreMember'
 import { DrawingCoreMember } from '@/components/templates/member/village/my/details/phases/drawingCoreMember'
 import { Phase1 } from '@/components/templates/member/village/my/details/phases/phase1'
 import { usePageLoading } from '@/hooks/common/usePageLoading'
+import { useVillage } from '@/hooks/components/member/village/my/useVillage'
 import _BaseLayout from '@/layouts/_baseLayout'
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
 import axios from '@/libs/axios/axios'
@@ -23,18 +25,7 @@ const MyVillageDetails: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const [village, setVillageData] = useState<Village>({
-    village_id : 0,
-    title : '',
-    phase_no : 0,
-    phase_name : '',
-    content : '',
-    role_id : 0,
-    village_member_limit : 0,
-    village_member_count : 0,
-    is_phase_preparing : false,
-  });
-
+  const villageState = useVillage();
 
   useEffect(() => {
     if(status === "authenticated"){
@@ -43,7 +34,7 @@ const MyVillageDetails: NextPage = () => {
           const res = ApiService.makeApiResponse(response);
           if(res.getSuccess()){
             console.log(res);
-            setVillageData(res.getResult());
+            villageState.setVillage(res.getResult());
           }else{
               alert('失敗');
           }
@@ -55,28 +46,28 @@ const MyVillageDetails: NextPage = () => {
     let component = null;
     switch (phaseNo) {
       case appConst.village.phase.recruitmentOfMember:
-        component =<Phase1 key={1} phaseNo={phaseNo} village={village}/>
+        component =<Phase1 key={1} phaseNo={phaseNo} village={villageState.village}/>
         break;
       case appConst.village.phase.drawingCoreMember:
-        component =<DrawingCoreMember key={2} phaseNo={phaseNo} village={village}/>
+        component =<DrawingCoreMember key={2} phaseNo={phaseNo} village={villageState.village}/>
         break;
       case 3:
-        component =<Phase1 key={3} phaseNo={phaseNo} village={village}/>
+        component =<AskingOpinionsOfCoreMember key={3} phaseNo={phaseNo} village={villageState.village}/>
         break;
       case 4:
-        component =<Phase1 key={4} phaseNo={phaseNo} village={village}/>
+        component =<Phase1 key={4} phaseNo={phaseNo} village={villageState.village}/>
         break;
       case 5:
-        component =<Phase1 key={5} phaseNo={phaseNo} village={village}/>
+        component =<Phase1 key={5} phaseNo={phaseNo} village={villageState.village}/>
         break;
       case 6:
-        component =<Phase1 key={6} phaseNo={phaseNo} village={village}/>
+        component =<Phase1 key={6} phaseNo={phaseNo} village={villageState.village}/>
         break;
       case 7:
-        component =<Phase1 key={7} phaseNo={phaseNo} village={village}/>
+        component =<Phase1 key={7} phaseNo={phaseNo} village={villageState.village}/>
         break;
       case 8:
-        component =<Phase1 key={8} phaseNo={phaseNo} village={village}/>
+        component =<Phase1 key={8} phaseNo={phaseNo} village={villageState.village}/>
         break;
     
       default:
@@ -88,7 +79,7 @@ const MyVillageDetails: NextPage = () => {
   return (
     <_BaseMemberLayout pageLoding={pageLoading.isPageLaoding}>
       <div className='my-8 text-center text-xl font-bold'>
-        {village.title}
+        {villageState.village.title}
       </div>
       <div className='flex flex-col gap-6 px-6'>
         {
