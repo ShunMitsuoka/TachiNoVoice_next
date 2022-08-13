@@ -11,6 +11,19 @@ import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
+type setting = {
+  phase_start_setting : {
+      by_manual_flg:boolean,
+      by_instant_flg:boolean,
+      by_date_flg:boolean,
+  }
+  phase_end_setting : {
+      by_manual_flg:boolean,
+      by_limit_flg:boolean,
+      by_date_flg:boolean,
+  }
+}
+
 const MyVillagePhaseSetting: NextPage = () => {
 
   const { data: session, status } = useSession();
@@ -42,22 +55,28 @@ const MyVillagePhaseSetting: NextPage = () => {
       <div>
         フェーズ設定
         <div>
-          {villageState.phaseComponent({
-            recruitmentOfMember : {
-              host : (
-                <MiddleButton onClick={villageState.nextPhase}>
-                  募集を締め切る
-                </MiddleButton>
-              )
-            },
-            drawingCoreMember : {
-              host : (
-                <MiddleButton onClick={villageState.startPhase}>
-                  抽選を行う
-                </MiddleButton>
-              )
-            }
-          })}
+          {
+            villageState.village.is_necessary_to_set_phase_start_setting &&
+            <div>
+              <div>フェーズ開始条件</div>
+            </div>
+          }
+          {
+            villageState.village.is_necessary_to_set_phase_end_setting &&
+            <div>
+              <div>フェーズ終了条件</div>
+              <div className='flex items-center'>
+                  <input 
+                      type={'radio'} 
+                      name="end.by_limit_flg" 
+                      id="end.by_limit_flg" 
+                      checked={formData.end.by_limit_flg}
+                      onChange={changeInputHandler}
+                  /> 
+                  <FormLabel htmlFor={'end.by_limit_flg'} _class='ml-3'>定員になり次第終了</FormLabel>
+              </div>
+            </div>
+          }
         </div>
       </div>
     </_BaseMemberLayout>

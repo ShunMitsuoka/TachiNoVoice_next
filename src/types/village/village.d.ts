@@ -15,5 +15,22 @@ declare module "villageType" {
         is_necessary_to_set_phase_end_setting : boolean,
         is_necessary_to_set_phase_setting : boolean,
         is_necessary_to_set_phase_start_setting : boolean,
+        phase_start_setting? : {
+            by_manual: phaseSettingItem,
+            by_instant:phaseSettingItem,
+            by_date:phaseSettingItem,
+        }
+        phase_end_setting? : {
+            by_manual:phaseSettingItem,
+            by_limit:phaseSettingItem,
+            by_date:phaseSettingItem,
+        }
+    }
+
+    interface phaseSettingItem{
+        is_need : boolean,
+        label : string,
+        is_selected : boolean,
+        date? : string,
     }
   }
