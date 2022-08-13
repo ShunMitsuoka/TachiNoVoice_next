@@ -1,13 +1,14 @@
-import { appConst } from '@/app/const/appConst';
+import { RouteManager } from '@/app/manages/routeManager';
+import { LinkButton } from '@/components/atoms/buttons/linkButton';
 import { MiddleButton } from '@/components/atoms/buttons/middleButton';
-import { roleComponentType, usePhaseComponent } from '@/hooks/components/member/village/my/usePhaseComponent';
-import { myVillageType } from '@/pages/member/village/my/details/[id]';
+import { usePhaseComponent } from '@/hooks/components/member/village/my/usePhaseComponent';
 import React, { useMemo } from 'react';
+import { Village } from 'villageType';
 import { PhaseComponent } from '../phaseComponent';
 
 interface Props {
     phaseId: number,
-    village: myVillageType
+    village: Village
 }
 
 export const Phase1: React.FC<Props> = ({
@@ -25,9 +26,9 @@ export const Phase1: React.FC<Props> = ({
                         開始
                     </MiddleButton>
                 : 
-                <MiddleButton>
+                <LinkButton href={RouteManager.webRoute.member.village.my.details.members + village.village_id}>
                         確認する
-                </MiddleButton>
+                </LinkButton>
             }
         </>
     );
@@ -41,11 +42,19 @@ export const Phase1: React.FC<Props> = ({
     );
 
     const coreMemberComponent = (
-        <>コアメンバー</>
+        <div>
+            メンバー募集中です。<br />
+            メンバー抽選まで<br />
+            しばらくお待ちください。
+        </div>
     );
 
     const riseMemberComponent = (
-        <>ライズメンバー</>
+        <div>
+            メンバー募集中です。<br />
+            メンバー抽選まで<br />
+            しばらくお待ちください。
+        </div>
     );
 
     const roleComponent = useMemo(() => ({

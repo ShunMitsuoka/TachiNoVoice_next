@@ -2,9 +2,9 @@ import { appConst } from '@/app/const/appConst';
 import { RouteManager } from '@/app/manages/routeManager';
 import { ApiService } from '@/app/services/apiService';
 import axios from '@/libs/axios/axios';
-import { myVillageType } from '@/pages/member/village/my/details/[id]';
 import { useSession } from 'next-auth/react';
 import React, { useMemo } from 'react';
+import { Village } from 'villageType';
 
 export type roleComponentType = {
     host : React.ReactNode,
@@ -13,7 +13,7 @@ export type roleComponentType = {
     riseMember : React.ReactNode,
 }
 
-export const usePhaseComponent = (phaseId: number, village: myVillageType) => {
+export const usePhaseComponent = (phaseId: number, village: Village) => {
 
   const { data: session, status } = useSession();
 
@@ -51,11 +51,11 @@ export const usePhaseComponent = (phaseId: number, village: myVillageType) => {
     }, []);
 
     const isActive: boolean = useMemo(() => {
-        return village.phase == phaseId
+        return village.phase_no == phaseId
     }, [village]);
 
     const isPreparing : boolean = useMemo(() => {
-        return village.is_phase_preparing && village.phase == phaseId
+        return village.is_phase_preparing && village.phase_no == phaseId
     }, [village]);
 
     const roleComponent = (roleComponent :roleComponentType) => {

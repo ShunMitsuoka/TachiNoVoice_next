@@ -11,18 +11,7 @@ import type { GetServerSideProps, NextPage } from 'next'
 import { getSession, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-
-export type myVillageType = {
-  village_id : number,
-  title : string,
-  phase : number,
-  phase_name : string,
-  content : string,
-  role_id : number,
-  village_member_limit : number,
-  village_member_count : number,
-  is_phase_preparing : boolean,
-}
+import { Village } from 'villageType'
 
 const MyVillageDetails: NextPage = () => {
 
@@ -32,10 +21,10 @@ const MyVillageDetails: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const [village, setVillageData] = useState<myVillageType>({
+  const [village, setVillageData] = useState<Village>({
     village_id : 0,
     title : '',
-    phase : 0,
+    phase_no : 0,
     phase_name : '',
     content : '',
     role_id : 0,

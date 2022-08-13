@@ -16,7 +16,10 @@ type route = {
             },
             my: {
                 index: string,
-                details : string,
+                details : {
+                    index : string,
+                    members : string,
+                }
             },
         },
         setting: {
@@ -45,6 +48,10 @@ type apiRoute = {
             },
             phase: {
                 start: string,
+                next: string,
+            },
+            members : {
+                list : string
             },
         },
     }
@@ -73,7 +80,11 @@ export class RouteManager {
                 },
                 my: {
                     index: '/member/village/my',
-                    details : '/member/village/my/details/',
+                    details : {
+                        index : '/member/village/my/details/',
+                        members : '/member/village/my/details/members/',
+
+                    }
                 },
             },
             setting: {
@@ -103,6 +114,10 @@ export class RouteManager {
                 },
                 phase: {
                     start: '/api/my/village/:id/phase/start',
+                    next: '/api/my/village/:id/phase/next',
+                },
+                members : {
+                    list : '/api/my/village/:id/members',
                 },
             },
         }

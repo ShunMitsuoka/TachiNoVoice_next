@@ -1,5 +1,3 @@
-import { MiddleButton } from '@/components/atoms/buttons/middleButton';
-import { myVillageType } from '@/pages/member/village/my/details/[id]';
 import React from 'react';
 
 interface Props {

@@ -8,20 +8,13 @@ import { useSession } from 'next-auth/react';
 import Head from 'next/head'
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-
-type villageType = {
-  village_id : number,
-  title : string,
-  phase_name : string,
-  content : string,
-  role_id : number,
-}
+import { Village } from 'villageType';
 
 const MyVillage: NextPage = () => {
 
   const { data: session, status } = useSession();
   const pageLoading = usePageLoading();
-  const [lists, setLists] = useState<villageType[]>([]);
+  const [lists, setLists] = useState<Village[]>([]);
 
   useEffect(() => {
     pageLoading.show();
@@ -43,18 +36,6 @@ const MyVillage: NextPage = () => {
     }
   },[status]);
 
-  const getColorClass = (role_id:number) => {
-    switch (role_id) {
-      case 0:
-        return 
-        break;
-    
-      default:
-        break;
-    }
-  }
-
-
   return (
     <_BaseMemberLayout title='ビレッジ' pageLoding={pageLoading.isPageLaoding}>
       <Head>
@@ -66,7 +47,7 @@ const MyVillage: NextPage = () => {
             {
               lists.map((village, index) => {
                 return (
-                  <Link key={index} href={RouteManager.webRoute.member.village.my.details + village.village_id}>
+                  <Link key={index} href={RouteManager.webRoute.member.village.my.details.index + village.village_id}>
                     <div className='bg-white rounded-lg drop-shadow-lg mt-6'>
                       <div className='px-4 py-6 text-center'>{village.title}</div>
                       <div>{village.phase_name}</div>
