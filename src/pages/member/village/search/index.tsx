@@ -59,7 +59,11 @@ const Search: NextPage = () => {
         axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource), config)
             .then(function (response) {
                 console.log(response.data.result);
-                // setNoresult(false);
+                if (response.data.result == '') {
+                    setNoresult(false);
+                } else {
+                    setNoresult(true);
+                }
                 setCards(response.data.result);
             })
             .catch((error) => {
@@ -76,18 +80,6 @@ const Search: NextPage = () => {
         getsearchresult();
         pageLoading.close();
     }
-
-    // const resultfetch = (result: boolean) => {
-    //     if (noresult) {
-    //         return <div>
-    //             該当するビレッジはありません
-    //         </div>
-    //     } else {
-    //         formcards.map((elem, index) => {
-    //             return <SearchResultCard key={index} value1={elem.title} value2={elem.content} id={elem.id} />
-    //         })
-    //     }
-    // }
 
     return (
         <_BaseMemberLayout pageLoding={pageLoading.isPageLaoding}>
@@ -112,6 +104,7 @@ const Search: NextPage = () => {
                     onClick={onClickSearch}
                 >検索</button>
             </div>
+
             <div className='grid grid-cols-12 px-6'>
                 {
                     formcards.map((elem, index) => {
