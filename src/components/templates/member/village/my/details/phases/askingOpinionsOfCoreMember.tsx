@@ -20,13 +20,13 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
 
     const preparingComponet = () => {
         let component = null;
-        if(!village.exists_phase_end_setting){
+        if (!village.exists_phase_end_setting) {
             component = (
                 <LinkButton href={RouteManager.webRoute.member.village.my.details.phaseSetting + village.village_id}>
                     終了条件設定
                 </LinkButton>
             );
-        }else{
+        } else {
             component = (
                 <MiddleButton onClick={phaseHook.startPhase}>
                     開始する
@@ -40,11 +40,11 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
         <>
             {
                 phaseHook.isPreparing ?
-                preparingComponet()
-                :
-                <LinkButton href={RouteManager.webRoute.member.village.my.details.phaseSetting + village.village_id}>
-                    意見確認
-                </LinkButton>
+                    preparingComponet()
+                    :
+                    <LinkButton href={RouteManager.webRoute.member.village.my.details.phaseSetting + village.village_id}>
+                        意見確認
+                    </LinkButton>
             }
         </>
     );
@@ -52,13 +52,15 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
     const coreMemberComponent = (
         <>
             {
-                phaseHook.isPreparing ? 
-                <div>
-                    コアメンバー意見募集まで<br />
-                    しばらくお待ちください。
-                </div>
-                :
-                <div>意見募集</div>
+                phaseHook.isPreparing ?
+                    <div>
+                        コアメンバー意見募集まで<br />
+                        しばらくお待ちください。
+                    </div>
+                    :
+                    <LinkButton href={RouteManager.webRoute.member.village.my.details.coreMemberOpinion + village.village_id}>
+                        意見募集
+                    </LinkButton>
             }
         </>
     );

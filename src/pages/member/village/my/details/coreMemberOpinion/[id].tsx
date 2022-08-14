@@ -14,6 +14,7 @@ const CoreMemberOpinion: NextPage = () => {
 
   return (
     <_BaseMemberLayout pageLoding={pageLoading.isPageLaoding}>
+
     </_BaseMemberLayout>
   )
 }

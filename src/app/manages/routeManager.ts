@@ -16,10 +16,11 @@ type route = {
             },
             my: {
                 index: string,
-                details : {
-                    index : string,
-                    members : string,
-                    phaseSetting : string,
+                details: {
+                    index: string,
+                    members: string,
+                    phaseSetting: string,
+                    coreMemberOpinion: string,
                 }
             },
         },
@@ -35,12 +36,12 @@ type route = {
 type apiRoute = {
     member: {
         village: {
-            resource : string,
-            join : string,
-            register : {
-                validation : {
-                    topic : string,
-                    setting : string,
+            resource: string,
+            join: string,
+            register: {
+                validation: {
+                    topic: string,
+                    setting: string,
                 }
             },
             my: {
@@ -52,8 +53,8 @@ type apiRoute = {
                 next: string,
                 setting: string,
             },
-            members : {
-                list : string
+            members: {
+                list: string
             },
         },
     }
@@ -82,10 +83,11 @@ export class RouteManager {
                 },
                 my: {
                     index: '/member/village/my',
-                    details : {
-                        index : '/member/village/my/details/',
-                        members : '/member/village/my/details/members/',
-                        phaseSetting : '/member/village/my/details/phaseSetting/',
+                    details: {
+                        index: '/member/village/my/details/',
+                        members: '/member/village/my/details/members/',
+                        phaseSetting: '/member/village/my/details/phaseSetting/',
+                        coreMemberOpinion: '/member/village/my/details/coreMemberOpinion/',
                     }
                 },
             },
@@ -102,12 +104,12 @@ export class RouteManager {
     static readonly apiRoute: apiRoute = {
         member: {
             village: {
-                resource : '/api/village',
-                join : '/api/village/join',
-                register : {
-                    validation : {
-                        topic : '/api/village/register/validation/topic',
-                        setting : '/api/village/register/validation/setting',
+                resource: '/api/village',
+                join: '/api/village/join',
+                register: {
+                    validation: {
+                        topic: '/api/village/register/validation/topic',
+                        setting: '/api/village/register/validation/setting',
                     }
                 },
                 my: {
@@ -119,17 +121,17 @@ export class RouteManager {
                     next: '/api/my/village/:id/phase/next',
                     setting: '/api/my/village/:id/phase/setting',
                 },
-                members : {
-                    list : '/api/my/village/:id/members',
+                members: {
+                    list: '/api/my/village/:id/members',
                 },
             },
         }
     }
 
-    static getUrlWithParam(url: string, params?:any) : string {
-        if(params){
+    static getUrlWithParam(url: string, params?: any): string {
+        if (params) {
             Object.keys(params).forEach(function (key) {
-                url = url.replace(':'+key, params[key]);
+                url = url.replace(':' + key, params[key]);
             });
         }
         return url;
