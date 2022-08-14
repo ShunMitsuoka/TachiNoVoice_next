@@ -16,10 +16,6 @@ import { usePageLoading } from '@/hooks/common/usePageLoading'
 type formData = {
     keyword: string,
 };
-type formresultnum = {
-    resultnum: string,
-}
-
 type cardtype = {
     village_id: "",
     title: string,
@@ -43,20 +39,15 @@ const Search: NextPage = () => {
         });
     }
 
-    const getsearchresult = () => {
+    const getSearchresult = () => {
+        pageLoading.show();
         const params = {
             keyword: formkeyword.keyword,
         };
-
         const config = ApiService.getAuthHeader(session);
-        ApiService.setConfig('params', params, config);
-        console.log(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource), {
-            params: {
-                keyword: formkeyword,
-            }
-        })
+        const setconfig = ApiService.setConfig('params', params, config);
 
-        axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource), config)
+        axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource), setconfig)
             .then(function (response) {
                 console.log(response.data.result);
                 if (response.data.result == '') {
@@ -67,18 +58,23 @@ const Search: NextPage = () => {
                 setCards(response.data.result);
             })
             .catch((error) => {
-                console.error(error);
+
+                console.log(error.response);
             })
+            .finally(() => {
+                pageLoading.close();
+            });
+
     }
     //初期表示はできたけど検索結果が何もなかった時の処理書いてない
     useEffect(() => {
-        getsearchresult();
-    }, []);
+        if (status === "authenticated") {
+            getSearchresult();
+        }
+    }, [status]);
 
     const onClickSearch = () => {
-        pageLoading.show();
-        getsearchresult();
-        pageLoading.close();
+        getSearchresult();
     }
 
     return (
@@ -117,8 +113,6 @@ const Search: NextPage = () => {
                     該当するものがありません
                 </div>
             }
-
-
         </_BaseMemberLayout>
     )
 }
