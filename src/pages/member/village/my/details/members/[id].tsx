@@ -13,6 +13,7 @@ import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Pie, PieChart } from "recharts";
+import dynamic from "next/dynamic";
 
 
 type cardtype = {
@@ -22,6 +23,8 @@ type cardtype = {
   gender: string,
   gender_name: string,
 }
+
+const SampleChart = dynamic(() => import("./graph"), { ssr: false });
 
 const MyVillageMembers: NextPage = () => {
 
@@ -112,9 +115,7 @@ const MyVillageMembers: NextPage = () => {
           })}
         </div>
       </div>
-      <PieChart width={730} height={250}>
-        <Pie data={data} dataKey="value" cx="50%" cy="50%" outerRadius={100} fill="#82ca9d" label/>
-      </PieChart>
+      <SampleChart />
       <div className='grid grid-cols-12 px-6'>
           {
               formcards.map((elem, index) => {
