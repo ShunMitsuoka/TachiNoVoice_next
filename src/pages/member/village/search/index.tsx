@@ -40,6 +40,7 @@ const Search: NextPage = () => {
     }
 
     const getSearchresult = () => {
+        pageLoading.show();
         const params = {
             keyword: formkeyword.keyword,
         };
@@ -60,21 +61,20 @@ const Search: NextPage = () => {
 
                 console.log(error.response);
             })
+            .finally(() => {
+                pageLoading.close();
+            });
 
     }
     //初期表示はできたけど検索結果が何もなかった時の処理書いてない
     useEffect(() => {
         if (status === "authenticated") {
-            pageLoading.show();
             getSearchresult();
-            pageLoading.close();
         }
     }, [status]);
 
     const onClickSearch = () => {
-        pageLoading.show();
         getSearchresult();
-        pageLoading.close();
     }
 
     return (
