@@ -36,6 +36,8 @@ export const useVillage = () => {
         phase_no : 0,
         phase_name : '',
         content : '',
+        note : '',
+        requirement : '',
         role_id : 0,
         village_member_limit : 0,
         village_member_count : 0,
