@@ -50,6 +50,7 @@ type apiRoute = {
             phase: {
                 start: string,
                 next: string,
+                setting: string,
             },
             members : {
                 list : string
@@ -116,6 +117,7 @@ export class RouteManager {
                 phase: {
                     start: '/api/my/village/:id/phase/start',
                     next: '/api/my/village/:id/phase/next',
+                    setting: '/api/my/village/:id/phase/setting',
                 },
                 members : {
                     list : '/api/my/village/:id/members',

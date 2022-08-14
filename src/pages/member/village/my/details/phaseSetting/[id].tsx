@@ -16,11 +16,22 @@ type Setting = {
   start_by_manual_flg: boolean,
   start_by_instant_flg: boolean,
   start_by_date_flg: boolean,
-  start_date: string,
+  start_date?: string,
   end_by_manual_flg: boolean,
   end_by_limit_flg: boolean,
   end_by_date_flg: boolean,
-  end_date: string,
+  end_date?: string,
+}
+
+const initSetting: Setting = {
+  start_by_manual_flg: false,
+  start_by_instant_flg: false,
+  start_by_date_flg: false,
+  start_date: '',
+  end_by_manual_flg: false,
+  end_by_limit_flg: false,
+  end_by_date_flg: false,
+  end_date: '',
 }
 
 const MyVillagePhaseSetting: NextPage = () => {
@@ -29,29 +40,19 @@ const MyVillagePhaseSetting: NextPage = () => {
   const pageLoading = usePageLoading();
   const router = useRouter();
   const { id } = router.query;
-
   const villageState = useVillage();
-
-  const [setting, SetSetting] = useState<Setting>({
-    start_by_manual_flg: false,
-    start_by_instant_flg: false,
-    start_by_date_flg: false,
-    start_date: '',
-    end_by_manual_flg: false,
-    end_by_limit_flg: false,
-    end_by_date_flg: false,
-    end_date: '',
-  });
+  const [setting, SetSetting] = useState<Setting>(initSetting);
 
   const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     SetSetting(setting => {
-        return { ...setting, [target.name]: value }
-  });
-}
+      return { ...setting, [target.name]: value }
+    });
+  }
 
   useEffect(() => {
+    pageLoading.show();
     if (status === "authenticated") {
       axios.get(ApiService.getFullURL(
         RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.members.list, { 'id': id })
@@ -60,35 +61,63 @@ const MyVillagePhaseSetting: NextPage = () => {
           const res = ApiService.makeApiResponse(response);
           if (res.getSuccess()) {
             villageState.setVillage(res.getResult());
-            let result = {};
-            if(villageState.village.exists_phase_start_setting){
-              result = {...result, ...{
-
-              }}
-            }
-
-            // SetSetting({
-            //   // start_by_manual_flg: villageState.village.phase_start_setting.,
-            //   start_by_instant_flg: false,
-            //   start_by_date_flg: false,
-            //   start_date: '',
-            //   end_by_manual_flg: false,
-            //   end_by_limit_flg: false,
-            //   end_by_date_flg: false,
-            //   end_date: '',
-            // });
-            console.log(res);
           } else {
             alert('失敗');
           }
+        })
+        .finally(() => {
+          pageLoading.close();
         });
     }
   }, [status]);
+
+  useEffect(() => {
+    let result = initSetting;
+    if (villageState.village.is_necessary_to_set_phase_start_setting) {
+      result = {
+        ...result, ...{
+          start_by_manual_flg: villageState.village.phase_start_setting!.by_manual.is_selected,
+          start_by_instant_flg: villageState.village.phase_start_setting!.by_instant.is_selected,
+          start_by_date_flg: villageState.village.phase_start_setting!.by_date.is_selected,
+          start_date: villageState.village.phase_start_setting!.by_date.date,
+        }
+      }
+    }
+    if (villageState.village.is_necessary_to_set_phase_end_setting) {
+      result = {
+        ...result, ...{
+          end_by_manual_flg: villageState.village.phase_end_setting!.by_manual.is_selected,
+          end_by_limit_flg: villageState.village.phase_end_setting!.by_limit.is_selected,
+          end_by_date_flg: villageState.village.phase_end_setting!.by_date.is_selected,
+          end_date: villageState.village.phase_end_setting!.by_date.date,
+        }
+      }
+    }
+    SetSetting(result);
+  }, [villageState.village]);
+
+  const onClickSave = async () => {
+    axios.post(ApiService.getFullURL(
+      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.phase.setting, { 'id': villageState.village.village_id })
+    ), setting, ApiService.getAuthHeader(session))
+      .then(function (response) {
+        const res = ApiService.makeApiResponse(response);
+        if (res.getSuccess()) {
+          router.replace(RouteManager.webRoute.member.village.my.details.index + villageState.village.village_id.toString())
+        } else {
+          alert('失敗');
+        }
+      })
+      .catch((error) => {
+
+      })
+  }
 
   return (
     <_BaseMemberLayout pageLoding={pageLoading.isPageLaoding}>
       <div>
         フェーズ設定
+        <div>{villageState.village.phase_name}</div>
         <div className="px-10">
           {
             villageState.village.is_necessary_to_set_phase_start_setting &&
@@ -174,7 +203,7 @@ const MyVillagePhaseSetting: NextPage = () => {
           }
         </div>
         <div className="text-center mt-4">
-          <MiddleButton onClick={villageState.nextPhase}>
+          <MiddleButton onClick={onClickSave}>
             設定保存
           </MiddleButton>
         </div>

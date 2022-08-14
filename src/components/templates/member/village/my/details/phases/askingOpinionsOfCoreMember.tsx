@@ -18,7 +18,7 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
 
     const phaseHook = usePhaseComponent(phaseNo, village);
 
-    const test = () => {
+    const preparingComponet = () => {
         let component = null;
         if(!village.exists_phase_end_setting){
             component = (
@@ -28,9 +28,9 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
             );
         }else{
             component = (
-                <LinkButton href={RouteManager.webRoute.member.village.my.details.members + village.village_id}>
-                    確認する
-                </LinkButton>
+                <MiddleButton onClick={phaseHook.startPhase}>
+                    開始する
+                </MiddleButton>
             );
         }
         return component;
@@ -39,8 +39,12 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
     const hostComponent = (
         <>
             {
-                phaseHook.isPreparing && 
-                test()
+                phaseHook.isPreparing ?
+                preparingComponet()
+                :
+                <LinkButton href={RouteManager.webRoute.member.village.my.details.phaseSetting + village.village_id}>
+                    意見確認
+                </LinkButton>
             }
         </>
     );

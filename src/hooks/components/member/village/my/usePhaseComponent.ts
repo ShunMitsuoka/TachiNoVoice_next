@@ -3,6 +3,7 @@ import { RouteManager } from '@/app/manages/routeManager';
 import { ApiService } from '@/app/services/apiService';
 import axios from '@/libs/axios/axios';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 import { Village } from 'villageType';
 
@@ -16,6 +17,7 @@ export type roleComponentType = {
 export const usePhaseComponent = (phaseId: number, village: Village) => {
 
   const { data: session, status } = useSession();
+  const router = useRouter();
 
     const title: string = useMemo(() => {
         let result = '';
@@ -89,7 +91,7 @@ export const usePhaseComponent = (phaseId: number, village: Village) => {
         .then((response) => {
             const res = ApiService.makeApiResponse(response);
             if(res.getSuccess()){
-                console.log(res);
+                router.replace(RouteManager.webRoute.member.village.my.details.index + village.village_id.toString())
             }else{
                 alert('失敗');
             }
