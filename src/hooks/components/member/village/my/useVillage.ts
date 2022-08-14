@@ -48,6 +48,16 @@ export const useVillage = () => {
         is_necessary_to_set_phase_end_setting : false,
         is_necessary_to_set_phase_setting : false,
         is_necessary_to_set_phase_start_setting : false,
+        phase_start_setting : {
+            by_manual_flg: true,
+            by_instant_flg: false,
+            by_date_flg: false,
+        },
+        phase_end_setting : {
+            by_manual_flg: true,
+            by_limit_flg: false,
+            by_date_flg: false,
+        }
     });
 
     const isPreparing: boolean = useMemo(() => {
