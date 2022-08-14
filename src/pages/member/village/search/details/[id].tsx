@@ -16,7 +16,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useEffect, useState } from 'react'
-import { Village } from 'villageType'
 
 const Details: NextPage = () => {
 
@@ -77,13 +76,13 @@ const Details: NextPage = () => {
 
   const contents = () => {
     let contents = [];
-    if(villageState.village.phase_end_setting?.by_manual.is_selected){
+    if(villageState.village.phase_end_setting?.by_manual){
       contents.push(<div key={1}>手動で終了</div>);
     }
-    if(villageState.village.phase_end_setting?.by_limit.is_selected){
+    if(villageState.village.phase_end_setting?.by_limit){
       contents.push(<div key={2}>定員になり次第終了</div>);
     }
-    if(villageState.village.phase_end_setting?.by_date.is_selected){
+    if(villageState.village.phase_end_setting?.by_date){
       contents.push(<div key={3}>期限になり次第終了</div>);
     }
     return contents;
