@@ -76,13 +76,13 @@ const Details: NextPage = () => {
 
   const contents = () => {
     let contents = [];
-    if(villageState.village.phase_end_setting?.by_manual){
+    if(villageState.village.phase_end_setting?.by_manual.is_selected){
       contents.push(<div key={1}>手動で終了</div>);
     }
-    if(villageState.village.phase_end_setting?.by_limit){
+    if(villageState.village.phase_end_setting?.by_limit.is_selected){
       contents.push(<div key={2}>定員になり次第終了</div>);
     }
-    if(villageState.village.phase_end_setting?.by_date){
+    if(villageState.village.phase_end_setting?.by_date.is_selected){
       contents.push(<div key={3}>期限になり次第終了</div>);
     }
     return contents;
