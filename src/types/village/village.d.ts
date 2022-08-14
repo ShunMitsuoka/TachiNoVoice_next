@@ -5,6 +5,8 @@ declare module "villageType" {
         phase_no : number,
         phase_name : string,
         content : string,
+        note : string,
+        requirement : string,
         role_id : number,
         village_member_limit : number,
         village_member_count : number,

@@ -4,6 +4,7 @@ import { AuthService } from '@/app/services/authService'
 import { BaseButton } from '@/components/atoms/buttons/baseButton'
 import { FormLabel } from '@/components/atoms/label/formLabel'
 import { usePageLoading } from '@/hooks/common/usePageLoading'
+import { useVillage } from '@/hooks/components/member/village/my/useVillage'
 import _BaseLayout from '@/layouts/_baseLayout'
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
 import axios from '@/libs/axios/axios'
@@ -15,24 +16,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useEffect, useState } from 'react'
-
-type villageData = {
-  id: string,
-  title: string,
-  content: string,
-  note: string,
-  requirement	: string,
-  phase_start_setting : {
-    by_manual_flg:boolean,
-    by_instant_flg:boolean,
-    by_date_flg:boolean,
-  }
-  phase_end_setting : {
-    by_manual_flg:boolean,
-    by_limit_flg:boolean,
-    by_date_flg:boolean,
-  }
-}
+import { Village } from 'villageType'
 
 const Details: NextPage = () => {
 
@@ -43,23 +27,8 @@ const Details: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const [villageData, setVillageData] = useState<villageData>({
-      id: "",
-      title: "",
-      content: "",
-      note: "",
-      requirement	: "",
-      phase_start_setting : {
-        by_manual_flg:false,
-        by_instant_flg:false,
-        by_date_flg:false,
-      },
-      phase_end_setting : {
-        by_manual_flg:false,
-        by_limit_flg:false,
-        by_date_flg:false,
-      }
-  });
+  const villageState = useVillage();
+
   useEffect(() => {
       if(status === "authenticated"){
         pageLoading.show();
@@ -68,24 +37,8 @@ const Details: NextPage = () => {
             const res = ApiService.makeApiResponse(response);
             if(res.getSuccess()){
               console.log(res);
-              const result :villageData = res.getResult();
-              setVillageData({
-                id: result.id,
-                title: result.title,
-                content: result.content,
-                note: result.note,
-                requirement	: result.requirement,
-                phase_start_setting : {
-                  by_manual_flg : result.phase_start_setting.by_manual_flg,
-                  by_instant_flg : result.phase_start_setting.by_instant_flg,
-                  by_date_flg : result.phase_start_setting.by_date_flg,
-                },
-                phase_end_setting : {
-                  by_manual_flg : result.phase_end_setting.by_manual_flg,
-                  by_limit_flg : result.phase_end_setting.by_limit_flg,
-                  by_date_flg : result.phase_end_setting.by_date_flg,
-                },
-              })
+              const result = res.getResult();
+              villageState.setVillage(result);
             }else{
                 alert('失敗');
             }
@@ -100,7 +53,7 @@ const Details: NextPage = () => {
   
   const onClickEntry = async () => {
     const params = {
-      village_id: villageData.id
+      village_id: villageState.village.village_id
     };
     // console.log(villageData.id);
       pageLoading.show();
@@ -109,7 +62,7 @@ const Details: NextPage = () => {
       .then(function (response) {
           const res = ApiService.makeApiResponse(response);
           if(res.getSuccess()){
-              alert("「"+villageData.title+"」に参加しました。");
+              alert("「"+villageState.village.title+"」に参加しました。");
           }else{
               alert('失敗');
           }
@@ -124,13 +77,13 @@ const Details: NextPage = () => {
 
   const contents = () => {
     let contents = [];
-    if(villageData.phase_end_setting.by_manual_flg){
+    if(villageState.village.phase_end_setting?.by_manual.is_selected){
       contents.push(<div key={1}>手動で終了</div>);
     }
-    if(villageData.phase_end_setting.by_limit_flg){
+    if(villageState.village.phase_end_setting?.by_limit.is_selected){
       contents.push(<div key={2}>定員になり次第終了</div>);
     }
-    if(villageData.phase_end_setting.by_date_flg){
+    if(villageState.village.phase_end_setting?.by_date.is_selected){
       contents.push(<div key={3}>期限になり次第終了</div>);
     }
     return contents;
@@ -139,14 +92,14 @@ const Details: NextPage = () => {
   return (
     <_BaseMemberLayout pageLoding={pageLoading.isPageLaoding}>
       <div className='mt-5 flex justify-center'>
-        <FormLabel htmlFor={'title'}>{villageData.title}</FormLabel>
+        <FormLabel htmlFor={'title'}>{villageState.village.title}</FormLabel>
       </div>
       <div className='mt-2 px-10'>
         <div className='mt-2 text-center'>
             <p
                 className='w-full rounded-lg px-2 py-2'
             >
-              {villageData.content}
+              {villageState.village.content}
             </p>
         </div>
         <div className='mt-4 text-center'>
@@ -154,7 +107,7 @@ const Details: NextPage = () => {
             <p
                 className='w-full rounded-lg px-2 py-2'
             >
-              {villageData.note}
+              {villageState.village.note}
             </p>
         </div>
         <div className='mt-4 text-center'>
@@ -162,7 +115,7 @@ const Details: NextPage = () => {
             <p
                 className='w-full rounded-lg px-2 py-2'
             >
-              {villageData.requirement}
+              {villageState.village.requirement}
             </p>
         </div>
         <div className='mt-4 text-center'>
