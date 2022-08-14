@@ -104,14 +104,20 @@ const Search: NextPage = () => {
                     onClick={onClickSearch}
                 >検索</button>
             </div>
+            {noresult ?
+                <div className='grid grid-cols-12 px-6'>
+                    {
+                        formcards.map((elem, index) => {
+                            return <SearchResultCard key={index} value1={elem.title} value2={elem.content} id={elem.village_id} />
+                        })
+                    }
+                </div>
+                :
+                <div className='text-sub text-center text-3xl'>
+                    該当するものがありません
+                </div>
+            }
 
-            <div className='grid grid-cols-12 px-6'>
-                {
-                    formcards.map((elem, index) => {
-                        return <SearchResultCard key={index} value1={elem.title} value2={elem.content} id={elem.village_id} />
-                    })
-                }
-            </div>
 
         </_BaseMemberLayout>
     )
