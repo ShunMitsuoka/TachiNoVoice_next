@@ -86,7 +86,7 @@ const CoreMemberOpinion: NextPage = () => {
           <div className='text-center text-sub text-2xl'>{villageState.village.title}</div>
           <div className='text-center text-sub text-2xl'>{villageState.village.content}</div>
           <div className='text-center text-sub text-4xl mt-10'>{opinion}</div>
-          <div>
+          <div className="flex justify-between">
             <button className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'
               onClick={onClickdefault}
             >
@@ -102,10 +102,10 @@ const CoreMemberOpinion: NextPage = () => {
       return (
         <_BaseMemberLayout>
           <div className='text-2xl text-center text-sub mt-10'>ご意見ありがとうございます。<br />評価フェーズまで<br />しばらくお待ちください。</div>
-          <div>
+          <div className='flex justify-center'>
             {/* //<Link href={RouteManager.webRoute.member.village.my.details.index + village.village_id}></Link> */}
             <Link href={RouteManager.webRoute.member.village.my.details.index + villageState.village.village_id}
-              className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'>戻る</Link>
+              className=' font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'>戻る</Link>
           </div>
         </_BaseMemberLayout>
       );
@@ -139,7 +139,7 @@ const CoreMemberOpinion: NextPage = () => {
               onChange={(event) => setOpinion(event.target.value)}
             />
           </div>
-          <div>
+          <div className='flex justify-between'>
             <button className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'
               onClick={onClickBack}>戻る</button>
             <button className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'
@@ -177,7 +177,7 @@ const CoreMemberOpinion: NextPage = () => {
           onChange={(event) => setOpinion(event.target.value)}
         />
       </div>
-      <div>
+      <div className='flex justify-center'>
         <button className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'
           onClick={onClickBack}>戻る</button>
         <button className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'
