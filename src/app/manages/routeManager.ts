@@ -56,6 +56,9 @@ type apiRoute = {
             members: {
                 list: string
             },
+            opinion: {
+                coreMember: string,
+            }
         },
     }
 }
@@ -124,6 +127,9 @@ export class RouteManager {
                 members: {
                     list: '/api/my/village/:id/members',
                 },
+                opinion: {
+                    coreMember: '/api/my/village/:id/core_member/opinion',
+                }
             },
         }
     }
