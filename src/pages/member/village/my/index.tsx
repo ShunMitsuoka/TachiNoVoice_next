@@ -37,7 +37,7 @@ const MyVillage: NextPage = () => {
   },[status]);
 
   return (
-    <_BaseMemberLayout title='ビレッジ' pageLoding={pageLoading.isPageLaoding}>
+    <_BaseMemberLayout title='ビレッジ'>
       <Head>
           <title>My ビレッジ</title>
       </Head>

@@ -85,7 +85,7 @@ const MyVillageMembers: NextPage = () => {
   }, [status]);
 
   return (
-    <_BaseMemberLayout pageLoding={pageLoading.isPageLaoding}>
+    <_BaseMemberLayout>
       <div className='mt-5 flex justify-center'>
         <FormLabel htmlFor={'title'}>{villageState.village.title}</FormLabel>
       </div>

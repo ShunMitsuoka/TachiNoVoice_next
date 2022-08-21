@@ -78,7 +78,7 @@ const Search: NextPage = () => {
     }
 
     return (
-        <_BaseMemberLayout pageLoding={pageLoading.isPageLaoding}>
+        <_BaseMemberLayout>
             <Head>
                 <title>検索</title>
             </Head>

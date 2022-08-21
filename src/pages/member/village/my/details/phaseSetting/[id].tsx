@@ -114,7 +114,7 @@ const MyVillagePhaseSetting: NextPage = () => {
   }
 
   return (
-    <_BaseMemberLayout pageLoding={pageLoading.isPageLaoding}>
+    <_BaseMemberLayout>
       <div>
         フェーズ設定
         <div>{villageState.village.phase_name}</div>

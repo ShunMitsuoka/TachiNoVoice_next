@@ -3,21 +3,23 @@ import 'tailwindcss/tailwind.css'
 import '../styles/globals.scss'
 import { SessionProvider } from "next-auth/react"
 import { useRouter } from 'next/router'
-import { usePageLoading } from '@/hooks/common/usePageLoading'
-import { useEffect } from 'react'
+import { usePageLoadingType } from '@/hooks/common/usePageLoading'
+import { createContext, useEffect, useState } from 'react'
 import { PageLoading } from '@/components/templates/common/loading/pageLoading'
+
+export const LoadingContext = createContext<usePageLoadingType>({} as usePageLoadingType);
 
 function MyApp({ 
   Component, 
   pageProps : { session, ...pageProps },
 }: AppProps) {
 
-  const router = useRouter()
-  const pageLoading = usePageLoading();
+  const router = useRouter();
+  const [isShow, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleStart = (url:string) => url !== router.asPath && pageLoading.show();
-    const handleComplete = () => pageLoading.close();
+    const handleStart = (url:string) => url !== router.asPath && setLoading(true);
+    const handleComplete = () => setLoading(false);
 
     router.events.on('routeChangeStart', handleStart)
     router.events.on('routeChangeComplete', handleComplete)
@@ -31,10 +33,12 @@ function MyApp({
   })
 
   return (
-    <SessionProvider session={session}>
-      <PageLoading isShow={pageLoading.isPageLaoding} />
-      <Component {...pageProps} />
-    </SessionProvider>
+    <LoadingContext.Provider value={{isShow, setLoading}}>
+      <SessionProvider session={session}>
+        <PageLoading isShow={isShow} />
+        <Component {...pageProps} />
+      </SessionProvider>
+    </LoadingContext.Provider>
   )
 }
 

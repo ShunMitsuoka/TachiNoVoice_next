@@ -221,7 +221,7 @@ const Register: NextPage = () => {
     }
 
     return (
-        <_BaseMemberLayout pageLoding={pageLoading.isPageLaoding}>
+        <_BaseMemberLayout>
             <Head>
                 <title>ビレッジ設定</title>
             </Head>

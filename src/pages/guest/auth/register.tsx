@@ -46,10 +46,6 @@ export default function Register() {
         birthday: "",
     });
 
-    const getValue = useEffect(() => {
-
-    }, []);
-
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
         setFormData(prevValues => {
             return { ...prevValues, [e.target.name]: e.target.value }
@@ -84,7 +80,7 @@ export default function Register() {
         });
     }
     return (
-        <_BaseGuestLayout title="会員登録" pageLoding={pageLoading.isPageLaoding}>
+        <_BaseGuestLayout title="会員登録">
             <Head>
                 <title>Register</title>
             </Head>
