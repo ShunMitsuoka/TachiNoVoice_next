@@ -13,6 +13,10 @@ module.exports = {
       colors: {
         main : '#FEF8F1',
         sub : '#A26749',
+        host : '#E9C3CE',
+        village : '#A0D2ED',
+        core : '#DFE7C0',
+        rose : '#EFB795',
         p : {
           sub : '#F0E5DF'
         }

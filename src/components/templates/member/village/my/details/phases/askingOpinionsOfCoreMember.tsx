@@ -64,9 +64,16 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
                         しばらくお待ちください。
                     </div>
                     :
-                    <LinkButton href={RouteManager.webRoute.member.village.my.details.coreMemberOpinion + village.village_id}>
-                        意見募集
-                    </LinkButton>
+                    <>
+                        { village.is_task_done ?
+                            <div className='text-xl'>意見済み</div>
+                        :
+                            <LinkButton href={RouteManager.webRoute.member.village.my.details.coreMemberOpinion + village.village_id}>
+                                意見募集
+                            </LinkButton>
+                        }
+                    </>
+
             }
         </>
     );

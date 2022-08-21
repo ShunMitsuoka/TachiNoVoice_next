@@ -30,7 +30,7 @@ export const PhaseComponent: React.FC<Props> = ({
         </div>
         {
           isActive &&
-          <div className='text-center mt-2'>
+          <div className='text-center mt-4 mb-2'>
             {children}
           </div>
         }

@@ -114,15 +114,19 @@ const MyVillagePhaseSetting: NextPage = () => {
   }
 
   return (
-    <_BaseMemberLayout>
+    <_BaseMemberLayout title="フェーズ設定">
       <div>
-        フェーズ設定
-        <div>{villageState.village.phase_name}</div>
-        <div className="px-10">
+        <div className="mt-10 text-center text-2xl font-bold">
+          {villageState.village.title}
+        </div>
+        <div className="mt-6 text-center text-xl">
+          {villageState.village.phase_name}
+        </div>
+        <div className="px-10 mt-6">
           {
             villageState.village.is_necessary_to_set_phase_start_setting &&
             <div>
-              <div>フェーズ開始条件</div>
+              <div>【フェーズ開始条件】</div>
               {
                 villageState.village.phase_start_setting?.by_instant.is_need &&
                 <div className='flex items-center'>
@@ -163,7 +167,7 @@ const MyVillagePhaseSetting: NextPage = () => {
             villageState.village.is_necessary_to_set_phase_end_setting &&
             <div>
               <div className="text-xl font-bold mb-2">
-                フェーズ終了条件
+                【フェーズ終了条件】
               </div>
               {
                 villageState.village.phase_end_setting?.by_limit.is_need &&
