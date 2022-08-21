@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { Pie, PieChart } from "recharts";
+import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 const Graph: NextPage = () => {
 
@@ -31,10 +31,22 @@ const Graph: NextPage = () => {
       }
     ]
 
+
+    const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
   return (
-    <PieChart width={730} height={250}>
-        <Pie data={data} dataKey="value" cx="50%" cy="50%" outerRadius={100} fill="#82ca9d" label/>
-    </PieChart>
+    <ResponsiveContainer aspect={1} height={"100%"}>
+      <PieChart>
+          <Pie data={data} dataKey="value" cx="50%" cy="50%" outerRadius={50} fill="#82ca9d" legendType="none">
+            {data.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]}
+              />
+            ))}
+          </Pie>
+      </PieChart>
+    </ResponsiveContainer>
   )
 }
 

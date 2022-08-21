@@ -26,18 +26,29 @@ export const usePhaseComponent = (village: Village) => {
 
     const roleComponent = (roleComponent :roleComponentType) : React.ReactNode => {
         let component = null;
+        if(roleComponent.other){
+            component = roleComponent.other;
+        }
         switch (village.role_id) {
             case appConst.member.role.host:
-                component = roleComponent.host;
+                if(roleComponent.host){
+                    component = roleComponent.host;
+                }
                 break;
             case appConst.member.role.villageMember:
-                component = roleComponent.villageMember;
+                if(roleComponent.villageMember){
+                    component = roleComponent.villageMember;
+                }
                 break;
             case appConst.member.role.coreMember:
-                component = roleComponent.coreMember;
+                if(roleComponent.coreMember){
+                    component = roleComponent.coreMember;
+                }
                 break;
             case appConst.member.role.riseMember:
-                component = roleComponent.riseMember;
+                if(roleComponent.riseMember){
+                    component = roleComponent.riseMember;
+                }
                 break;
             default:
                 break;

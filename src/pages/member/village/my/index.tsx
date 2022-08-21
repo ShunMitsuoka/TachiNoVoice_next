@@ -17,8 +17,8 @@ const MyVillage: NextPage = () => {
   const [lists, setLists] = useState<Village[]>([]);
 
   useEffect(() => {
-    pageLoading.show();
     if(status === "authenticated"){
+      pageLoading.show();
       axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.my.index), ApiService.getAuthHeader(session))
       .then(function (response) {
           const res = ApiService.makeApiResponse(response);
