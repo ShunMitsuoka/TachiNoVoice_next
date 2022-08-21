@@ -1,9 +1,4 @@
 import { appConst } from '@/app/const/appConst';
-import { RouteManager } from '@/app/manages/routeManager';
-import { ApiService } from '@/app/services/apiService';
-import axios from '@/libs/axios/axios';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 import { Village } from 'villageType';
 
@@ -12,59 +7,25 @@ export type roleComponentType = {
     villageMember? : React.ReactNode,
     coreMember? : React.ReactNode,
     riseMember? : React.ReactNode,
+    other? : React.ReactNode,
 }
 
-export const usePhaseComponent = (phaseId: number, village: Village) => {
+export type phaseComponentType = {
+    recruitmentOfMember? : roleComponentType,
+    drawingCoreMember? : roleComponentType,
+    askingOpinionsOfCoreMember? : roleComponentType,
+    categorizeOpinions? : roleComponentType,
+    askingOpinionsOfRiseMember? : roleComponentType,
+    evaluation? : roleComponentType,
+    decidingPolicy? : roleComponentType,
+    surveyingSatisfaction? : roleComponentType,
+    other? : roleComponentType,
+}
 
-  const { data: session, status } = useSession();
-  const router = useRouter();
+export const usePhaseComponent = (village: Village) => {
 
-    const title: string = useMemo(() => {
-        let result = '';
-        switch (phaseId) {
-            case appConst.village.phase.recruitmentOfMember:
-                result = 'ビレッジメンバー募集';
-                break;
-            case appConst.village.phase.drawingCoreMember:
-                result = 'メンバー抽選';
-                break;
-            case appConst.village.phase.askingOpinionsOfCoreMember:
-                result = 'コアメンバー意見募集';
-                break;
-            case appConst.village.phase.categorizeOpinions:
-                result = 'カテゴリー分け';
-                break;
-            case appConst.village.phase.askingOpinionsOfRiseMember:
-                result = 'ライズメンバー意見募集';
-                break;
-            case appConst.village.phase.evaluation:
-                result = '評価';
-                break;
-            case appConst.village.phase.decidingPolicy:
-                result = '方針決定';
-                break;
-            case appConst.village.phase.surveyingSatisfaction:
-                result = '満足度調査';
-                break;
-            default:
-                break;
-        }
-        return result;
-    }, []);
-
-    const isActive: boolean = useMemo(() => {
-        return village.phase_no == phaseId
-    }, [village]);
-
-    const isPreparing : boolean = useMemo(() => {
-        return village.is_phase_preparing && village.phase_no == phaseId
-    }, [village]);
-
-    const roleComponent = (roleComponent :roleComponentType) => {
+    const roleComponent = (roleComponent :roleComponentType) : React.ReactNode => {
         let component = null;
-        if(!isActive){
-            return null;
-        }
         switch (village.role_id) {
             case appConst.member.role.host:
                 component = roleComponent.host;
@@ -84,19 +45,57 @@ export const usePhaseComponent = (phaseId: number, village: Village) => {
         return component;
     };
 
-    const startPhase = () => {
-        axios.post(ApiService.getFullURL(
-            RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.phase.start, {'id' : village.village_id})
-        ), {}, ApiService.getAuthHeader(session))
-        .then((response) => {
-            const res = ApiService.makeApiResponse(response);
-            if(res.getSuccess()){
-                router.replace(RouteManager.webRoute.member.village.my.details.index + village.village_id.toString())
-            }else{
-                alert('失敗');
-            }
-        });
-    }
+    const phaseComponent = (phaseComponent: phaseComponentType) : React.ReactNode => {
+        let target : roleComponentType = {};
+        if(phaseComponent.other){
+            target = phaseComponent.other;
+        }
+        switch (village.phase_no) {
+            case appConst.village.phase.recruitmentOfMember:
+                if(phaseComponent.recruitmentOfMember){
+                    target = phaseComponent.recruitmentOfMember;
+                }
+                break;
+            case appConst.village.phase.drawingCoreMember:
+                if(phaseComponent.drawingCoreMember){
+                    target = phaseComponent.drawingCoreMember;
+                }
+                break;
+            case appConst.village.phase.askingOpinionsOfCoreMember:
+                if(phaseComponent.askingOpinionsOfCoreMember){
+                    target = phaseComponent.askingOpinionsOfCoreMember;
+                }
+                break;
+            case appConst.village.phase.categorizeOpinions:
+                if(phaseComponent.categorizeOpinions){
+                    target = phaseComponent.categorizeOpinions;
+                }
+                break;
+            case appConst.village.phase.askingOpinionsOfRiseMember:
+                if(phaseComponent.askingOpinionsOfRiseMember){
+                    target = phaseComponent.askingOpinionsOfRiseMember;
+                }
+                break;
+            case appConst.village.phase.evaluation:
+                if(phaseComponent.evaluation){
+                    target = phaseComponent.evaluation;
+                }
+                break;
+            case appConst.village.phase.decidingPolicy:
+                if(phaseComponent.decidingPolicy){
+                    target = phaseComponent.decidingPolicy;
+                }
+                break;
+            case appConst.village.phase.surveyingSatisfaction:
+                if(phaseComponent.surveyingSatisfaction){
+                    target = phaseComponent.surveyingSatisfaction;
+                }
+                break;
+            default:
+                break;
+        }
+        return roleComponent(target);
+    };
 
-    return { title, isActive, isPreparing, roleComponent, startPhase};
+    return { roleComponent, phaseComponent};
 }

@@ -14,6 +14,9 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Pie, PieChart } from "recharts";
 import dynamic from "next/dynamic";
+import { usePhaseComponent } from "@/hooks/components/member/village/my/usePhaseComponent";
+import { appConst } from "@/app/const/appConst";
+import { useVillageMethod } from "@/hooks/components/member/village/my/useVillageMethod";
 
 
 type cardtype = {
@@ -29,41 +32,14 @@ const SampleChart = dynamic(() => import("./graph"), { ssr: false });
 const MyVillageMembers: NextPage = () => {
 
   const { data: session, status } = useSession();
-  const pageLoading = usePageLoading();
   const router = useRouter();
   const { id } = router.query;
 
   const villageState = useVillage();
+  const phaseComponet = usePhaseComponent(villageState.village);
+  const villageMethod = useVillageMethod(villageState.village, villageState.setVillage);
 
   const [formcards, setCards] = useState<cardtype[]>([]);
-
-  const data = [
-      {
-        index: 0,
-        name: 'データ1',
-        value: 300,
-      },
-      {
-        index: 1,
-        name: 'データ2',
-        value: 200,
-      },
-      {
-        index: 2,
-        name: 'データ3',
-        value: 380,
-      },
-      {
-        index: 3,
-        name: 'データ3',
-        value: 80,
-      },
-      {
-        index: 4,
-        name: 'データ4',
-        value: 40,
-      }
-    ]
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -97,17 +73,17 @@ const MyVillageMembers: NextPage = () => {
       </div>
       <div>
         <div className='mt-3 flex justify-center'>
-          {villageState.phaseComponent({
+          {phaseComponet.phaseComponent({
             recruitmentOfMember : {
               host : (
-                <MiddleButton onClick={villageState.nextPhase}>
+                <MiddleButton onClick={villageMethod.nextPhase}>
                   募集を締め切る
                 </MiddleButton>
               )
             },
             drawingCoreMember : {
               host : (
-                <MiddleButton onClick={villageState.startPhase}>
+                <MiddleButton onClick={villageMethod.startPhase}>
                   抽選を行う
                 </MiddleButton>
               )

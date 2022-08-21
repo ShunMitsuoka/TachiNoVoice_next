@@ -1,22 +1,28 @@
 import { RouteManager } from '@/app/manages/routeManager';
 import { LinkButton } from '@/components/atoms/buttons/linkButton';
 import { MiddleButton } from '@/components/atoms/buttons/middleButton';
+import { usePhase } from '@/hooks/components/member/village/my/usePhase';
 import { usePhaseComponent } from '@/hooks/components/member/village/my/usePhaseComponent';
+import { useVillageMethod } from '@/hooks/components/member/village/my/useVillageMethod';
 import React, { useMemo } from 'react';
 import { Village } from 'villageType';
 import { PhaseComponent } from '../phaseComponent';
 
 interface Props {
     phaseNo: number,
-    village: Village
+    village: Village,
+    setVillage: React.Dispatch<React.SetStateAction<Village>>
 }
 
 export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
     phaseNo,
-    village
+    village,
+    setVillage
 }) => {
 
-    const phaseHook = usePhaseComponent(phaseNo, village);
+    const phaseHook = usePhase(phaseNo, village);
+    const phaseComponet = usePhaseComponent(village);
+    const villageMethod = useVillageMethod(village, setVillage);
 
     const preparingComponet = () => {
         let component = null;
@@ -28,7 +34,7 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
             );
         } else {
             component = (
-                <MiddleButton onClick={phaseHook.startPhase}>
+                <MiddleButton onClick={villageMethod.startPhase}>
                     開始する
                 </MiddleButton>
             );
@@ -86,7 +92,7 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
             village={village}
         >
             <div>
-                {phaseHook.roleComponent(roleComponent)}
+                {phaseComponet.roleComponent(roleComponent)}
             </div>
         </PhaseComponent>
     )

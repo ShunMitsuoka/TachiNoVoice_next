@@ -1,6 +1,6 @@
 import { RouteManager } from '@/app/manages/routeManager';
 import { LinkButton } from '@/components/atoms/buttons/linkButton';
-import { MiddleButton } from '@/components/atoms/buttons/middleButton';
+import { usePhase } from '@/hooks/components/member/village/my/usePhase';
 import { usePhaseComponent } from '@/hooks/components/member/village/my/usePhaseComponent';
 import React, { useMemo } from 'react';
 import { Village } from 'villageType';
@@ -8,7 +8,8 @@ import { PhaseComponent } from '../phaseComponent';
 
 interface Props {
     phaseNo: number,
-    village: Village
+    village: Village,
+    setVillage: React.Dispatch<React.SetStateAction<Village>>
 }
 
 export const DrawingCoreMember: React.FC<Props> = ({
@@ -16,7 +17,8 @@ export const DrawingCoreMember: React.FC<Props> = ({
     village
 }) => {
 
-    const phaseHook = usePhaseComponent(phaseNo, village);
+    const phaseHook = usePhase(phaseNo, village);
+    const phaseComponet = usePhaseComponent(village);
 
     const hostComponent = (
         <>
@@ -64,7 +66,7 @@ export const DrawingCoreMember: React.FC<Props> = ({
             village={village}
         >
             <div>
-                {phaseHook.roleComponent(roleComponent)}
+                {phaseComponet.roleComponent(roleComponent)}
             </div>
         </PhaseComponent>
     )

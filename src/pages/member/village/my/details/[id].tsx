@@ -1,44 +1,30 @@
 import { appConst } from '@/app/const/appConst'
-import { RouteManager } from '@/app/manages/routeManager'
-import { ApiService } from '@/app/services/apiService'
 import { AuthService } from '@/app/services/authService'
-import { PhaseComponent } from '@/components/templates/member/village/my/details/phaseComponent'
 import { AskingOpinionsOfCoreMember } from '@/components/templates/member/village/my/details/phases/askingOpinionsOfCoreMember'
 import { DrawingCoreMember } from '@/components/templates/member/village/my/details/phases/drawingCoreMember'
 import { Phase1 } from '@/components/templates/member/village/my/details/phases/phase1'
-import { usePageLoading } from '@/hooks/common/usePageLoading'
 import { useVillage } from '@/hooks/components/member/village/my/useVillage'
+import { useVillageMethod } from '@/hooks/components/member/village/my/useVillageMethod'
 import _BaseLayout from '@/layouts/_baseLayout'
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
-import axios from '@/libs/axios/axios'
 import type { GetServerSideProps, NextPage } from 'next'
 import { getSession, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
-import { Village } from 'villageType'
+import React, { useEffect } from 'react'
 
 const MyVillageDetails: NextPage = () => {
 
 
   const { data: session, status } = useSession();
-  const pageLoading = usePageLoading();
   const router = useRouter();
   const { id } = router.query;
 
   const villageState = useVillage();
+  const villageMethod = useVillageMethod(villageState.village, villageState.setVillage);
 
   useEffect(() => {
     if(status === "authenticated"){
-      axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.my.details)+id, ApiService.getAuthHeader(session))
-      .then(function (response) {
-          const res = ApiService.makeApiResponse(response);
-          if(res.getSuccess()){
-            console.log(res);
-            villageState.setVillage(res.getResult());
-          }else{
-              alert('失敗');
-          }
-      })
+      villageMethod.setVillageDetails(id as string);
     }
   },[status]);
 
@@ -46,28 +32,28 @@ const MyVillageDetails: NextPage = () => {
     let component = null;
     switch (phaseNo) {
       case appConst.village.phase.recruitmentOfMember:
-        component =<Phase1 key={1} phaseNo={phaseNo} village={villageState.village}/>
+        component =<Phase1 key={1} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
       case appConst.village.phase.drawingCoreMember:
-        component =<DrawingCoreMember key={2} phaseNo={phaseNo} village={villageState.village}/>
+        component =<DrawingCoreMember key={2} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
       case 3:
-        component =<AskingOpinionsOfCoreMember key={3} phaseNo={phaseNo} village={villageState.village}/>
+        component =<AskingOpinionsOfCoreMember key={3} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
       case 4:
-        component =<Phase1 key={4} phaseNo={phaseNo} village={villageState.village}/>
+        component =<Phase1 key={4} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
       case 5:
-        component =<Phase1 key={5} phaseNo={phaseNo} village={villageState.village}/>
+        component =<Phase1 key={5} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
       case 6:
-        component =<Phase1 key={6} phaseNo={phaseNo} village={villageState.village}/>
+        component =<Phase1 key={6} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
       case 7:
-        component =<Phase1 key={7} phaseNo={phaseNo} village={villageState.village}/>
+        component =<Phase1 key={7} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
       case 8:
-        component =<Phase1 key={8} phaseNo={phaseNo} village={villageState.village}/>
+        component =<Phase1 key={8} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
     
       default:
@@ -77,7 +63,7 @@ const MyVillageDetails: NextPage = () => {
   }
 
   return (
-    <_BaseMemberLayout pageLoding={pageLoading.isPageLaoding}>
+    <_BaseMemberLayout>
       <div className='my-8 text-center text-xl font-bold'>
         {villageState.village.title}
       </div>
