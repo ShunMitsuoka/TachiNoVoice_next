@@ -16,6 +16,7 @@ import { usePhaseComponent } from "@/hooks/components/member/village/my/usePhase
 import { useVillageMethod } from "@/hooks/components/member/village/my/useVillageMethod";
 import { appConst } from "@/app/const/appConst";
 import { usePageLoading } from "@/hooks/common/usePageLoading";
+import { PhaseDetailsHeader } from "@/components/templates/member/village/my/details/phaseDetailsHeader";
 
 
 type cardtype = {
@@ -67,6 +68,7 @@ const MyVillageMembers: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
+      <PhaseDetailsHeader village={villageState.village} />
       <div className='mt-5 flex justify-center'>
         <FormLabel htmlFor={'title'}>{villageState.village.title}</FormLabel>
       </div>

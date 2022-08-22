@@ -1,5 +1,7 @@
 import { appConst } from '@/app/const/appConst'
+import { RouteManager } from '@/app/manages/routeManager'
 import { AuthService } from '@/app/services/authService'
+import { PhaseDetailsHeader } from '@/components/templates/member/village/my/details/phaseDetailsHeader'
 import { AskingOpinionsOfCoreMember } from '@/components/templates/member/village/my/details/phases/askingOpinionsOfCoreMember'
 import { DrawingCoreMember } from '@/components/templates/member/village/my/details/phases/drawingCoreMember'
 import { Phase1 } from '@/components/templates/member/village/my/details/phases/phase1'
@@ -9,6 +11,7 @@ import _BaseLayout from '@/layouts/_baseLayout'
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
 import type { GetServerSideProps, NextPage } from 'next'
 import { getSession, useSession } from 'next-auth/react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 
@@ -64,6 +67,7 @@ const MyVillageDetails: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
+      <PhaseDetailsHeader village={villageState.village} />
       <div className='my-8 text-center text-xl font-bold'>
         {villageState.village.title}
       </div>
