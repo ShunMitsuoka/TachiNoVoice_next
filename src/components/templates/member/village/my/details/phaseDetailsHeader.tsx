@@ -36,14 +36,14 @@ export const PhaseDetailsHeader: React.FC<Props> = ({
             }
         </div>
         <div className='relative col-span-4'>
-            <Link href={RouteManager.webRoute.member.village.my.details.members + village.village_id}>
+            <Link href={RouteManager.webRoute.member.village.my.details.opinions + village.village_id}>
                 <span className='inline-block pt-2 pb-1'>
                     意見
                 </span>
             </Link>
-            {/* { router.asPath.match(new RegExp(RouteManager.webRoute.member.village.my.details.members + village.village_id)) && 
+            { router.asPath.match(new RegExp(RouteManager.webRoute.member.village.my.details.opinions + village.village_id)) && 
                 <div className='absoulte bottom-0 border-b-4 border-sub w-2/3 mx-auto'></div>
-            } */}
+            }
         </div>
     </div>
   )

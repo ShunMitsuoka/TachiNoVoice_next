@@ -48,7 +48,7 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
                 phaseHook.isPreparing ?
                     preparingComponet()
                     :
-                    <LinkButton href={RouteManager.webRoute.member.village.my.details.phaseSetting + village.village_id}>
+                    <LinkButton href={RouteManager.webRoute.member.village.my.details.opinions + village.village_id}>
                         意見確認
                     </LinkButton>
             }

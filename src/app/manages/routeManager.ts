@@ -19,6 +19,7 @@ type route = {
                 details: {
                     index: string,
                     members: string,
+                    opinions: string,
                     phaseSetting: string,
                     coreMemberOpinion: string,
                 }
@@ -57,6 +58,7 @@ type apiRoute = {
                 list: string
             },
             opinion: {
+                index:string,
                 coreMember: string,
             }
         },
@@ -89,6 +91,7 @@ export class RouteManager {
                     details: {
                         index: '/member/village/my/details/',
                         members: '/member/village/my/details/members/',
+                        opinions: '/member/village/my/details/opinions/',
                         phaseSetting: '/member/village/my/details/phaseSetting/',
                         coreMemberOpinion: '/member/village/my/details/coreMemberOpinion/',
                     }
@@ -128,6 +131,7 @@ export class RouteManager {
                     list: '/api/my/village/:id/members',
                 },
                 opinion: {
+                    index: '/api/my/village/:id/opinions',
                     coreMember: '/api/my/village/:id/core_member/opinion',
                 }
             },
