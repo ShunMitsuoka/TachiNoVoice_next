@@ -87,8 +87,8 @@ const MyVillageOpinios: NextPage = () => {
               member.opinions.map((opinion, index) => {
                 return (
                   opinion &&
-                  <div className="mt-4">
-                    <OpinionCard key={index} name={member.nickname} opinion={opinion} gender={member.gender} age={member.age} />
+                  <div key={index} className="mt-4">
+                    <OpinionCard name={member.nickname} opinion={opinion} gender={member.gender} age={member.age} />
                   </div>
                 )
               })

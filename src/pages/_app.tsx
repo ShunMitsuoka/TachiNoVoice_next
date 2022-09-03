@@ -16,10 +16,11 @@ function MyApp({
 
   const router = useRouter();
   const [isShow, setLoading] = useState<boolean>(false);
+  const [pageLoading, setPageLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleStart = (url:string) => url !== router.asPath && setLoading(true);
-    const handleComplete = () => setLoading(false);
+    const handleStart = (url:string) => url !== router.asPath && setPageLoading(true);
+    const handleComplete = () => setPageLoading(false);
 
     router.events.on('routeChangeStart', handleStart)
     router.events.on('routeChangeComplete', handleComplete)
@@ -33,12 +34,15 @@ function MyApp({
   })
 
   return (
-    <LoadingContext.Provider value={{isShow, setLoading}}>
-      <SessionProvider session={session}>
-        <PageLoading isShow={isShow} />
-        <Component {...pageProps} />
-      </SessionProvider>
-    </LoadingContext.Provider>
+    <>
+      <PageLoading isShow={pageLoading} />
+      <LoadingContext.Provider value={{isShow, setLoading}}>
+        <SessionProvider session={session}>
+          <PageLoading isShow={isShow} />
+          <Component {...pageProps} />
+        </SessionProvider>
+      </LoadingContext.Provider>
+    </>
   )
 }
 
