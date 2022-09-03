@@ -1,18 +1,18 @@
-import { appConst } from '@/app/const/appConst';
 import { RouteManager } from '@/app/manages/routeManager';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React from 'react';
 import { Village } from 'villageType';
 
+type menuItem = 'phase' | 'member' | 'opinion'; 
 interface Props {
   village: Village;
+  menuType: menuItem;
 }
 
 export const PhaseDetailsHeader: React.FC<Props> = ({
-  village
+  village,
+  menuType
 }) => {
-    const router = useRouter();
   return (
     <div className='bg-white grid grid-cols-12 text-center drop-shadow-lg'>
         <div className='relative col-span-4'>
@@ -21,7 +21,7 @@ export const PhaseDetailsHeader: React.FC<Props> = ({
                     フェーズ
                 </span>
             </Link>
-            { router.asPath.match(new RegExp(RouteManager.webRoute.member.village.my.details.index + village.village_id)) && 
+            { menuType == 'phase' && 
                 <div className='absoulte bottom-0 border-b-4 border-sub w-2/3 mx-auto'></div>
             }
         </div>
@@ -31,7 +31,7 @@ export const PhaseDetailsHeader: React.FC<Props> = ({
                     メンバー
                 </span>
             </Link>
-            { router.asPath.match(new RegExp(RouteManager.webRoute.member.village.my.details.members + village.village_id)) && 
+            { menuType == 'member' && 
                 <div className='absoulte bottom-0 border-b-4 border-sub w-2/3 mx-auto'></div>
             }
         </div>
@@ -41,7 +41,7 @@ export const PhaseDetailsHeader: React.FC<Props> = ({
                     意見
                 </span>
             </Link>
-            { router.asPath.match(new RegExp(RouteManager.webRoute.member.village.my.details.opinions + village.village_id)) && 
+            { menuType == 'opinion' && 
                 <div className='absoulte bottom-0 border-b-4 border-sub w-2/3 mx-auto'></div>
             }
         </div>

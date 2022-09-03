@@ -75,7 +75,7 @@ const MyVillageMembers: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
-      <PhaseDetailsHeader village={villageState.village} />
+      <PhaseDetailsHeader village={villageState.village} menuType={"member"} />
       <div className='mt-5 flex justify-center'>
         <FormLabel htmlFor={'title'}>{villageState.village.title}</FormLabel>
       </div>

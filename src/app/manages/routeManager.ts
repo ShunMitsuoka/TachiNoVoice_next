@@ -22,6 +22,10 @@ type route = {
                     opinions: string,
                     phaseSetting: string,
                     coreMemberOpinion: string,
+                    category: {
+                        make : string,
+                    },
+
                 }
             },
         },
@@ -94,6 +98,9 @@ export class RouteManager {
                         opinions: '/member/village/my/details/opinions/',
                         phaseSetting: '/member/village/my/details/phaseSetting/',
                         coreMemberOpinion: '/member/village/my/details/coreMemberOpinion/',
+                        category: {
+                            make : '/member/village/my/details/category/make/',
+                        },
                     }
                 },
             },

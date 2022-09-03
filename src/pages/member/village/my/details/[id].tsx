@@ -1,6 +1,7 @@
 import { appConst } from '@/app/const/appConst'
 import { RouteManager } from '@/app/manages/routeManager'
 import { AuthService } from '@/app/services/authService'
+import { VillageTitle } from '@/components/modules/member/village/villageTitle'
 import { PhaseDetailsHeader } from '@/components/templates/member/village/my/details/phaseDetailsHeader'
 import { AskingOpinionsOfCoreMember } from '@/components/templates/member/village/my/details/phases/askingOpinionsOfCoreMember'
 import { CategorizeOpinions } from '@/components/templates/member/village/my/details/phases/categorizeOpinions'
@@ -68,10 +69,8 @@ const MyVillageDetails: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
-      <PhaseDetailsHeader village={villageState.village} />
-      <div className='my-8 text-center text-xl font-bold'>
-        {villageState.village.title}
-      </div>
+      <PhaseDetailsHeader village={villageState.village} menuType={'phase'} />
+      <VillageTitle village={villageState.village} _class='my-8'/>
       <div className='flex flex-col gap-6 px-6'>
         {
           [1,2,3,4,5,6,7,8].map((phase) => {

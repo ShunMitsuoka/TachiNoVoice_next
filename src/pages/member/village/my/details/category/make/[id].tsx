@@ -1,7 +1,6 @@
 import { RouteManager } from "@/app/manages/routeManager";
 import { ApiService } from "@/app/services/apiService";
 import { AuthService } from "@/app/services/authService";
-import { LinkButton } from "@/components/atoms/buttons/linkButton";
 import { MiddleButton } from "@/components/atoms/buttons/middleButton";
 import { VillageTitle } from "@/components/modules/member/village/villageTitle";
 import { OpinionCard } from "@/components/templates/member/village/my/details/opinions/opinionCard";
@@ -18,7 +17,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { MemberDetails } from "villageType";
 
-const MyVillageOpinios: NextPage = () => {
+const MyVillageCategory: NextPage = () => {
 
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -61,46 +60,14 @@ const MyVillageOpinios: NextPage = () => {
     <_BaseMemberLayout>
       <PhaseDetailsHeader village={villageState.village} menuType={"opinion"} />
       <VillageTitle village={villageState.village} _class='my-8'/>
-      <div className="mt-4 text-center">
-        {phaseComponet.phaseComponent({
-          askingOpinionsOfCoreMember: {
-            host: (
-              <MiddleButton onClick={villageMethod.nextPhase}>
-                意見募集終了
-              </MiddleButton>
-            )
-          },
-          categorizeOpinions: {
-            host: (
-              <LinkButton href={RouteManager.webRoute.member.village.my.details.category.make + villageState.village.village_id}>
-                カテゴリー作成
-              </LinkButton>
-            )
-          }
-        })}
-      </div>
-      <div className="px-4 mt-6">
-        {
-          members.map((member) => {
-            return (
-              member.opinions &&
-              member.opinions.map((opinion, index) => {
-                return (
-                  opinion &&
-                  <div key={index} className="mt-4">
-                    <OpinionCard name={member.nickname} opinion={opinion} gender={member.gender} age={member.age} />
-                  </div>
-                )
-              })
-            );
-          })
-        }
+      <div className="text-center">
+        カテゴリーを追加、編集してください。
       </div>
     </_BaseMemberLayout>
   )
 }
 
-export default MyVillageOpinios;
+export default MyVillageCategory;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
