@@ -28,24 +28,18 @@ const CoreMemberOpinion: NextPage = () => {
 
 
   const onClickNext = () => {
-    console.log('opinion : ' + opinion);
-    console.log('Next');
     setNow(1);
   }
   const onClickNextiken = () => {
     setNow(1);
-    console.log('opinion :' + opinion);
-    console.log(iken)
     if (opinion === '') {
       setIken(false);
     }
   }
   const onClickBack = () => {
-    console.log('Back');
     setNow(2);
   }
   const onClickdefault = () => {
-    console.log('default');
     setOpinion('');
     setNow(0);
   }
