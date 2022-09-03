@@ -34,6 +34,8 @@ const CoreMemberOpinion: NextPage = () => {
   }
   const onClickNextiken = () => {
     setNow(1);
+    console.log('opinion :' + opinion);
+    console.log(iken)
     if (opinion === '') {
       setIken(false);
     }
@@ -44,6 +46,7 @@ const CoreMemberOpinion: NextPage = () => {
   }
   const onClickdefault = () => {
     console.log('default');
+    setOpinion('');
     setNow(0);
   }
   const villageState = useVillage();
@@ -87,8 +90,8 @@ const CoreMemberOpinion: NextPage = () => {
 
   switch (now) {
     case 1:
-
       if (iken) {
+        console.log('つながってるわ');
         return (
           <_BaseMemberLayout>
             <div className='text-center text-sub text-2xl'>以下の意見で問題ありませんか？</div>
@@ -96,7 +99,6 @@ const CoreMemberOpinion: NextPage = () => {
             <div className='text-center text-sub text-2xl'>{villageState.village.content}</div>
             <div className='text-center text-sub text-4xl mt-10'>{opinion}</div>
             <div className="flex justify-between">
-
               <button className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'
                 onClick={onClickdefault}
               >
@@ -108,6 +110,7 @@ const CoreMemberOpinion: NextPage = () => {
           </_BaseMemberLayout>
         );
       } else {
+        console.log('つながってないわ');
         return (
           <_BaseMemberLayout>
             <div className='text-center text-sub text-2xl'>意見を入力してください</div>
@@ -119,8 +122,7 @@ const CoreMemberOpinion: NextPage = () => {
               </button>
             </div>
           </_BaseMemberLayout>
-        )
-
+        );
       }
       break;
     case 2:
@@ -161,7 +163,11 @@ const CoreMemberOpinion: NextPage = () => {
             "
               placeholder="意見を入力してください"
               rows={10}
-              onChange={(event) => setOpinion(event.target.value)}
+              onChange={(event) => {
+                setOpinion(event.target.value)
+                setIken(true);
+              }
+              }
             />
           </div>
           <div className='flex justify-between'>
