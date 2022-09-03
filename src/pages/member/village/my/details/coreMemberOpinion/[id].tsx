@@ -24,19 +24,23 @@ const CoreMemberOpinion: NextPage = () => {
   const { id } = router.query;
   const [opinion, setOpinion] = useState("");
   const [now, setNow] = useState<Number>();
+  const [iken, setIken] = useState(true);
 
 
   const onClickNext = () => {
-    console.log(opinion);
-    console.log('Next');
     setNow(1);
   }
+  const onClickNextiken = () => {
+    setNow(1);
+    if (opinion === '') {
+      setIken(false);
+    }
+  }
   const onClickBack = () => {
-    console.log('Back');
     setNow(2);
   }
   const onClickdefault = () => {
-    console.log('default');
+    setOpinion('');
     setNow(0);
   }
   const villageState = useVillage();
@@ -80,23 +84,40 @@ const CoreMemberOpinion: NextPage = () => {
 
   switch (now) {
     case 1:
-      return (
-        <_BaseMemberLayout>
-          <div className='text-center text-sub text-2xl'>以下の意見で問題ありませんか？</div>
-          <div className='text-center text-sub text-2xl'>{villageState.village.title}</div>
-          <div className='text-center text-sub text-2xl'>{villageState.village.content}</div>
-          <div className='text-center text-sub text-4xl mt-10'>{opinion}</div>
-          <div className="flex justify-between">
-            <button className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'
-              onClick={onClickdefault}
-            >
-              戻る
-            </button>
-            <button className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'
-              onClick={postOpinion}>意見する</button>
-          </div>
-        </_BaseMemberLayout>
-      );
+      if (iken) {
+        console.log('つながってるわ');
+        return (
+          <_BaseMemberLayout>
+            <div className='text-center text-sub text-2xl'>以下の意見で問題ありませんか？</div>
+            <div className='text-center text-sub text-2xl'>{villageState.village.title}</div>
+            <div className='text-center text-sub text-2xl'>{villageState.village.content}</div>
+            <div className='text-center text-sub text-4xl mt-10'>{opinion}</div>
+            <div className="flex justify-between">
+              <button className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'
+                onClick={onClickdefault}
+              >
+                戻る
+              </button>
+              <button className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'
+                onClick={postOpinion}>意見する</button>
+            </div>
+          </_BaseMemberLayout>
+        );
+      } else {
+        console.log('つながってないわ');
+        return (
+          <_BaseMemberLayout>
+            <div className='text-center text-sub text-2xl'>意見を入力してください</div>
+            <div className='flex justify-between'>
+              <button className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'
+                onClick={onClickdefault}
+              >
+                戻る
+              </button>
+            </div>
+          </_BaseMemberLayout>
+        );
+      }
       break;
     case 2:
       return (
@@ -105,7 +126,7 @@ const CoreMemberOpinion: NextPage = () => {
           <div className='flex justify-center'>
             {/* //<Link href={RouteManager.webRoute.member.village.my.details.index + village.village_id}></Link> */}
             <Link href={RouteManager.webRoute.member.village.my.details.index + villageState.village.village_id}
-              className=' font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'>戻る</Link>
+              className='font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'>戻る</Link>
           </div>
         </_BaseMemberLayout>
       );
@@ -127,7 +148,7 @@ const CoreMemberOpinion: NextPage = () => {
               className="
             block
             w-full
-            px-4
+            px-4  
             py-4
             border border-solid border-sub
             rounded-lg
@@ -136,58 +157,24 @@ const CoreMemberOpinion: NextPage = () => {
             "
               placeholder="意見を入力してください"
               rows={10}
-              onChange={(event) => setOpinion(event.target.value)}
+              onChange={(event) => {
+                setOpinion(event.target.value)
+                setIken(true);
+              }
+              }
             />
           </div>
           <div className='flex justify-between'>
             <button className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'
               onClick={onClickBack}>戻る</button>
             <button className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'
-              onClick={onClickNext}>確定</button>
+              onClick={onClickNextiken}>確定</button>
           </div>
         </_BaseMemberLayout>
       );
       break;
   }
-  return (
-    <_BaseMemberLayout>
-      <div className='text-center text-sub text-2xl mt-8'>
-        以下の問題について意見してください
-      </div>
-      <div className='text-center text-sub text-3xl mt-6'>
-        {villageState.village.title}
-      </div>
-      <div className='text-center text-sub text-3xl mt-6'>
-        {villageState.village.content}
-      </div>
-      <div className='flex flex-col px-10 mt-3'>
-        <textarea
-          className="
-          block
-          w-full
-          px-4
-          py-4
-          border border-solid border-sub
-          rounded-lg
-          text-2xl
-          focus: text-gray-700 focus:border-blue-600 focus:outline-none
-          "
-          placeholder="意見を入力してください"
-          rows={10}
-          onChange={(event) => setOpinion(event.target.value)}
-        />
-      </div>
-      <div className='flex justify-center'>
-        <button className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'
-          onClick={onClickBack}>戻る</button>
-        <button className='mt-10 font-semibold px-7 py-3 rounded-lg bg-sub text-main transition ease-in-out'
-          onClick={onClickNext}>確定</button>
-      </div>
-    </_BaseMemberLayout>
-  );
-
 }
-
 export default CoreMemberOpinion
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
