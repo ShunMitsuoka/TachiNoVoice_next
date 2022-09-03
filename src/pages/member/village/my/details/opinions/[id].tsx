@@ -1,6 +1,7 @@
 import { RouteManager } from "@/app/manages/routeManager";
 import { ApiService } from "@/app/services/apiService";
 import { AuthService } from "@/app/services/authService";
+import { OpinionCard } from "@/components/templates/member/village/my/details/opinions/opinionCard";
 import { PhaseDetailsHeader } from "@/components/templates/member/village/my/details/phaseDetailsHeader";
 import { usePageLoading } from "@/hooks/common/usePageLoading";
 import { useVillage } from "@/hooks/components/member/village/my/useVillage";
@@ -51,23 +52,22 @@ const MyVillageOpinios: NextPage = () => {
   return (
     <_BaseMemberLayout>
       <PhaseDetailsHeader village={villageState.village} />
-      <div>
+      <div className='mt-5 flex justify-center'>
+        <span>{villageState.village.title}</span>
+      </div>
+      <div className="px-4 mt-5">
         {
           members.map((member) => {
             return (
-              <div key={member.user_id}>
-                <div>{member.nickname}</div>
-                <div>
-                    {
-                      member.opinions && 
-                      member.opinions.map((opinion, index) => {
-                        return (
-                          <div key={index}>{opinion}</div>
-                        )
-                      })
-                    }
-                </div>
-              </div>
+              member.opinions && 
+              member.opinions.map((opinion, index) => {
+                return (
+                    opinion && 
+                    <div className="mt-4">
+                      <OpinionCard key={index} name={member.nickname} opinion={opinion} gender={member.gender} age={member.age} />
+                    </div>
+                )
+              })
             );
           })
         }

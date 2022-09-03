@@ -46,8 +46,8 @@ declare module "villageType" {
     interface MemberDetails{
         user_id : number,
         nickname : string,
-        age : string,
-        gender : string,
+        age : number,
+        gender : number,
         gender_name : string,
         opinions? : string[],
     }

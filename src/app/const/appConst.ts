@@ -1,4 +1,11 @@
 export const appConst = {
+    user : {
+        gender : {
+            man : 1,
+            woman : 2,
+            LGBT : 3,
+        }
+    },
     member : {
         role : {
             host : 1,
