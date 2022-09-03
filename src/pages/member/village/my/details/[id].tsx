@@ -3,6 +3,7 @@ import { RouteManager } from '@/app/manages/routeManager'
 import { AuthService } from '@/app/services/authService'
 import { PhaseDetailsHeader } from '@/components/templates/member/village/my/details/phaseDetailsHeader'
 import { AskingOpinionsOfCoreMember } from '@/components/templates/member/village/my/details/phases/askingOpinionsOfCoreMember'
+import { CategorizeOpinions } from '@/components/templates/member/village/my/details/phases/categorizeOpinions'
 import { DrawingCoreMember } from '@/components/templates/member/village/my/details/phases/drawingCoreMember'
 import { Phase1 } from '@/components/templates/member/village/my/details/phases/phase1'
 import { useVillage } from '@/hooks/components/member/village/my/useVillage'
@@ -40,11 +41,11 @@ const MyVillageDetails: NextPage = () => {
       case appConst.village.phase.drawingCoreMember:
         component =<DrawingCoreMember key={2} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
-      case 3:
+      case appConst.village.phase.askingOpinionsOfCoreMember:
         component =<AskingOpinionsOfCoreMember key={3} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
-      case 4:
-        component =<Phase1 key={4} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
+      case appConst.village.phase.categorizeOpinions:
+        component =<CategorizeOpinions key={4} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
       case 5:
         component =<Phase1 key={5} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
