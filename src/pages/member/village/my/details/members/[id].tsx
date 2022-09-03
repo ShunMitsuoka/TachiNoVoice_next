@@ -27,6 +27,10 @@ type cardtype = {
   gender_name: string,
 }
 
+type charttype = {
+  data:[]
+}
+
 const SampleChart = dynamic(() => import("./graph"), { ssr: false });
 
 const MyVillageMembers: NextPage = () => {
@@ -41,6 +45,7 @@ const MyVillageMembers: NextPage = () => {
   const villageMethod = useVillageMethod(villageState.village, villageState.setVillage);
 
   const [villageMembers, setVillageMembers] = useState<cardtype[]>([]);
+  const [villageMembersChart, setvillageMembersChart] = useState<charttype[]>([]);
   const [coreMembers, setCoreMembers] = useState<cardtype[]>([]);
   const [riseMembers, setRiseMembers] = useState<cardtype[]>([]);
 
@@ -58,6 +63,8 @@ const MyVillageMembers: NextPage = () => {
           setVillageMembers(response.data.result.members.village_members);
           setCoreMembers(response.data.result.members.core_members);
           setRiseMembers(response.data.result.members.rise_members);
+          setvillageMembersChart(response.data.result.members.village_members);
+          console.log(response.data.result.members.village_members);
         } else {
           alert('失敗');
         }
@@ -138,7 +145,8 @@ const MyVillageMembers: NextPage = () => {
               年齢
             </div>
             <div className="relative w-28 h-32">
-              <SampleChart />
+              {/* <SampleChart /> */}
+              <SampleChart key={0} data={villageMembersChart} />
             </div>
           </div>
           <div className="relative col-span-1 flex flex-col items-center">
@@ -146,7 +154,13 @@ const MyVillageMembers: NextPage = () => {
               性別
             </div>
             <div className="relative w-28 h-32">
-              <SampleChart />
+            {/* {
+              villageMembersAge.map((elem, index) => {
+                  return <Graph key={index} data={elem} />
+              })
+            } */}
+            
+              <SampleChart key={1} data={villageMembersChart} />
             </div>
           </div>
       </div>

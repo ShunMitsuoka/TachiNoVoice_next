@@ -13,6 +13,9 @@ module.exports = {
       colors: {
         main : '#FEF8F1',
         sub : '#A26749',
+        red : '#E9C3CE',
+        green : '#DFE7C0',
+        orange : '#EFB795',
         host : '#E9C3CE',
         village : '#A0D2ED',
         core : '#DFE7C0',
