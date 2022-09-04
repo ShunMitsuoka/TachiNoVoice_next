@@ -19,7 +19,7 @@ module.exports = {
         host : '#E9C3CE',
         village : '#A0D2ED',
         core : '#DFE7C0',
-        rose : '#EFB795',
+        rise : '#EFB795',
         p : {
           sub : '#F0E5DF'
         }

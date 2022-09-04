@@ -24,6 +24,7 @@ type route = {
                     coreMemberOpinion: string,
                     category: {
                         make : string,
+                        categorize : string,
                     },
 
                 }
@@ -64,7 +65,9 @@ type apiRoute = {
             opinion: {
                 index:string,
                 coreMember: string,
-            }
+                setCategory: string,
+            },
+            category: string,
         },
     }
 }
@@ -100,6 +103,7 @@ export class RouteManager {
                         coreMemberOpinion: '/member/village/my/details/coreMemberOpinion/',
                         category: {
                             make : '/member/village/my/details/category/make/',
+                            categorize : '/member/village/my/details/category/categorize/',
                         },
                     }
                 },
@@ -140,7 +144,9 @@ export class RouteManager {
                 opinion: {
                     index: '/api/my/village/:id/opinions',
                     coreMember: '/api/my/village/:id/core_member/opinion',
-                }
+                    setCategory: '/api/my/village/:id/opinion/set_category',
+                },
+                category: '/api/my/village/:id/category',
             },
         }
     }

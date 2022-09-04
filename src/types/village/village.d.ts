@@ -31,7 +31,7 @@ declare module "villageType" {
             by_limit:phaseSettingItem,
             by_date:phaseSettingItem,
         },
-        members? : Members,
+        categories? : Category[],
     }
     interface phaseSettingItem{
         is_need : boolean,
@@ -39,19 +39,21 @@ declare module "villageType" {
         is_selected : boolean,
         date? : string,
     }
-    interface Members{
-        core_members : MemberDetails[],
-        rise_members : MemberDetails[],
+    interface Category{
+        category_name : string,
+        category_id? : number,
+        opinions? : Opinion[] 
     }
-    interface MemberDetails{
-        user_id : number,
-        nickname : string,
-        age : number,
-        gender : number,
-        gender_name : string,
-        opinions? : string[],
-    }
-    interface opinionItem{
+    interface Opinion{
+        opinion_id : number,
         opinion : string,
+        member : MemberDetail
+    }
+    interface MemberDetail{
+        user_id : number,
+        role_id : number,
+        nickname : string,
+        age? : number,
+        gender? : number,
     }
   }

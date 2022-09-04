@@ -16,7 +16,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { MemberDetails } from "villageType";
+import { Category } from "villageType";
 
 const MyVillageOpinios: NextPage = () => {
 
@@ -25,7 +25,7 @@ const MyVillageOpinios: NextPage = () => {
   const { id } = router.query;
   const pageLoading = usePageLoading();
   const villageState = useVillage();
-  const [members, setMembers] = useState<MemberDetails[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const villageMethod = useVillageMethod(villageState.village, villageState.setVillage);
   const phaseComponet = usePhaseComponent(villageState.village);
 
@@ -41,14 +41,8 @@ const MyVillageOpinios: NextPage = () => {
           console.log(res);
           if (res.getSuccess()) {
             villageState.setVillage(res.getResult());
-            let memberDetails: MemberDetails[] = [];
-            response.data.result.members.core_members.map((memberDetail: MemberDetails) => {
-              memberDetails.push(memberDetail);
-            });
-            response.data.result.members.rise_members.map((memberDetail: MemberDetails) => {
-              memberDetails.push(memberDetail);
-            });
-            setMembers(memberDetails);
+            console.log(res.getResult());
+            setCategories(response.data.result.categories);
           } else {
             alert('失敗');
           }
@@ -81,18 +75,20 @@ const MyVillageOpinios: NextPage = () => {
       </div>
       <div className="px-4 mt-6">
         {
-          members.map((member) => {
-            return (
-              member.opinions &&
-              member.opinions.map((opinion, index) => {
-                return (
-                  opinion &&
+          categories.map((category) => {
+            let contents:React.ReactNode[] = [];
+            if(category.opinions){
+              let opinions = category.opinions;
+              opinions.map((opinion, index) => {
+                let member = opinion.member;
+                contents.push(
                   <div key={index} className="mt-4">
-                    <OpinionCard name={member.nickname} opinion={opinion} gender={member.gender} age={member.age} />
+                    <OpinionCard name={member.nickname} opinion={opinion.opinion} gender={member.gender} age={member.age} />
                   </div>
-                )
+                );
               })
-            );
+            }
+            return contents;
           })
         }
       </div>
