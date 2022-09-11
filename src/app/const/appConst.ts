@@ -24,6 +24,9 @@ export const appConst = {
             evaluation : 6,
             decidingPolicy : 7,
             surveyingSatisfaction : 8,
+        },
+        category : {
+            uncategorized : 0,
         }
     },
 }

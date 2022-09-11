@@ -20,7 +20,7 @@ const _BaseMemberLayout: NextPage<Props> = ({
             </Head>
             <div className="relative flex flex-col bg-main text-sub font-main min-h-screen">
                 <MemberHeader title={title}/>
-                <div className="pb-32">
+                <div className="pb-32 flex-1">
                     {children}
                 </div>
             </div>

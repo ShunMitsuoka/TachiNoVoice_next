@@ -16,7 +16,7 @@ export const BaseButton: React.FC<Props> = ({
     return (
         <button
             type={isSubmit ? 'submit' : 'button'}
-            className={'font-semibold px-5 py-2 rounded-lg w-auto bg-sub text-main ' + _class}
+            className={'font-semibold px-5 py-2 rounded-lg w-auto bg-sub text-main drop-shadow-lg' + _class}
             onClick={onClick}
         >
             {children}

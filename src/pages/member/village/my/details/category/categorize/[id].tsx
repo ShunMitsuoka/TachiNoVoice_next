@@ -148,13 +148,17 @@ const MyVillageCategory: NextPage = () => {
                         })
                     }
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between mt-4">
+                    <div>
+                        <LinkButton href={RouteManager.webRoute.member.village.my.details.category.make + villageState.village.village_id}>
+                          カテゴリー編集
+                        </LinkButton>
+                    </div>
                     <div>
                         <LinkButton href={RouteManager.webRoute.member.village.my.details.opinions + villageState.village.village_id}>
                             意見一覧
                         </LinkButton>
                     </div>
-                    <div></div>
                 </div>
             </div>
         </_BaseMemberLayout>

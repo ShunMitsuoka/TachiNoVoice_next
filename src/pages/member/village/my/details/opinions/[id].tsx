@@ -1,3 +1,4 @@
+import { appConst } from "@/app/const/appConst";
 import { RouteManager } from "@/app/manages/routeManager";
 import { ApiService } from "@/app/services/apiService";
 import { AuthService } from "@/app/services/authService";
@@ -18,6 +19,8 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Category } from "villageType";
 
+import { FaExchangeAlt } from "react-icons/fa";
+
 const MyVillageOpinios: NextPage = () => {
 
   const { data: session, status } = useSession();
@@ -26,9 +29,13 @@ const MyVillageOpinios: NextPage = () => {
   const pageLoading = usePageLoading();
   const villageState = useVillage();
   const [categories, setCategories] = useState<Category[]>([]);
+  const [slectedCategoryId, setSlectedCategoryId] = useState<number>(appConst.village.category.uncategorized);
+  const [dispCategory, setDispCategory] = useState<Category>();
   const villageMethod = useVillageMethod(villageState.village, villageState.setVillage);
   const phaseComponet = usePhaseComponent(villageState.village);
-
+  const [openCategoryList, setOpenCategoryList] = useState<boolean>(false);
+  const [isAbleToCategorize, setIsAbleToCategorize] = useState<boolean>(false);
+  const [isAbleToFinishCategorizing, setIsAbleToFinishCategorizing] = useState<boolean>(false);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -46,51 +53,163 @@ const MyVillageOpinios: NextPage = () => {
           } else {
             alert('失敗');
           }
-        })
-        .finally(pageLoading.close);
+        });
     }
   }, [status]);
 
+  useEffect(() => {
+    for (const key in categories) {
+      const category = categories[key];
+       if(category.category_id === appConst.village.category.uncategorized && category.opinions && category.opinions.length === 0){
+        setIsAbleToFinishCategorizing(true);
+       }
+       if(category.category_id !== appConst.village.category.uncategorized){
+        setIsAbleToCategorize(true);
+       }
+    }
+    for (const key in categories) {
+      const category = categories[key];
+      if(category.opinions  && category.opinions.length > 0){
+        if(category.category_id! == slectedCategoryId){
+          updateDispCategory(slectedCategoryId);
+        }else{
+          setSlectedCategoryId(category.category_id!);
+        }
+        break;
+      }
+    }
+  }, [categories]);
+
+  useEffect(() => {
+    updateDispCategory(slectedCategoryId);
+  }, [slectedCategoryId]);
+
+  const updateDispCategory = (slectedId :  number) => {
+    for (const key in categories) {
+      const category = categories[key];
+      if(category.category_id == slectedId){
+        setDispCategory(category);
+        break;
+      }
+    }
+    pageLoading.close();
+  }
+
+
+  const onOpenCategoryList = () => {
+    setOpenCategoryList(true);
+  }
+
+  const onCloseCategoryList = () => {
+    setOpenCategoryList(false);
+  }
+
   return (
     <_BaseMemberLayout>
-      <PhaseDetailsHeader village={villageState.village} menuType={"opinion"} />
-      <VillageTitle village={villageState.village} _class='my-8'/>
-      <div className="mt-4 text-center">
-        {phaseComponet.phaseComponent({
-          askingOpinionsOfCoreMember: {
-            host: (
-              <MiddleButton onClick={villageMethod.nextPhase}>
-                意見募集終了
-              </MiddleButton>
-            )
-          },
-          categorizeOpinions: {
-            host: (
-              <LinkButton href={RouteManager.webRoute.member.village.my.details.category.make + villageState.village.village_id}>
-                カテゴリー作成
-              </LinkButton>
-            )
-          }
-        })}
-      </div>
-      <div className="px-4 mt-6">
-        {
-          categories.map((category) => {
-            let contents:React.ReactNode[] = [];
-            if(category.opinions){
-              let opinions = category.opinions;
-              opinions.map((opinion, index) => {
-                let member = opinion.member;
-                contents.push(
-                  <div key={index} className="mt-4">
-                    <OpinionCard name={member.nickname} opinion={opinion.opinion} gender={member.gender} age={member.age} />
+      {
+        openCategoryList &&
+        <div className="fixed top-0 left-0 h-full w-full z-10">
+          <div className="absolute top-0 left-0 h-full w-full" onClick={onCloseCategoryList}>
+          </div>
+          <div className=" absolute top-0 right-0 flex flex-col justify-center h-screen w-9/12 px-4 bg-main rounded-tl-full rounded-bl-full drop-shadow-lg">
+            {
+              categories.map((category, index) => {
+                return(
+                  <div key={index}>
+                    {
+                      category && category.opinions && category.opinions.length > 0 &&
+                      <div 
+                        className={"px-3 py-2 mb-6 rounded-lg text-xl text-white drop-shadow-lg " + (category.category_id == slectedCategoryId ? "bg-gray-300" : "bg-rise") }
+                        onClick={() => {
+                          setSlectedCategoryId(category.category_id!);
+                          onCloseCategoryList();
+                        }}>
+                        {category.category_name}
+                      </div>
+                    }
                   </div>
                 );
               })
             }
-            return contents;
-          })
-        }
+          </div>
+        </div>
+      }
+      <PhaseDetailsHeader village={villageState.village} menuType={"opinion"} />
+      <div className="relative py-8">
+        <VillageTitle village={villageState.village} _class=''/>
+        <div className="mt-4 px-4 text-center">
+          {phaseComponet.phaseComponent({
+            askingOpinionsOfCoreMember: {
+              host: (
+                <MiddleButton onClick={villageMethod.nextPhase}>
+                  意見募集終了
+                </MiddleButton>
+              )
+            },
+            categorizeOpinions: {
+              host: (
+                <>
+                  {
+                    isAbleToCategorize ? 
+                    <div className="flex justify-between">
+                      <div>
+                        <LinkButton href={RouteManager.webRoute.member.village.my.details.category.make + villageState.village.village_id}>
+                          カテゴリー作成
+                        </LinkButton>
+                      </div>
+                      <div>
+                        <LinkButton href={RouteManager.webRoute.member.village.my.details.category.categorize + villageState.village.village_id}>
+                          意見分類
+                        </LinkButton>
+                      </div>
+                    </div>
+                    :
+                    <div>
+                      <LinkButton href={RouteManager.webRoute.member.village.my.details.category.make + villageState.village.village_id}>
+                        カテゴリー作成
+                      </LinkButton>
+                    </div>
+                  }
+                </>
+              )
+            }
+          })}
+        </div>
+        {phaseComponet.phaseComponent({
+            categorizeOpinions: {
+              host: (
+                <>
+                  {
+                    isAbleToFinishCategorizing &&
+                    <div className="mt-4 px-4  text-right">
+                      <MiddleButton onClick={villageMethod.nextPhase}>
+                        分類終了
+                      </MiddleButton>
+                    </div>
+                  }
+                </>
+              )
+            }
+        })}
+          {
+            dispCategory && 
+            <div className="relative py-3 mt-6 text-center bg-rise text-white text-lg font-bold">
+              {dispCategory.category_name}
+              <FaExchangeAlt className="absolute top-4 right-6 text-xl" onClick={onOpenCategoryList}/>
+            </div>
+          }
+        <div className="px-4 mt-6">
+          { dispCategory && dispCategory.opinions && 
+            dispCategory.opinions.map((opinion, index) => {
+              let member = opinion.member;
+              return (
+                <div key={index} className="mt-4">
+                  <OpinionCard name={member.nickname} opinion={opinion.opinion} gender={member.gender} age={member.age} />
+                </div>
+              );
+            })
+          }
+        </div>
       </div>
     </_BaseMemberLayout>
   )
