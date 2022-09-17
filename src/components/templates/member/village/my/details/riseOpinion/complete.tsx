@@ -6,17 +6,13 @@ import { Category, Village } from 'villageType';
 interface Props {
     village: Village;
     category: Category;
-    opinion:string;
-    onRegister: () => void;
     onBack: () => void;
 }
 
-export const Confirm: React.FC<Props> = ({
+export const Complete: React.FC<Props> = ({
     village,
     category,
-    onRegister,
     onBack,
-    opinion,
 }) => {
     return (
         <div className=''>
@@ -26,14 +22,12 @@ export const Confirm: React.FC<Props> = ({
                 }
             </div>
             <div>
-                {opinion}
+                ご意見、有難うございます。<br />
+                他カテゴリーへの意見投稿もよろしくお願いいたします。
             </div>
-            <div className=' flex justify-between'>
+            <div className=' flex justify-center'>
                 <div>
                     <BaseButton onClick={onBack}>戻る</BaseButton>
-                </div>
-                <div>
-                    <BaseButton onClick={onRegister}>意見する</BaseButton>
                 </div>
             </div>
         </div>

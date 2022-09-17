@@ -4,8 +4,8 @@ import { AuthService } from "@/app/services/authService";
 import { VillageTitle } from "@/components/modules/member/village/villageTitle";
 import { PhaseDetailsHeader } from "@/components/templates/member/village/my/details/phaseDetailsHeader";
 import { CategoryList } from "@/components/templates/member/village/my/details/riseOpinion/categoryList";
+import { Complete } from "@/components/templates/member/village/my/details/riseOpinion/complete";
 import { Confirm } from "@/components/templates/member/village/my/details/riseOpinion/confirm";
-import { Complete } from "@/components/templates/member/village/my/details/riseOpinion/confirm copy";
 import { Register } from "@/components/templates/member/village/my/details/riseOpinion/register";
 import { usePageLoading } from "@/hooks/common/usePageLoading";
 import { useVillage } from "@/hooks/components/member/village/my/useVillage";
@@ -15,7 +15,7 @@ import { NextPage, GetServerSideProps } from "next";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState, useEffect, useMemo } from "react";
-import { Category } from "villageType";
+import { Category, MyOpinion } from "villageType";
 
 const RiseMemberOpinion: NextPage = () => {
 
@@ -27,6 +27,7 @@ const RiseMemberOpinion: NextPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [page, setPage] = useState<number>();
   const [selectedCategory, setSelectedCategory] = useState<Category>();
+  const [myOpinions, setMyOpinions] = useState<MyOpinion[]>([]);
 
   const [opinion, setOpinion] = useState("");
 
@@ -52,7 +53,8 @@ const RiseMemberOpinion: NextPage = () => {
           if (res.getSuccess()) {
             villageState.setVillage(res.getResult());
             console.log(res.getResult());
-            setCategories(response.data.result.categories);
+            setCategories(res.getResult().categories);
+            setMyOpinions(res.getResult().my_details.opinios)
             setPage(0);
           } else {
             alert('失敗');
@@ -91,26 +93,29 @@ const RiseMemberOpinion: NextPage = () => {
     switch (page) {
       case 0:
         return (
-          <CategoryList village={villageState.village} categories={categories} onClick={
-            (category) => {
+          <CategoryList 
+            village={villageState.village} 
+            categories={categories} 
+            onClick={(category) => {
               setOpinion('');
               setSelectedCategory(category);
-            }
-          } />
+            }} 
+            myOpinions={myOpinions}          
+          />
         );
       case 1:
         return (
           selectedCategory && 
           <Register 
-            village={villageState.village} 
-            category={selectedCategory} 
-            onBack={backPage} 
+            village={villageState.village}
+            category={selectedCategory}
+            onBack={backPage}
             onConfirm={() => {
-              setPage(page+1);
-            }} 
-            opinion={opinion} 
+              setPage(page + 1);
+            } }
+            opinion={opinion}
             changeTextAreaHandler={changeTextAreaHandler} 
-          />
+        />
         );
       case 2:
         return (

@@ -49,6 +49,11 @@ declare module "villageType" {
         opinion : string,
         member : MemberDetail
     }
+    interface MyOpinion{
+        category_id : number,
+        opinion_id : number,
+        opinion : string,
+    }
     interface MemberDetail{
         user_id : number,
         role_id : number,

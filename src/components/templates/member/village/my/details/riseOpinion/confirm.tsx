@@ -25,7 +25,7 @@ export const Confirm: React.FC<Props> = ({
                     category.category_name
                 }
             </div>
-            <div>
+            <div className='w-full'>
                 {opinion}
             </div>
             <div className=' flex justify-between'>

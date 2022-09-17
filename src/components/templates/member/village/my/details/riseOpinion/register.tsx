@@ -1,12 +1,13 @@
 import { BaseButton } from '@/components/atoms/buttons/baseButton';
 import { BaseTextArea } from '@/components/atoms/textarea/baseTextArea';
 import React, { useState } from 'react';
-import { Category, Village } from 'villageType';
+import { Category, MyOpinion, Village } from 'villageType';
+import { OpinionCard } from '../opinions/opinionCard';
 
 interface Props {
     village: Village;
     category: Category;
-    opinion:string;
+    opinion: string;
     changeTextAreaHandler: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
     onConfirm: () => void;
     onBack: () => void;
@@ -18,33 +19,45 @@ export const Register: React.FC<Props> = ({
     onConfirm,
     onBack,
     opinion,
-    changeTextAreaHandler
+    changeTextAreaHandler,
 }) => {
-
-
-
     return (
         <div className=''>
-            <div>
+            <div className='py-2 bg-rise text-white text-lg'>
                 {
                     category.category_name
                 }
             </div>
-            <div>
-
-            </div>
-            <div>
-                <BaseTextArea
-                    value={opinion}
-                    onChange={changeTextAreaHandler}
-                />
-            </div>
-            <div className=' flex justify-between'>
-                <div>
-                    <BaseButton onClick={onBack}>戻る</BaseButton>
+            <div className='px-4'>
+                <div className='mt-4'>
+                    {
+                        category.opinions &&
+                        category.opinions.map((opinion, index) => {
+                            return <div key={index} className='mb-4'>
+                                <OpinionCard
+                                    name={opinion.member.nickname}
+                                    age={opinion.member.age}
+                                    gender={opinion.member.gender}
+                                    opinion={opinion.opinion}
+                                />
+                            </div>
+                        })
+                    }
                 </div>
-                <div>
-                    <BaseButton onClick={onConfirm}>確認する</BaseButton>
+                <div className='mt-4'>
+                    <BaseTextArea
+                        value={opinion}
+                        onChange={changeTextAreaHandler}
+                        rows={5}
+                    />
+                </div>
+                <div className='mt-4 flex justify-between'>
+                    <div>
+                        <BaseButton onClick={onBack}>戻る</BaseButton>
+                    </div>
+                    <div>
+                        <BaseButton onClick={onConfirm}>確認する</BaseButton>
+                    </div>
                 </div>
             </div>
         </div>
