@@ -57,7 +57,7 @@ export const AskingOpinionsOfRiseMember: React.FC<Props> = ({
 
     const coreMemberComponent = (
         <div>
-            コアメンバー意見募集まで<br />
+            ライズメンバー意見募集まで<br />
             しばらくお待ちください。
         </div>
     );
@@ -67,7 +67,7 @@ export const AskingOpinionsOfRiseMember: React.FC<Props> = ({
             {
                 phaseHook.isPreparing ?
                     <div>
-                        コアメンバー意見募集まで<br />
+                        ライズメンバー意見募集まで<br />
                         しばらくお待ちください。
                     </div>
                     :
@@ -75,7 +75,7 @@ export const AskingOpinionsOfRiseMember: React.FC<Props> = ({
                         { village.is_task_done ?
                             <div className='text-xl'>意見済み</div>
                         :
-                            <LinkButton href={RouteManager.webRoute.member.village.my.details.coreMemberOpinion + village.village_id}>
+                            <LinkButton href={RouteManager.webRoute.member.village.my.details.riseMemberOpinion.index + village.village_id}>
                                 意見募集
                             </LinkButton>
                         }

@@ -29,7 +29,7 @@ export const useVillageMethod = (village: Village, setVillage : React.Dispatch<R
         .finally(pageLoading.close);
     }
 
-    const nextPhase = () => {
+    const nextPhase = (callbackFunc? : Function) => {
         pageLoading.show();
         axios.post(ApiService.getFullURL(
             RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.phase.next, { 'id': village.village_id })
@@ -40,10 +40,15 @@ export const useVillageMethod = (village: Village, setVillage : React.Dispatch<R
                 setVillageDetails(village.village_id);
             }
         })
-        .finally(() => setVillageDetails(village.village_id));
+        .finally(() => {
+            setVillageDetails(village.village_id);
+            if(callbackFunc && typeof callbackFunc === 'function'){
+                callbackFunc()
+            };
+        });
     }
 
-    const startPhase = () => {
+    const startPhase = (callbackFunc? : Function) => {
         pageLoading.show();
         axios.post(ApiService.getFullURL(
             RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.phase.start, { 'id': village.village_id })
@@ -55,7 +60,13 @@ export const useVillageMethod = (village: Village, setVillage : React.Dispatch<R
                 
             }
         })
-        .finally(() => setVillageDetails(village.village_id));
+        .finally(() => {
+            setVillageDetails(village.village_id);
+            if(callbackFunc && typeof callbackFunc === 'function'){
+                callbackFunc()
+            };
+        });
+        
     }
 
     return { setVillageDetails, nextPhase, startPhase};

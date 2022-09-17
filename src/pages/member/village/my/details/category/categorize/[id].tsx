@@ -139,7 +139,7 @@ const MyVillageCategory: NextPage = () => {
                                 return (
                                     <div 
                                         key={index} 
-                                        className={"px-3 py-2 mb-4 rounded-lg text-xl text-white drop-shadow-lg " + (category.category_id == opinions[opinionIndex].categoryId ? "bg-gray-300" : "bg-rise") }
+                                        className={"px-3 py-2 mb-4 rounded-lg text-xl text-white drop-shadow-lg " + (category.category_id == opinions[opinionIndex].categoryId ? "bg-rise" : "bg-gray-300") }
                                         onClick={() => setCategory(category.category_id!)}>
                                         {category.category_name}
                                     </div>

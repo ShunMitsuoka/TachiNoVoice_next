@@ -25,7 +25,7 @@ export const BaseTextArea: React.FC<Props> = ({
             onChange={onChange}
             rows={rows}
             cols={cols}
-            className='w-full rounded-md px-2 py-2 resize-none text-main'
+            className='w-full rounded-md px-2 py-2 resize-none border border-sub'
         />
     );
 }

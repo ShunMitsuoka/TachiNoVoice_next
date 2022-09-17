@@ -51,27 +51,32 @@ const MyVillageMembers: NextPage = () => {
 
   useEffect(() => {
     if (status === "authenticated") {
-      pageLoading.show();
-      axios.get(ApiService.getFullURL(
-        RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.members.list, { 'id': id })
-      ), ApiService.getAuthHeader(session))
-      .then((response) => {
-        const res = ApiService.makeApiResponse(response);
-        if (res.getSuccess()) {
-          console.log(res.getResult());
-          villageState.setVillage(res.getResult());
-          setVillageMembers(response.data.result.members.village_members);
-          setCoreMembers(response.data.result.members.core_members);
-          setRiseMembers(response.data.result.members.rise_members);
-          setvillageMembersChart(response.data.result.members.village_members);
-          console.log(response.data.result.members.village_members);
-        } else {
-          alert('失敗');
-        }
-      })
-      .finally(pageLoading.close);
+      reloadMembers();
     }
   }, [status]);
+
+  const reloadMembers = () => {
+    console.log('reloadMembers');
+    pageLoading.show();
+    axios.get(ApiService.getFullURL(
+      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.members.list, { 'id': id })
+    ), ApiService.getAuthHeader(session))
+    .then((response) => {
+      const res = ApiService.makeApiResponse(response);
+      if (res.getSuccess()) {
+        console.log(res.getResult());
+        villageState.setVillage(res.getResult());
+        setVillageMembers(response.data.result.members.village_members);
+        setCoreMembers(response.data.result.members.core_members);
+        setRiseMembers(response.data.result.members.rise_members);
+        setvillageMembersChart(response.data.result.members.village_members);
+        console.log(response.data.result.members.village_members);
+      } else {
+        alert('失敗');
+      }
+    })
+    .finally(pageLoading.close);
+  }
 
   return (
     <_BaseMemberLayout>
@@ -131,7 +136,9 @@ const MyVillageMembers: NextPage = () => {
             },
             drawingCoreMember : {
               host : (
-                <MiddleButton onClick={villageMethod.startPhase}>
+                <MiddleButton onClick={() => {
+                  villageMethod.startPhase(reloadMembers);
+                }}>
                   抽選を行う
                 </MiddleButton>
               )
@@ -139,7 +146,7 @@ const MyVillageMembers: NextPage = () => {
           })}
         </div>
       </div>
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-2 mt-4">
           <div className="relative col-span-1 flex flex-col items-center">
             <div>
               年齢

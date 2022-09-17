@@ -31,7 +31,7 @@ export const OpinionCard: React.FC<Props> = ({
             {
                 open &&
                 <div className='fixed top-0 left-0 flex items-center justify-center w-full h-full px-4 bg-slate-800 bg-opacity-60 z-10' onClick={() => setOpen(false)}>
-                    <div className=' bg-white rounded-lg drop-shadow overflow-hidden' onClick={() => setOpen(true)}>
+                    <div className='w-full bg-white rounded-lg drop-shadow overflow-hidden' onClick={() => setOpen(true)}>
                         <div className='flex items-center px-2 py-1 bg-core'>
                             {
                                 gender &&

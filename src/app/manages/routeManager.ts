@@ -22,6 +22,9 @@ type route = {
                     opinions: string,
                     phaseSetting: string,
                     coreMemberOpinion: string,
+                    riseMemberOpinion: {
+                        index : string,
+                    },
                     category: {
                         make : string,
                         categorize : string,
@@ -65,6 +68,7 @@ type apiRoute = {
             opinion: {
                 index:string,
                 coreMember: string,
+                riseMember: string,
                 setCategory: string,
             },
             category: string,
@@ -101,6 +105,9 @@ export class RouteManager {
                         opinions: '/member/village/my/details/opinions/',
                         phaseSetting: '/member/village/my/details/phaseSetting/',
                         coreMemberOpinion: '/member/village/my/details/coreMemberOpinion/',
+                        riseMemberOpinion: {
+                            index : '/member/village/my/details/riseMemberOpinion/',
+                        },
                         category: {
                             make : '/member/village/my/details/category/make/',
                             categorize : '/member/village/my/details/category/categorize/',
@@ -144,6 +151,7 @@ export class RouteManager {
                 opinion: {
                     index: '/api/my/village/:id/opinions',
                     coreMember: '/api/my/village/:id/core_member/opinion',
+                    riseMember: '/api/my/village/:id/rise_member/opinion',
                     setCategory: '/api/my/village/:id/opinion/set_category',
                 },
                 category: '/api/my/village/:id/category',
