@@ -14,7 +14,7 @@ interface Props {
     setVillage: React.Dispatch<React.SetStateAction<Village>>
 }
 
-export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
+export const AskingOpinionsOfRiseMember: React.FC<Props> = ({
     phaseNo,
     village,
     setVillage
@@ -56,11 +56,18 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
     );
 
     const coreMemberComponent = (
+        <div>
+            コアメンバー意見募集まで<br />
+            しばらくお待ちください。
+        </div>
+    );
+
+    const riseMemberComponent = (
         <>
             {
                 phaseHook.isPreparing ?
                     <div>
-                        ライズメンバー意見募集まで<br />
+                        コアメンバー意見募集まで<br />
                         しばらくお待ちください。
                     </div>
                     :
@@ -76,13 +83,6 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
 
             }
         </>
-    );
-
-    const riseMemberComponent = (
-        <div>
-            コアメンバー意見募集中です<br />
-            しらばらくお待ちください。
-        </div>
     );
 
     const roleComponent = useMemo(() => ({
