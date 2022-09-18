@@ -71,6 +71,7 @@ type apiRoute = {
                 riseMember: string,
                 setCategory: string,
             },
+            evaluation : string,
             category: string,
         },
     }
@@ -154,6 +155,7 @@ export class RouteManager {
                     riseMember: '/api/my/village/:id/rise_member/opinion',
                     setCategory: '/api/my/village/:id/opinion/set_category',
                 },
+                evaluation : '/api/my/village/:id/evaluation',
                 category: '/api/my/village/:id/category',
             },
         }

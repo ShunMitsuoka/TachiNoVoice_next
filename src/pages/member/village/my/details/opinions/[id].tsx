@@ -17,7 +17,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { Category } from "villageType";
+import { Category, MemberDetail } from "villageType";
 
 import { FaExchangeAlt } from "react-icons/fa";
 
@@ -28,6 +28,7 @@ const MyVillageOpinios: NextPage = () => {
   const { id } = router.query;
   const pageLoading = usePageLoading();
   const villageState = useVillage();
+  const [myDetails, setMyDetails] = useState<MemberDetail>();
   const [categories, setCategories] = useState<Category[]>([]);
   const [slectedCategoryId, setSlectedCategoryId] = useState<number>(appConst.village.category.uncategorized);
   const [dispCategory, setDispCategory] = useState<Category>();
@@ -39,23 +40,28 @@ const MyVillageOpinios: NextPage = () => {
 
   useEffect(() => {
     if (status === "authenticated") {
-      pageLoading.show();
-      axios.get(ApiService.getFullURL(
-        RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.opinion.index, { 'id': id })
-      ), ApiService.getAuthHeader(session))
-        .then((response) => {
-          const res = ApiService.makeApiResponse(response);
-          console.log(res);
-          if (res.getSuccess()) {
-            villageState.setVillage(res.getResult());
-            console.log(res.getResult());
-            setCategories(response.data.result.categories);
-          } else {
-            alert('失敗');
-          }
-        });
+      reload();
     }
   }, [status]);
+
+  const reload = () => {
+    pageLoading.show();
+    axios.get(ApiService.getFullURL(
+      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.opinion.index, { 'id': id })
+    ), ApiService.getAuthHeader(session))
+      .then((response) => {
+        const res = ApiService.makeApiResponse(response);
+        console.log(res);
+        if (res.getSuccess()) {
+          villageState.setVillage(res.getResult());
+          console.log(res.getResult());
+          setCategories(res.getResult().categories);
+          setMyDetails(res.getResult().my_details)
+        } else {
+          alert('失敗');
+        }
+      });
+  }
 
   useEffect(() => {
     for (const key in categories) {
@@ -172,6 +178,18 @@ const MyVillageOpinios: NextPage = () => {
                   }
                 </>
               )
+            },
+            askingOpinionsOfRiseMember: {
+              host: (
+                <>
+                  {
+                    !villageState.village.is_phase_preparing && 
+                    <MiddleButton onClick={villageMethod.nextPhase}>
+                      意見募集終了
+                    </MiddleButton>
+                  }
+                </>
+              )
             }
           })}
         </div>
@@ -199,12 +217,16 @@ const MyVillageOpinios: NextPage = () => {
             </div>
           }
         <div className="px-4 mt-6">
-          { dispCategory && dispCategory.opinions && 
+          { dispCategory && dispCategory.opinions && myDetails &&
             dispCategory.opinions.map((opinion, index) => {
-              let member = opinion.member;
               return (
                 <div key={index} className="mt-4">
-                  <OpinionCard name={member.nickname} opinion={opinion.opinion} gender={member.gender} age={member.age} />
+                    <OpinionCard 
+                      opinion={opinion} 
+                      myDetails={myDetails} 
+                      villageId={villageState.village.village_id} 
+                      reload={reload}
+                    />
                 </div>
               );
             })

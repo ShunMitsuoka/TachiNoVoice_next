@@ -48,6 +48,7 @@ declare module "villageType" {
         opinion_id : number,
         opinion : string,
         member : MemberDetail
+        evaluations? : Evaluation[],
     }
     interface MyOpinion{
         category_id : number,
@@ -60,5 +61,9 @@ declare module "villageType" {
         nickname : string,
         age? : number,
         gender? : number,
+    }
+    interface Evaluation{
+        value : number,
+        user_id : number,
     }
   }

@@ -35,11 +35,9 @@ export const Register: React.FC<Props> = ({
                         category.opinions.map((opinion, index) => {
                             return <div key={index} className='mb-4'>
                                 <OpinionCard
-                                    name={opinion.member.nickname}
-                                    age={opinion.member.age}
-                                    gender={opinion.member.gender}
-                                    opinion={opinion.opinion}
-                                />
+                                    opinion={opinion} 
+                                    villageId={village.village_id} 
+                                    myDetails={undefined}                                />
                             </div>
                         })
                     }

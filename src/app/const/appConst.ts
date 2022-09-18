@@ -27,6 +27,11 @@ export const appConst = {
         },
         category : {
             uncategorized : 0,
+        },
+        evaluation : {
+            good : 1,
+            bad : 50,
+            uncertain : 100,
         }
     },
 }
