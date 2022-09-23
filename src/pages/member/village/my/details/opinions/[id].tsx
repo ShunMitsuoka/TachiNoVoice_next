@@ -190,6 +190,18 @@ const MyVillageOpinios: NextPage = () => {
                   }
                 </>
               )
+            },
+            evaluation : {
+              host: (
+                <>
+                  {
+                    !villageState.village.is_phase_preparing && 
+                    <MiddleButton onClick={villageMethod.nextPhase}>
+                      評価終了
+                    </MiddleButton>
+                  }
+                </>
+              )
             }
           })}
         </div>
@@ -217,7 +229,7 @@ const MyVillageOpinios: NextPage = () => {
             </div>
           }
         <div className="px-4 mt-6">
-          { dispCategory && dispCategory.opinions && myDetails &&
+          { dispCategory && dispCategory.opinions &&
             dispCategory.opinions.map((opinion, index) => {
               return (
                 <div key={index} className="mt-4">
@@ -226,6 +238,12 @@ const MyVillageOpinios: NextPage = () => {
                       myDetails={myDetails} 
                       villageId={villageState.village.village_id} 
                       reload={reload}
+                      isShowEvaluation={
+                        (villageState.village.phase_no == appConst.village.phase.evaluation 
+                          && villageState.village.role_id == appConst.member.role.host)
+                        || villageState.village.phase_no == appConst.village.phase.decidingPolicy
+                        || villageState.village.phase_no == appConst.village.phase.surveyingSatisfaction
+                      }
                     />
                 </div>
               );
