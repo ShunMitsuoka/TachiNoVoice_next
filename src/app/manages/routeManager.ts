@@ -32,6 +32,10 @@ type route = {
                     policy : {
                         index : string
                     }
+                    satisfaction : {
+                        index : string,
+                        result : string,
+                    }
                 }
             },
         },
@@ -118,6 +122,10 @@ export class RouteManager {
                         },
                         policy : {
                             index : '/member/village/my/details/policy/'
+                        },
+                        satisfaction : {
+                            index : '/member/village/my/details/satisfaction/',
+                            result : '/member/village/my/details/satisfaction/result/',
                         }
                     }
                 },

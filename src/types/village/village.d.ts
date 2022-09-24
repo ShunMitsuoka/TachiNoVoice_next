@@ -68,6 +68,7 @@ declare module "villageType" {
         user_id : number,
     }
     interface Policy{
-        policy : string,
+        policy_id : number,
+        policy : string
     }
   }

@@ -14,7 +14,7 @@ interface Props {
     setVillage: React.Dispatch<React.SetStateAction<Village>>
 }
 
-export const Phase1: React.FC<Props> = ({
+export const Satisfaction: React.FC<Props> = ({
     phaseNo,
     village,
     setVillage
@@ -32,42 +32,39 @@ export const Phase1: React.FC<Props> = ({
                         開始
                     </MiddleButton>
                 : 
-                <LinkButton href={RouteManager.webRoute.member.village.my.details.members + village.village_id}>
+                <LinkButton href={RouteManager.webRoute.member.village.my.details.opinions + village.village_id}>
                         確認する
                 </LinkButton>
             }
         </>
     );
 
-    const villageMemberComponent = (
-        <div>
-            メンバー募集中です。<br />
-            メンバー抽選まで<br />
-            しばらくお待ちください。
-        </div>
-    );
+    const otherMemberComponent = (
+        <>
+            {
+                phaseHook.isPreparing ?
+                    <div>
+                        満足度フェーズ開始まで<br />
+                        しばらくお待ちください。
+                    </div>
+                    :
+                    <>
+                        { village.is_task_done ?
+                            <div className='text-xl'>登録済み</div>
+                        :
+                            <LinkButton href={RouteManager.webRoute.member.village.my.details.satisfaction.index + village.village_id}>
+                                登録する
+                            </LinkButton>
+                        }
+                    </>
 
-    const coreMemberComponent = (
-        <div>
-            メンバー募集中です。<br />
-            メンバー抽選まで<br />
-            しばらくお待ちください。
-        </div>
-    );
-
-    const riseMemberComponent = (
-        <div>
-            メンバー募集中です。<br />
-            メンバー抽選まで<br />
-            しばらくお待ちください。
-        </div>
+            }
+        </>
     );
 
     const roleComponent = useMemo(() => ({
         host: hostComponent,
-        villageMember: villageMemberComponent,
-        coreMember: coreMemberComponent,
-        riseMember: riseMemberComponent
+        other: otherMemberComponent,
     }), [village]);
 
     return (

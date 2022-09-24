@@ -9,7 +9,8 @@ import { CategorizeOpinions } from '@/components/templates/member/village/my/det
 import { DecidingPolicy } from '@/components/templates/member/village/my/details/phases/decidingPolicy'
 import { DrawingCoreMember } from '@/components/templates/member/village/my/details/phases/drawingCoreMember'
 import { Evaluation } from '@/components/templates/member/village/my/details/phases/evaluation'
-import { Phase1 } from '@/components/templates/member/village/my/details/phases/phase1'
+import { RecruitmentOfMember } from '@/components/templates/member/village/my/details/phases/recruitmentOfMember'
+import { Satisfaction } from '@/components/templates/member/village/my/details/phases/satisfaction'
 import { useVillage } from '@/hooks/components/member/village/my/useVillage'
 import { useVillageMethod } from '@/hooks/components/member/village/my/useVillageMethod'
 import _BaseLayout from '@/layouts/_baseLayout'
@@ -40,7 +41,7 @@ const MyVillageDetails: NextPage = () => {
     let component = null;
     switch (phaseNo) {
       case appConst.village.phase.recruitmentOfMember:
-        component =<Phase1 key={1} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
+        component =<RecruitmentOfMember key={1} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
       case appConst.village.phase.drawingCoreMember:
         component =<DrawingCoreMember key={2} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
@@ -61,9 +62,8 @@ const MyVillageDetails: NextPage = () => {
         component =<DecidingPolicy key={7} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
       case appConst.village.phase.surveyingSatisfaction:
-        component =<Phase1 key={8} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
+        component =<Satisfaction key={8} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
-    
       default:
         break;
     }
