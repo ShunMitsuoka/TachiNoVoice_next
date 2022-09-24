@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "WATCHPACK_POLLING=true react-scripts start",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
