@@ -28,8 +28,8 @@ export const DecidingSatisfaction: React.FC<Props> = ({
     onNext
 }) => {
 
-    function log(value :number) {
-        console.log(value); //eslint-disable-line
+    const log = () => {
+        console.log('value'); //eslint-disable-line
     }
 
     return (
