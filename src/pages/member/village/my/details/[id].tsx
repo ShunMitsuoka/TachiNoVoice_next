@@ -6,6 +6,7 @@ import { PhaseDetailsHeader } from '@/components/templates/member/village/my/det
 import { AskingOpinionsOfCoreMember } from '@/components/templates/member/village/my/details/phases/askingOpinionsOfCoreMember'
 import { AskingOpinionsOfRiseMember } from '@/components/templates/member/village/my/details/phases/askingOpinionsOfRiseMember'
 import { CategorizeOpinions } from '@/components/templates/member/village/my/details/phases/categorizeOpinions'
+import { DecidingPolicy } from '@/components/templates/member/village/my/details/phases/decidingPolicy'
 import { DrawingCoreMember } from '@/components/templates/member/village/my/details/phases/drawingCoreMember'
 import { Evaluation } from '@/components/templates/member/village/my/details/phases/evaluation'
 import { Phase1 } from '@/components/templates/member/village/my/details/phases/phase1'
@@ -57,7 +58,7 @@ const MyVillageDetails: NextPage = () => {
         component =<Evaluation key={6} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
       case appConst.village.phase.decidingPolicy:
-        component =<Phase1 key={7} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
+        component =<DecidingPolicy key={7} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>
         break;
       case appConst.village.phase.surveyingSatisfaction:
         component =<Phase1 key={8} phaseNo={phaseNo} village={villageState.village} setVillage={villageState.setVillage}/>

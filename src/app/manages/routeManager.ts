@@ -29,7 +29,9 @@ type route = {
                         make : string,
                         categorize : string,
                     },
-
+                    policy : {
+                        index : string
+                    }
                 }
             },
         },
@@ -73,6 +75,7 @@ type apiRoute = {
             },
             evaluation : string,
             category: string,
+            policy : string,
         },
     }
 }
@@ -113,6 +116,9 @@ export class RouteManager {
                             make : '/member/village/my/details/category/make/',
                             categorize : '/member/village/my/details/category/categorize/',
                         },
+                        policy : {
+                            index : '/member/village/my/details/policy/'
+                        }
                     }
                 },
             },
@@ -157,6 +163,7 @@ export class RouteManager {
                 },
                 evaluation : '/api/my/village/:id/evaluation',
                 category: '/api/my/village/:id/category',
+                policy : '/api/my/village/:id/policy',
             },
         }
     }
