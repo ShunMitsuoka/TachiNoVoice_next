@@ -31,7 +31,7 @@ type charttype = {
   data:[]
 }
 
-const SampleChart = dynamic(() => import("./graph"), { ssr: false });
+// const SampleChart = dynamic(() => import("./graph"), { ssr: false });
 
 const MyVillageMembers: NextPage = () => {
 
