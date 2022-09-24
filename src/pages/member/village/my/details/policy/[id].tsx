@@ -8,6 +8,7 @@ import { PolicyList } from "@/components/templates/member/village/my/details/pol
 import { RegisterPolicy } from "@/components/templates/member/village/my/details/policy/register";
 import { usePageLoading } from "@/hooks/common/usePageLoading";
 import { useVillage } from "@/hooks/components/member/village/my/useVillage";
+import { useVillageMethod } from "@/hooks/components/member/village/my/useVillageMethod";
 import _BaseMemberLayout from "@/layouts/_baseMemberLayout";
 import axios from "@/libs/axios/axios";
 import { GetServerSideProps, NextPage } from "next";
@@ -24,6 +25,7 @@ const Policy: NextPage = () => {
   const { id } = router.query;
   const pageLoading = usePageLoading();
   const villageState = useVillage();
+  const villageMethod = useVillageMethod(villageState.village, villageState.setVillage);
   const [categories, setCategories] = useState<Category[]>([]);
 
   const [page, setPage] = useState<number>(0);
@@ -35,7 +37,6 @@ const Policy: NextPage = () => {
       const value = target.value;
       setPolicy(value);
   }
-
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -99,7 +100,12 @@ const Policy: NextPage = () => {
   const content = () => {
     switch (page) {
       case 0:
-        return <PolicyList village={villageState.village} categories={categories} onDecidePolicy={onDecidePolicy} />
+        return <PolicyList 
+          village={villageState.village} 
+          categories={categories} 
+          onDecidePolicy={onDecidePolicy} 
+          nextPhase={villageMethod.nextPhase}
+        />
       case 1:
         return <RegisterPolicy 
           village={villageState.village}

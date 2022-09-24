@@ -43,6 +43,7 @@ declare module "villageType" {
         category_name : string,
         category_id? : number,
         opinions? : Opinion[] 
+        policy? : Policy,
     }
     interface Opinion{
         opinion_id : number,
@@ -65,5 +66,8 @@ declare module "villageType" {
     interface Evaluation{
         value : number,
         user_id : number,
+    }
+    interface Policy{
+        policy : string,
     }
   }
