@@ -153,7 +153,7 @@ const MyVillageMembers: NextPage = () => {
             </div>
             <div className="relative w-28 h-32">
               {/* <SampleChart /> */}
-              <SampleChart key={0} data={villageMembersChart} />
+              {/* <SampleChart key={0} data={villageMembersChart} /> */}
             </div>
           </div>
           <div className="relative col-span-1 flex flex-col items-center">
@@ -167,7 +167,7 @@ const MyVillageMembers: NextPage = () => {
               })
             } */}
             
-              <SampleChart key={1} data={villageMembersChart} />
+              {/* <SampleChart key={1} data={villageMembersChart} /> */}
             </div>
           </div>
       </div>

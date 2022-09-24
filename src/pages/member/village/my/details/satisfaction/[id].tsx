@@ -98,7 +98,6 @@ const Satisfaction: NextPage = () => {
     pageLoading.show();
     axios.post(ApiService.getFullURL(RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.policy, { 'id': id })),
       {
-        categoryId: selectedCategory?.category_id,
         comment : comment,
       }, 
       ApiService.getAuthHeader(session)
