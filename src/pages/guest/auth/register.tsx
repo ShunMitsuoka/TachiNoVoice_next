@@ -67,7 +67,11 @@ export default function Register() {
             birthday: formData.birthday,
         };
         console.log(params);
-        axios.post('http://localhost:8000/api/auth/register', params)
+        axios.post(
+            ApiService.getFullURL(
+                RouteManager.getUrlWithParam(RouteManager.apiRoute.guest.auth.register)
+            )
+            , params)
         .then(function (response) {
             alert('会員登録に成功しました。\nログインしてください。')
         })

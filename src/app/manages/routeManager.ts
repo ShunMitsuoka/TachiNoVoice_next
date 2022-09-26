@@ -49,6 +49,11 @@ type route = {
 }
 
 type apiRoute = {
+    guest:{
+        auth: {
+            register: string,
+        },
+    },
     member: {
         village: {
             resource: string,
@@ -141,6 +146,11 @@ export class RouteManager {
     }
 
     static readonly apiRoute: apiRoute = {
+        guest:{
+            auth: {
+                register: '/api/auth/register',
+            },
+        },
         member: {
             village: {
                 resource: '/api/village',
