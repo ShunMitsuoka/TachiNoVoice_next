@@ -15,6 +15,7 @@ import { DateSelect } from '@/components/modules/common/dateSelect/dateSelect';
 import { usePageLoading } from '@/hooks/common/usePageLoading';
 import { LargeButton } from '@/components/atoms/buttons/largeButton';
 import { useValidationError } from '@/hooks/common/useValidationError';
+import { useRouter } from 'next/router';
 
 type formDate = {
     user_name: string,
@@ -31,8 +32,8 @@ type formDate = {
 export default function Register() {
 
     const validationError = useValidationError();
-
     const pageLoading = usePageLoading();
+    const router = useRouter()
 
     const [formData, setFormData] = useState<formDate>({
         user_name: "",
@@ -66,14 +67,14 @@ export default function Register() {
             birthmonth: formData.birthmonth,
             birthday: formData.birthday,
         };
-        console.log(params);
         axios.post(
             ApiService.getFullURL(
                 RouteManager.getUrlWithParam(RouteManager.apiRoute.guest.auth.register)
             )
             , params)
         .then(function (response) {
-            alert('会員登録に成功しました。\nログインしてください。')
+            alert('会員登録に成功しました。\nログインしてください。');
+            router.replace(RouteManager.webRoute.guest.auth.login);
         })
         .catch((error) =>{
             const res = ApiService.makeApiErrorResponse(error);
@@ -115,6 +116,9 @@ export default function Register() {
                         onChange={changeHandler}
                     />
                     <ValidationErrors validationErrors={validationError.errors} id={'nickname'}/>
+                    <div className='text-xs mt-1'>
+                        ※ニックネーム未設定の場合は氏名が表示名として使用されます。
+                    </div>
                 </div>
                 {/* メールアドレス */}
                 <div className="mt-4">
