@@ -59,7 +59,7 @@ export default function Login() {
     return (
         <_BaseGuestLayout title="LOGIN">
             <Head>
-                <title>Login</title>
+                <title>LOGIN | Tachi-No-Voice</title>
             </Head>
             <div className="text-center py-20">
                 <h1 className="text-3xl">ログイン</h1>

@@ -87,7 +87,7 @@ export default function Register() {
     return (
         <_BaseGuestLayout title="会員登録">
             <Head>
-                <title>Register</title>
+                <title>会員登録 | Tachi-No-Voice</title>
             </Head>
             <div className="text-center py-20">
                 <h1 className="text-3xl">会員登録</h1>

@@ -10,8 +10,8 @@ const Home: NextPage = () => {
   return (
     <_BaseGuestLayout title='TOP'>
       <Head>
-          <title>Login</title>
-          <meta name="description" content="ログイン概要" />
+          <title>TOP | Tachi-No-Voice</title>
+          <meta name="description" content="Tachi-No-Voiceは合意形成サービスです。" />
       </Head>
       <div className='py-16 text-3xl text-center'>
         <h1>TACHI-NO-VOICE</h1>
