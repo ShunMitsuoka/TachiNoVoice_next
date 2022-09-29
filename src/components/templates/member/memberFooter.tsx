@@ -2,10 +2,10 @@ import Link from 'next/link';
 import React, { useMemo } from 'react';
 import { RouteManager } from '@/app/manages/routeManager';
 import { AiTwotoneHome } from "react-icons/ai";
-// import { GiBarracksTent } from "react-icons/gi";
+import { GiBarracksTent } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
 import { MdMail } from "react-icons/md";
-// import { AiFillSetting } from "react-icons/ai";
+import { AiFillSetting } from "react-icons/ai";
 
 type footerInfo = {
     href : string,
@@ -16,22 +16,6 @@ type footerInfo = {
 
 export const MemberFooter = () => {
 
-    // useEffect(() => {
-    //     if(value == ''){
-    //         var currentTime = new Date();
-    //         var month = currentTime.getMonth();
-    //         value = month.toString();
-    //         if(onChange){
-    //             onChange({
-    //                 target : {
-    //                     name : name,
-    //                     value : value,
-    //                 }
-    //             })
-    //         }
-    //     }
-    // }, []);
-
     const content = useMemo(() => {
         const footer:footerInfo[] = [
             {
@@ -41,24 +25,22 @@ export const MemberFooter = () => {
             },
             {
                 href : RouteManager.webRoute.member.village.my.index,
-                icon : null,
+                icon : <GiBarracksTent />,
                 label : 'ビレッジ',
             },
             {
                 href :  RouteManager.webRoute.member.village.search.index,
-                // icon : <FaSearch />,
-                icon : null,
+                icon : <FaSearch />,
                 label : '検索',
             },
             {
                 href : RouteManager.webRoute.member.news.index,
-                // icon : <MdMail />,
-                icon : null,
+                icon : <MdMail />,
                 label : 'お知らせ',
             },
             {
                 href : RouteManager.webRoute.member.setting.index,
-                icon : null,
+                icon : <AiFillSetting />,
                 label : '設定',
             },
         ];

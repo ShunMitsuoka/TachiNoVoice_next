@@ -9,7 +9,10 @@ type route = {
     member: {
         dashboard: string,
         village: {
-            search: any
+            search: {
+                index: string,
+                details: string,
+            },
             register: {
                 index: string,
                 setting: string,
@@ -108,7 +111,7 @@ export class RouteManager {
                 },
                 search: {
                     index: '/member/village/search',
-                    setting: '/member/village/search/setting',
+                    details: '/member/village/search/details/',
                 },
                 my: {
                     index: '/member/village/my',
