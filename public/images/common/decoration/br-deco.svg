@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="327.5" height="140.5" viewBox="0 0 327.5 140.5">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="長方形_69" data-name="長方形 69" width="35" height="31" transform="translate(8 79)" fill="#fff"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect id="長方形_71" data-name="長方形 71" width="33" height="31" transform="translate(16 86)" fill="none" stroke="#a26749" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="装飾" transform="translate(327.5 140.5) rotate(180)">
+    <line id="線_14" data-name="線 14" y2="112" transform="translate(0.5 28.5)" fill="none" stroke="#a26749" stroke-width="1"/>
+    <g id="グループ_27" data-name="グループ 27" transform="translate(-10 -80.5)">
+      <path id="パス_5" data-name="パス 5" d="M0,0V118" transform="translate(18 87.5)" fill="none" stroke="#a26749" stroke-width="1" opacity="0.87"/>
+      <line id="線_16" data-name="線 16" x2="128" transform="translate(18 88)" fill="none" stroke="#a26749" stroke-width="1"/>
+    </g>
+    <path id="線_13" data-name="線 13" d="M299,.5H0v-1H299Z" transform="translate(28.5 0.5)" fill="#a26749"/>
+    <g id="マスクグループ_1" data-name="マスクグループ 1" transform="translate(-8 -79)" clip-path="url(#clip-path)">
+      <path id="パス_6" data-name="パス 6" d="M28.5,1A27.508,27.508,0,0,0,17.8,53.839,27.507,27.507,0,0,0,39.2,3.161,27.327,27.327,0,0,0,28.5,1m0-1A28.5,28.5,0,1,1,0,28.5,28.5,28.5,0,0,1,28.5,0Z" transform="translate(-20 51)" fill="#a26749"/>
+    </g>
+    <g id="マスクグループ_3" data-name="マスクグループ 3" transform="translate(-8 -78)" clip-path="url(#clip-path-2)">
+      <g id="楕円形_31" data-name="楕円形 31" transform="translate(-33 41)" fill="none" stroke="#a26749" stroke-width="1">
+        <ellipse cx="41" cy="38.5" rx="41" ry="38.5" stroke="none"/>
+        <ellipse cx="41" cy="38.5" rx="40.5" ry="38" fill="none"/>
+      </g>
+    </g>
+  </g>
+</svg>
