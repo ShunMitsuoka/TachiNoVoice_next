@@ -25,6 +25,9 @@ const _BaseMemberLayout: NextPage<Props> = ({
             <div className="relative flex flex-col bg-main text-sub font-main min-h-screen">
                 <MemberHeader title={title}/>
                 <div className="relative pb-32 flex-1">
+                    <div className='bg-polygon fixed top-0 bg-p-sub w-full h-screen'>
+
+                    </div>
                     {
                         isShowDecoration && 
                         <div className="absolute top-2 left-2">
@@ -35,7 +38,9 @@ const _BaseMemberLayout: NextPage<Props> = ({
                             />
                         </div>
                     }
-                    {children}
+                    <div className='relative'>
+                        {children}
+                    </div>
                 </div>
             </div>
             <div className="fixed bottom-0 w-full">

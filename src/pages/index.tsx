@@ -40,9 +40,9 @@ const Home: NextPage = () => {
             ログインはこちら
           </LinkButton>
         </div>
-        <div className='text-center mt-6'>
+        <div className='text-center mt-6 '>
           <Link href={RouteManager.webRoute.guest.auth.register}>
-            <a className='underline'>
+            <a className='underline cursor-pointer'>
               新規会員登録はこちら
             </a>
           </Link>

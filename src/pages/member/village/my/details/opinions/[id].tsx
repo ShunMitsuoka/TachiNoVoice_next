@@ -49,18 +49,20 @@ const MyVillageOpinios: NextPage = () => {
     axios.get(ApiService.getFullURL(
       RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.opinion.index, { 'id': id })
     ), ApiService.getAuthHeader(session))
-      .then((response) => {
-        const res = ApiService.makeApiResponse(response);
-        console.log(res);
-        if (res.getSuccess()) {
-          villageState.setVillage(res.getResult());
-          console.log(res.getResult());
-          setCategories(res.getResult().categories);
-          setMyDetails(res.getResult().my_details)
-        } else {
-          alert('失敗');
-        }
-      });
+    .then((response) => {
+      const res = ApiService.makeApiResponse(response);
+      console.log(res);
+      if (res.getSuccess()) {
+        villageState.setVillage(res.getResult());
+        console.log(res.getResult());
+        setCategories(res.getResult().categories);
+        setMyDetails(res.getResult().my_details)
+      } else {
+        alert('失敗');
+      }
+    })
+    .finally(() => {
+    })
   }
 
   useEffect(() => {
@@ -84,6 +86,7 @@ const MyVillageOpinios: NextPage = () => {
         break;
       }
     }
+    pageLoading.close();
   }, [categories]);
 
   useEffect(() => {
@@ -98,7 +101,6 @@ const MyVillageOpinios: NextPage = () => {
         break;
       }
     }
-    pageLoading.close();
   }
 
 
@@ -147,9 +149,14 @@ const MyVillageOpinios: NextPage = () => {
           {phaseComponet.phaseComponent({
             askingOpinionsOfCoreMember: {
               host: (
-                <MiddleButton onClick={villageMethod.nextPhase}>
-                  意見募集終了
-                </MiddleButton>
+                <>
+                  {
+                    categories.length !== 0 &&
+                    <MiddleButton onClick={villageMethod.nextPhase}>
+                      意見募集終了
+                    </MiddleButton>
+                  }
+                </>
               )
             },
             categorizeOpinions: {
@@ -183,7 +190,7 @@ const MyVillageOpinios: NextPage = () => {
               host: (
                 <>
                   {
-                    !villageState.village.is_phase_preparing && 
+                    !villageState.village.is_phase_preparing &&
                     <MiddleButton onClick={villageMethod.nextPhase}>
                       意見募集終了
                     </MiddleButton>
@@ -229,6 +236,12 @@ const MyVillageOpinios: NextPage = () => {
             </div>
           }
         <div className="px-4 mt-6">
+          {
+            categories.length == 0 &&
+            <div className="text-center text-xl">
+              まだ意見がありません。
+            </div>
+          }
           { dispCategory && dispCategory.opinions &&
             dispCategory.opinions.map((opinion, index) => {
               return (

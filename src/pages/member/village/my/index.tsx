@@ -1,6 +1,7 @@
 import { appConst } from '@/app/const/appConst';
 import { RouteManager } from '@/app/manages/routeManager';
 import { ApiService } from '@/app/services/apiService';
+import { ColorService } from '@/app/services/colorService';
 import { usePageLoading } from '@/hooks/common/usePageLoading';
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
 import axios from '@/libs/axios/axios';
@@ -37,21 +38,6 @@ const MyVillage: NextPage = () => {
     }
   },[status]);
 
-  const bgColre = (role_id : number) : string => {
-    switch (role_id) {
-      case appConst.member.role.host:
-        return 'bg-host';
-      case appConst.member.role.villageMember:
-        return 'bg-village';  
-      case appConst.member.role.coreMember:
-        return 'bg-core';  
-      case appConst.member.role.riseMember:
-          return 'bg-rise';  
-      default:
-        break;
-    }
-    return ''
-  }
   const roleName = (role_id : number) : string => {
     switch (role_id) {
       case appConst.member.role.host:
@@ -74,20 +60,20 @@ const MyVillage: NextPage = () => {
           <title>My ビレッジ</title>
       </Head>
       <div className=''>
-          <div className='mt-6 text-xl text-center'>
+          <div className='my-12 text-2xl font-bold text-center'>
             参加中ビレッジ一覧
           </div>
-          <div className=' px-6'>
+          <div className='px-6'>
             {
               lists.map((village, index) => {
                 return (
                   <Link key={index} href={RouteManager.webRoute.member.village.my.details.index + village.village_id}>
-                    <div className=' bg-white rounded-lg drop-shadow-lg mt-6 overflow-hidden'>
-                      <div className={bgColre(village.role_id) + ' px-2 py-2'}>
+                    <div className=' bg-white rounded-lg shadow-xl mb-10 overflow-hidden'>
+                      <div className={ColorService.bgRoleColre(village.role_id) + ' px-2 py-2'}>
                         <span className='px-2 py-1 bg-white rounded-md'>
                           {roleName(village.role_id)}
                         </span>
-                        <div className='mt-2 pb-3 text-center font-bold text-lg'>{village.title}</div>
+                        <div className='mt-1 pb-3 text-center font-bold text-lg'>{village.title}</div>
                       </div>
                       <div className='px-3 py-6 text-lg'>
                         {village.phase_name}
