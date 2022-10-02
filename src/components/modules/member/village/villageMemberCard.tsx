@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { ColorService } from '@/app/services/colorService';
 import React from 'react';
 
 interface Props {
@@ -6,7 +6,7 @@ interface Props {
     name?: string;
     age?: string,
     gender?: string,
-    role_id?: number,
+    role_id: number,
 }
 
 export const VillageMemberCard: React.FC<Props> = ({
@@ -17,14 +17,14 @@ export const VillageMemberCard: React.FC<Props> = ({
     role_id,
 }) => {
     return (
-        <div className='col-span-6 text-sub px-6 rounded-lg drop-shadow bg-white'>
-            <a>
-                <div className='font-bold mt-3'>{name}</div>
-            </a>
-            <a>
+        <div className='col-span-6 text-sub rounded-lg drop-shadow bg-white overflow-hidden'>
+        <div className={ColorService.bgRoleColre(role_id) + ' px-2 py-1 text-sm'}>
+                <div className='font-bold'>{name}</div>
+            </div>
+            <div className='px-2 py-1'>
                 <label className='mr-2'>{age}歳</label>
                 <label className=''>{gender}</label>
-            </a>
+            </div>
         </div >
     );
 }

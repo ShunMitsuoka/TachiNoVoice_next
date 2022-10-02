@@ -69,7 +69,8 @@ declare module "villageType" {
     }
     interface Policy{
         policy_id : number,
-        policy : string
+        policy : string,
+        satisfactions? : Satisfaction[]
     }
     interface Satisfaction{
         policy_id : number,

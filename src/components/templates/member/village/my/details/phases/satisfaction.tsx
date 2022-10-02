@@ -32,7 +32,7 @@ export const Satisfaction: React.FC<Props> = ({
                         開始
                     </MiddleButton>
                 : 
-                <LinkButton href={RouteManager.webRoute.member.village.my.details.opinions + village.village_id}>
+                <LinkButton href={RouteManager.webRoute.member.village.my.details.satisfaction.result + village.village_id}>
                         確認する
                 </LinkButton>
             }

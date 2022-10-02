@@ -19,7 +19,7 @@ import { usePageLoading } from "@/hooks/common/usePageLoading";
 import { PhaseDetailsHeader } from "@/components/templates/member/village/my/details/phaseDetailsHeader";
 
 
-type cardtype = {
+export type memberType = {
   member_id: "",
   nickname: string,
   age: string,
@@ -27,11 +27,8 @@ type cardtype = {
   gender_name: string,
 }
 
-type charttype = {
-  data:[]
-}
-
-// const SampleChart = dynamic(() => import("./graph"), { ssr: false });
+const AgeGraph = dynamic(() => import("./ageGraph"), { ssr: false });
+const GenderGraph = dynamic(() => import("./genderGraph"), { ssr: false });
 
 const MyVillageMembers: NextPage = () => {
 
@@ -44,10 +41,10 @@ const MyVillageMembers: NextPage = () => {
   const phaseComponet = usePhaseComponent(villageState.village);
   const villageMethod = useVillageMethod(villageState.village, villageState.setVillage);
 
-  const [villageMembers, setVillageMembers] = useState<cardtype[]>([]);
-  const [villageMembersChart, setvillageMembersChart] = useState<charttype[]>([]);
-  const [coreMembers, setCoreMembers] = useState<cardtype[]>([]);
-  const [riseMembers, setRiseMembers] = useState<cardtype[]>([]);
+  const [villageMembers, setVillageMembers] = useState<memberType[]>([]);
+  const [coreMembers, setCoreMembers] = useState<memberType[]>([]);
+  const [riseMembers, setRiseMembers] = useState<memberType[]>([]);
+  const [memberData, setMemberData] = useState<memberType[]>([]);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -69,14 +66,17 @@ const MyVillageMembers: NextPage = () => {
         setVillageMembers(response.data.result.members.village_members);
         setCoreMembers(response.data.result.members.core_members);
         setRiseMembers(response.data.result.members.rise_members);
-        setvillageMembersChart(response.data.result.members.village_members);
-        console.log(response.data.result.members.village_members);
+        setMemberData([].concat(response.data.result.members.village_members, response.data.result.members.core_members, response.data.result.members.rise_members));
       } else {
         alert('失敗');
       }
     })
     .finally(pageLoading.close);
   }
+
+  useEffect(() => {
+    console.log(memberData);
+  }, [memberData]);
 
   return (
     <_BaseMemberLayout>
@@ -152,8 +152,7 @@ const MyVillageMembers: NextPage = () => {
               年齢
             </div>
             <div className="relative w-28 h-32">
-              {/* <SampleChart /> */}
-              {/* <SampleChart key={0} data={villageMembersChart} /> */}
+              <AgeGraph data={memberData} />
             </div>
           </div>
           <div className="relative col-span-1 flex flex-col items-center">
@@ -161,20 +160,14 @@ const MyVillageMembers: NextPage = () => {
               性別
             </div>
             <div className="relative w-28 h-32">
-            {/* {
-              villageMembersAge.map((elem, index) => {
-                  return <Graph key={index} data={elem} />
-              })
-            } */}
-            
-              {/* <SampleChart key={1} data={villageMembersChart} /> */}
+              <GenderGraph data={memberData}/>
             </div>
           </div>
       </div>
       {
         villageMembers.length > 0 && (
           <div className="px-6">
-            <div>ビレッジメンバー</div>
+            <div className="font-bold">ビレッジメンバー</div>
             <div className='grid grid-cols-12 gap-4 mt-2'>
                 {
                     villageMembers.map((elem, index) => {
@@ -188,7 +181,7 @@ const MyVillageMembers: NextPage = () => {
       {
         coreMembers.length > 0 && (
           <div className="px-6">
-            <div>コアメンバー</div>
+            <div className="font-bold">コアメンバー</div>
             <div className='grid grid-cols-12 gap-4 mt-2'>
                 {
                     coreMembers.map((elem, index) => {
@@ -202,7 +195,7 @@ const MyVillageMembers: NextPage = () => {
       {
         riseMembers.length > 0 && (
           <div className="px-6 mt-4">
-            <div className="">ライズメンバー</div>
+            <div className="font-bold">ライズメンバー</div>
             <div className='grid grid-cols-12 gap-4 mt-2'>
                 {
                     riseMembers.map((elem, index) => {

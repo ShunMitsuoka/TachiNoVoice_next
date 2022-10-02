@@ -2,6 +2,7 @@ import { RouteManager } from "@/app/manages/routeManager";
 import { ApiService } from "@/app/services/apiService";
 import { AuthService } from "@/app/services/authService";
 import { LinkButton } from "@/components/atoms/buttons/linkButton";
+import { PolicyCard } from "@/components/modules/member/village/policy/policyCard";
 import { VillageTitle } from "@/components/modules/member/village/villageTitle";
 import { PhaseDetailsHeader } from "@/components/templates/member/village/my/details/phaseDetailsHeader";
 import { PolicyList } from "@/components/templates/member/village/my/details/policy/list";
@@ -28,16 +29,6 @@ const SatisfactionResult: NextPage = () => {
   const villageMethod = useVillageMethod(villageState.village, villageState.setVillage);
   const [categories, setCategories] = useState<Category[]>([]);
 
-  const [page, setPage] = useState<number>(0);
-  const [selectedCategory, setelectedCategory] = useState<Category>();
-
-  const [policy, setPolicy] = useState("");
-  const changeTextAreaHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const target = e.target;
-      const value = target.value;
-      setPolicy(value);
-  }
-
   useEffect(() => {
     if (status === "authenticated") {
       reload();
@@ -46,11 +37,8 @@ const SatisfactionResult: NextPage = () => {
 
   const reload = () => {
     pageLoading.show();
-    setPage(0);
-    setelectedCategory(undefined);
-    setPolicy('');
     axios.get(ApiService.getFullURL(
-      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.opinion.index, { 'id': id })
+      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.satisfaction, { 'id': id })
     ), ApiService.getAuthHeader(session))
       .then((response) => {
         const res = ApiService.makeApiResponse(response);
@@ -66,67 +54,23 @@ const SatisfactionResult: NextPage = () => {
       .finally(pageLoading.close);
   }
 
-  const onDecidePolicy = (category : Category) => {
-    setPage(1);
-    setelectedCategory(category);
-  }
-
-  const onBack = () => {
-    setPage(0);
-    setelectedCategory(undefined);
-  }
-
-  const onRegister = () => {
-    pageLoading.show();
-    axios.post(ApiService.getFullURL(RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.policy, { 'id': id })),
-      {
-        categoryId: selectedCategory?.category_id,
-        policy : policy,
-      }, 
-      ApiService.getAuthHeader(session)
-    )
-    .then((response) => {
-      const res = ApiService.makeApiResponse(response);
-      if (res.getSuccess()) {
-        console.log(res.getResult());
-        reload();
-      } else {
-        alert('失敗');
-      }
-    })
-    .catch(pageLoading.close);
-  }
-
-  const content = () => {
-    switch (page) {
-      case 0:
-        return <PolicyList 
-          village={villageState.village} 
-          categories={categories} 
-          onDecidePolicy={onDecidePolicy} 
-          nextPhase={villageMethod.nextPhase}
-        />
-      case 1:
-        return <RegisterPolicy 
-          village={villageState.village}
-          category={selectedCategory!}
-          onBack={onBack}
-          policy={policy}
-          changeTextAreaHandler={changeTextAreaHandler} 
-          onRegister={onRegister} />
-      default:
-        break;
-    }
-  }
-
   return (
     <_BaseMemberLayout>
       <PhaseDetailsHeader village={villageState.village} menuType={"phase"} />
       <div className="relative py-8">
         <VillageTitle village={villageState.village} _class=''/>
       </div>
-      <div>
-        {content()}
+      <div className="mb-6 text-center text-xl font-bold">
+        結果
+      </div>
+      <div className="px-6">
+      {
+        categories.map((category, index) => {
+          return(
+              <PolicyCard key={index} category={category} satisfactions={category.policy?.satisfactions}/>
+          );
+        })
+            }
       </div>
     </_BaseMemberLayout>
   )
