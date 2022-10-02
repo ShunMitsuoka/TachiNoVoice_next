@@ -15,12 +15,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { Category } from "villageType";
-
-interface Policy{
-  policy_id : number,
-  satisfaction : number,
-}
+import { Category, Satisfaction as SatisfactionType } from "villageType";
 
 const Satisfaction: NextPage = () => {
 
@@ -35,6 +30,7 @@ const Satisfaction: NextPage = () => {
   const [index, setIndex] = useState<number>(0);
 
   const [comment, setComment] = useState("");
+  const [satisfactions, setSatisfactions] = useState<SatisfactionType[]>([]);
 
   const changeTextAreaHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       const target = e.target;
@@ -47,6 +43,18 @@ const Satisfaction: NextPage = () => {
       reload();
     }
   }, [status]);
+
+  useEffect(() => {
+    let satisfactionData:SatisfactionType[] = [];
+    categories.map((category) => {
+      const policyId = category.policy!.policy_id;
+      satisfactionData.push({
+        policy_id : policyId,
+        level : 1,
+      })
+    });
+    setSatisfactions(satisfactionData);
+  }, [categories]);
 
   const reload = () => {
     pageLoading.show();
@@ -94,25 +102,25 @@ const Satisfaction: NextPage = () => {
     }
   }
 
-  const onRegister = () => {
-    pageLoading.show();
-    axios.post(ApiService.getFullURL(RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.policy, { 'id': id })),
-      {
-        comment : comment,
-      }, 
-      ApiService.getAuthHeader(session)
-    )
-    .then((response) => {
-      const res = ApiService.makeApiResponse(response);
-      if (res.getSuccess()) {
-        console.log(res.getResult());
-        reload();
-      } else {
-        alert('失敗');
-      }
-    })
-    .catch(pageLoading.close);
-  }
+  // const onRegister = () => {
+  //   pageLoading.show();
+  //   axios.post(ApiService.getFullURL(RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.policy, { 'id': id })),
+  //     {
+  //       comment : comment,
+  //     }, 
+  //     ApiService.getAuthHeader(session)
+  //   )
+  //   .then((response) => {
+  //     const res = ApiService.makeApiResponse(response);
+  //     if (res.getSuccess()) {
+  //       console.log(res.getResult());
+  //       reload();
+  //     } else {
+  //       alert('失敗');
+  //     }
+  //   })
+  //   .catch(pageLoading.close);
+  // }
 
   const content = () => {
     switch (page) {
@@ -128,6 +136,8 @@ const Satisfaction: NextPage = () => {
           category={categories[index]}
           onBack={onBack}
           onNext={onNext}
+          satisfactions={satisfactions}
+          setSatisfactions={setSatisfactions}
         />
       case 2:
         return <CommentSatisfaction 

@@ -71,4 +71,8 @@ declare module "villageType" {
         policy_id : number,
         policy : string
     }
+    interface Satisfaction{
+        policy_id : number,
+        level : number
+    }
   }
