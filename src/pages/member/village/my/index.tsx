@@ -69,7 +69,7 @@ const MyVillage: NextPage = () => {
                 return (
                   <Link key={index} href={RouteManager.webRoute.member.village.my.details.index + village.village_id}>
                     <div className=' bg-white rounded-lg shadow-xl mb-10 overflow-hidden'>
-                      <div className={ColorService.bgRoleColre(village.role_id) + ' px-2 py-2'}>
+                      <div className={' px-2 py-2 ' + ColorService.bgRoleColre(village.role_id) }>
                         <span className='px-2 py-1 bg-white rounded-md'>
                           {roleName(village.role_id)}
                         </span>

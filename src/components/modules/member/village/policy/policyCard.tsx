@@ -1,12 +1,14 @@
 import React from 'react';
 import { Category, Satisfaction } from 'villageType';
+import dynamic from "next/dynamic";
 
 interface Props {
     category : Category;
     nonePolicyElem? : React.ReactNode;
     satisfactions? : Satisfaction[];
-
 }
+
+const SatisfactionGraph = dynamic(() => import("./satisfactionGraph"), { ssr: false });
 
 export const PolicyCard: React.FC<Props> = ({
     category,
@@ -28,9 +30,11 @@ export const PolicyCard: React.FC<Props> = ({
                     </div>
                     {
                         satisfactions && 
-                        <div className=''>
+                        <div className='mt-2'>
                             <div className='mb-1 font-bold'>【満足度】</div>
-                            {category.policy.policy}
+                            <div className="relative w-28 h-32">
+                                <SatisfactionGraph data={satisfactions} />
+                            </div>
                         </div>
                     }
                 </>
