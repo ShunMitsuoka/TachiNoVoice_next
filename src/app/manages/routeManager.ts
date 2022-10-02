@@ -88,6 +88,7 @@ type apiRoute = {
             evaluation : string,
             category: string,
             policy : string,
+            satisfaction : string,
         },
     }
 }
@@ -185,6 +186,7 @@ export class RouteManager {
                 evaluation : '/api/my/village/:id/evaluation',
                 category: '/api/my/village/:id/category',
                 policy : '/api/my/village/:id/policy',
+                satisfaction : '/api/my/village/:id/satisfaction',
             },
         }
     }

@@ -45,6 +45,11 @@ const Satisfaction: NextPage = () => {
   }, [status]);
 
   useEffect(() => {
+    console.log('satisfactionsが更新されました')
+    console.log(satisfactions)
+  }, [satisfactions]);
+
+  useEffect(() => {
     let satisfactionData:SatisfactionType[] = [];
     categories.map((category) => {
       const policyId = category.policy!.policy_id;
@@ -102,25 +107,26 @@ const Satisfaction: NextPage = () => {
     }
   }
 
-  // const onRegister = () => {
-  //   pageLoading.show();
-  //   axios.post(ApiService.getFullURL(RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.policy, { 'id': id })),
-  //     {
-  //       comment : comment,
-  //     }, 
-  //     ApiService.getAuthHeader(session)
-  //   )
-  //   .then((response) => {
-  //     const res = ApiService.makeApiResponse(response);
-  //     if (res.getSuccess()) {
-  //       console.log(res.getResult());
-  //       reload();
-  //     } else {
-  //       alert('失敗');
-  //     }
-  //   })
-  //   .catch(pageLoading.close);
-  // }
+  const onRegister = () => {
+    pageLoading.show();
+    axios.post(ApiService.getFullURL(RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.satisfaction, { 'id': id })),
+      {
+        comment : comment,
+        satisfactions :satisfactions
+      }, 
+      ApiService.getAuthHeader(session)
+    )
+    .then((response) => {
+      const res = ApiService.makeApiResponse(response);
+      if (res.getSuccess()) {
+        console.log(res.getResult());
+        reload();
+      } else {
+        alert('失敗');
+      }
+    })
+    .catch(pageLoading.close);
+  }
 
   const content = () => {
     switch (page) {
@@ -144,7 +150,9 @@ const Satisfaction: NextPage = () => {
           village={villageState.village}
           category={categories[index]}
           onBack={onBack}
-          onNext={onNext}
+          onRegister={onRegister}
+          comment={comment}
+          changeTextAreaHandler={changeTextAreaHandler}
         />
       default:
         break;

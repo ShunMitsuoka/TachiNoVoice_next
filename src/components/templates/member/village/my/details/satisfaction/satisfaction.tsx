@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { Category, Satisfaction, Village } from 'villageType';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import { PolicyCard } from '@/components/modules/member/village/policy/policyCard';
 
 interface Props {
     village: Village;
@@ -42,14 +43,17 @@ export const DecidingSatisfaction: React.FC<Props> = ({
                 setSatisfaction(data);
             }
         }
-    }, [category]);
+    }, [category, satisfactions]);
 
     useEffect(() => {
+        console.log('satisfactionが更新されました')
+
         const policyId = category.policy!.policy_id;
         for (let index = 0; index < satisfactions.length; index++) {
-            const satisfaction = satisfactions[index];
-            if(satisfaction.policy_id == policyId){
+            const satisf = satisfactions[index];
+            if(satisf.policy_id == policyId && satisfaction){
                 satisfactions[index] = satisfaction;
+                console.log(satisfactions)
                 setSatisfactions(satisfactions.slice());
             }
         }
@@ -63,17 +67,10 @@ export const DecidingSatisfaction: React.FC<Props> = ({
         });
     }
 
-    console.log(satisfaction);
-
     return (
         <div className=''>
-            <div className='py-6 px-4 bg-orange w-full text-center'>
-                <span className="px-3 py-1 bg-white text-xl rounded-lg">
-                    {category.category_name}
-                </span>
-                <div className='w-full px-3 py-2 bg-white rounded-lg mt-4 text-left'>
-                    {category!.policy!.policy}
-                </div>
+            <div className='px-6'>
+                <PolicyCard category={category} />
             </div>
             {
                 satisfaction && 
