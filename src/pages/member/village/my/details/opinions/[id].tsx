@@ -77,16 +77,20 @@ const MyVillageOpinios: NextPage = () => {
         setIsAbleToCategorize(true);
        }
     }
-    for (const key in categories) {
-      const category = categories[key];
-      if(category.opinions  && category.opinions.length > 0){
-        setExistOpinion(true);
-        if(category.category_id! == slectedCategoryId){
-          updateDispCategory(slectedCategoryId);
-        }else{
-          setSlectedCategoryId(category.category_id!);
+    if(slectedCategoryId !== appConst.village.category.uncategorized){
+      updateDispCategory(slectedCategoryId);
+    }else{
+      for (const key in categories) {
+        const category = categories[key];
+        if(category.opinions  && category.opinions.length > 0){
+          setExistOpinion(true);
+          if(category.category_id! == slectedCategoryId){
+            updateDispCategory(slectedCategoryId);
+          }else{
+            setSlectedCategoryId(category.category_id!);
+          }
+          break;
         }
-        break;
       }
     }
   }, [categories]);
