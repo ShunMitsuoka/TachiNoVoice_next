@@ -35,6 +35,7 @@ const MyVillageOpinios: NextPage = () => {
   const villageMethod = useVillageMethod(villageState.village, villageState.setVillage);
   const phaseComponet = usePhaseComponent(villageState.village);
   const [openCategoryList, setOpenCategoryList] = useState<boolean>(false);
+  const [existOpinion, setExistOpinion] = useState<boolean>(false);
   const [isAbleToCategorize, setIsAbleToCategorize] = useState<boolean>(false);
   const [isAbleToFinishCategorizing, setIsAbleToFinishCategorizing] = useState<boolean>(false);
 
@@ -62,6 +63,7 @@ const MyVillageOpinios: NextPage = () => {
       }
     })
     .finally(() => {
+      pageLoading.close();
     })
   }
 
@@ -77,7 +79,9 @@ const MyVillageOpinios: NextPage = () => {
     }
     for (const key in categories) {
       const category = categories[key];
+      let existOpinionFlg = false;
       if(category.opinions  && category.opinions.length > 0){
+        existOpinionFlg = true;
         if(category.category_id! == slectedCategoryId){
           updateDispCategory(slectedCategoryId);
         }else{
@@ -85,8 +89,8 @@ const MyVillageOpinios: NextPage = () => {
         }
         break;
       }
+      setExistOpinion(existOpinionFlg);
     }
-    pageLoading.close();
   }, [categories]);
 
   useEffect(() => {
@@ -151,7 +155,7 @@ const MyVillageOpinios: NextPage = () => {
               host: (
                 <>
                   {
-                    categories.length !== 0 &&
+                    existOpinion &&
                     <MiddleButton onClick={villageMethod.nextPhase}>
                       意見募集終了
                     </MiddleButton>
@@ -237,12 +241,12 @@ const MyVillageOpinios: NextPage = () => {
           }
         <div className="px-4 mt-6">
           {
-            categories.length == 0 &&
+            !existOpinion &&
             <div className="text-center text-xl">
               まだ意見がありません。
             </div>
           }
-          { dispCategory && dispCategory.opinions &&
+          { existOpinion && dispCategory && dispCategory.opinions &&
             dispCategory.opinions.map((opinion, index) => {
               return (
                 <div key={index} className="mt-4">
