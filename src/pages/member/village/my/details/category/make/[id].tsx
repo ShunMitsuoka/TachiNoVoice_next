@@ -17,6 +17,9 @@ import { Category } from "villageType";
 import { LinkButton } from "@/components/atoms/buttons/linkButton";
 import { useValidationError } from "@/hooks/common/useValidationError";
 import { ValidationErrors } from "@/components/modules/common/validation/validationErrors";
+import { useModal } from "@/hooks/common/useModal";
+import { BaseInput } from "@/components/atoms/input/baseInput";
+import { EditCategoryCard } from "@/components/templates/member/village/my/details/category/editCategoryCard";
 
 const MyVillageCategory: NextPage = () => {
 
@@ -26,7 +29,9 @@ const MyVillageCategory: NextPage = () => {
   const pageLoading = usePageLoading();
   const villageState = useVillage();
   const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<Category>();
   const validationError = useValidationError();
+  const modal = useModal();
 
   const [category, setCategory] = useState<string>('');
 
@@ -60,8 +65,50 @@ const MyVillageCategory: NextPage = () => {
     .catch((error) =>{
       const res = ApiService.makeApiErrorResponse(error);
       validationError.showError(res);
-  })
-    .finally(pageLoading.close);
+      pageLoading.close();
+  });
+  }
+
+  const updateCategory = async (category_id : number, categoryName : string) => {
+    pageLoading.show();
+    validationError.clearError();
+    await axios.put(ApiService.getFullURL(
+      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.category+'/'+category_id, { 'id': villageState.village.village_id })
+    ), {
+      category: categoryName
+    }, ApiService.getAuthHeader(session))
+    .then((response) => {
+      const res = ApiService.makeApiResponse(response);
+      if(res.getSuccess()){
+        modal.close();
+        reload();
+      }
+    })
+    .catch((error) =>{
+        const res = ApiService.makeApiErrorResponse(error);
+        validationError.showError(res);
+        pageLoading.close();
+    });
+  }
+
+  const deleteCategory = async (categoryId : number) => {
+    pageLoading.show();
+    validationError.clearError();
+    await axios.delete(ApiService.getFullURL(
+      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.category+'/'+categoryId, { 'id': villageState.village.village_id })
+    ), ApiService.getAuthHeader(session))
+    .then((response) => {
+      const res = ApiService.makeApiResponse(response);
+      if(res.getSuccess()){
+        modal.close();
+        reload();
+      }
+    })
+    .catch((error) =>{
+        const res = ApiService.makeApiErrorResponse(error);
+        validationError.showError(res);
+        pageLoading.close();
+    });
   }
 
   const reload = () => {
@@ -86,6 +133,17 @@ const MyVillageCategory: NextPage = () => {
     <_BaseMemberLayout>
       <PhaseDetailsHeader village={villageState.village} menuType={"opinion"} />
       <VillageTitle village={villageState.village} _class='my-8' />
+      {
+        modal.content(
+          <EditCategoryCard 
+            villageId={villageState.village.village_id}
+            category={selectedCategory!}
+            validationError={validationError}
+            update={updateCategory} 
+            deleteCategory={deleteCategory}          
+          />
+        )
+      }
       <div className="px-8">
         <div className="mb-6 text-center">
           カテゴリーを追加、編集してください。
@@ -95,7 +153,12 @@ const MyVillageCategory: NextPage = () => {
              categories.map((category, index) => {
               if(category.category_id && category.category_id > 0){
                 return (
-                  <div key={index} className="px-3 py-2 mb-4 bg-rise rounded-lg text-xl text-white drop-shadow-lg">
+                  <div key={index} 
+                    className="px-3 py-2 mb-4 bg-rise rounded-lg text-xl text-white drop-shadow-lg" 
+                    onClick={() => {
+                      setSelectedCategory(category);
+                      modal.show();
+                    }}>
                     {category.category_name}
                   </div>
                 );

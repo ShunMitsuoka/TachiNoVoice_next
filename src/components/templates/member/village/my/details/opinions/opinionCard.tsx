@@ -6,6 +6,7 @@ import { RiThumbUpFill } from "react-icons/ri";
 import { RiThumbDownFill } from "react-icons/ri";
 import { RiQuestionFill } from "react-icons/ri";
 import { appConst } from '@/app/const/appConst';
+import { useModal } from '@/hooks/common/useModal';
 
 interface Props {
     villageId: Number;
@@ -24,8 +25,7 @@ export const OpinionCard: React.FC<Props> = ({
     reload,
     isShowEvaluation,
 }) => {
-
-    const [open, setOpen] = useState(false);
+    const modal = useModal();
 
     const slicedOpinion = () : string => {
         if (opinion.opinion && opinion.opinion.length > opinionLength) {
@@ -61,11 +61,9 @@ export const OpinionCard: React.FC<Props> = ({
     return (
         <>
             {
-                open &&
-                <div className='fixed top-0 left-0 flex items-center justify-center w-full h-full px-4 bg-slate-800 bg-opacity-60 z-10' onClick={() => setOpen(false)}>
-                    <div className='w-full'>
-                        <div className='w-full bg-white rounded-lg shadow-md overflow-hidden' onClick={() => setOpen(true)}>
-                            <div className='flex items-center px-2 py-1 bg-core'>
+                modal.content(                    
+                    <div>
+                        <div className='flex items-center px-2 py-1 bg-core'>
                                 {
                                     opinion.member.gender &&
                                     <div className='flex justify-center items-center mr-2'>
@@ -85,15 +83,16 @@ export const OpinionCard: React.FC<Props> = ({
                             <div className='px-2 py-2 text-sm'>
                                 {opinion.opinion}
                             </div>
+                        <div>
+                            {
+                                myDetails && reload &&
+                                <EvaluationComponet opinion={opinion} mySelfEvaluation={mySelfEvaluation()} villageId={villageId} reload={reload} />
+                            }
                         </div>
-                        {
-                            myDetails && reload &&
-                            <EvaluationComponet opinion={opinion} mySelfEvaluation={mySelfEvaluation()} villageId={villageId} reload={reload} />
-                        }
                     </div>
-                </div>
+                )
             }
-            <div className=' bg-white rounded-lg shadow-md overflow-hidden' onClick={() => setOpen(true)}>
+            <div className=' bg-white rounded-lg shadow-md overflow-hidden' onClick={modal.show}>
                 <div className='relative flex items-center px-2 py-1 bg-core'>
                     {
                         opinion.member.gender &&
