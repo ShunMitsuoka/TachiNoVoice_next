@@ -16,15 +16,15 @@ export const FormLabel: React.FC<Props> = ({
     isRequired = false,
 }) => {
     return (
-        <div className={_class}>
+        <div className={'flex items-center '+ _class}>
             <label htmlFor={htmlFor} id={id} className="text-xl font-bold">
                 {children}
-                { isRequired && 
-                    <span className='inline-block ml-1 text-sm'>
-                        ※ 必須
-                    </span>
-                }
             </label>
+            { isRequired && 
+                <span className='inline-block px-2 py-1 bg-rose-500 text-white rounded-full ml-2 text-sm'>
+                    必須
+                </span>
+            }
         </div>
     );
 }

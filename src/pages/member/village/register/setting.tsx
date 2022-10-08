@@ -221,7 +221,7 @@ const Register: NextPage = () => {
     }
 
     return (
-        <_BaseMemberLayout>
+        <_BaseMemberLayout isShowBgDecoration={false}>
             <Head>
                 <title>ビレッジ設定</title>
             </Head>

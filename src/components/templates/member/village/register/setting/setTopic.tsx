@@ -1,6 +1,7 @@
 import { BaseButton } from '@/components/atoms/buttons/baseButton';
 import { FormInput } from '@/components/atoms/input/formInput';
 import { FormLabel } from '@/components/atoms/label/formLabel';
+import { BaseTextArea } from '@/components/atoms/textarea/baseTextArea';
 import { ValidationErrors } from '@/components/modules/common/validation/validationErrors';
 import { useValidationError } from '@/hooks/common/useValidationError';
 import React from 'react';
@@ -40,32 +41,28 @@ export const SetTopic: React.FC<Props> = ({
                 <div className='mb-2'>
                     <FormLabel htmlFor={'content'}>説明</FormLabel>
                 </div>
-                <textarea
+                <BaseTextArea 
                     name="content"
                     id="content"
                     cols={30}
                     rows={6}
-                    className='w-full border border-sub rounded-lg px-2 py-2'
                     value={formData.content}
                     onChange={changeTextAreaHandler}
-                >
-                </textarea>
+                />
                 <ValidationErrors validationErrors={validationError.errors} id={'content'}/>
             </div>
             <div className='mt-4'>
                 <div className='mb-2'>
                     <FormLabel htmlFor={'note'}>注意事項</FormLabel>
                 </div>
-                <textarea
+                <BaseTextArea 
                     name="note"
                     id="note"
                     cols={30}
                     rows={6}
-                    className='w-full border border-sub rounded-lg px-2 py-2'
                     value={formData.note}
                     onChange={changeTextAreaHandler}
-                >
-                </textarea>
+                />
                 <ValidationErrors validationErrors={validationError.errors} id={'note'}/>
             </div>
             <div className='flex justify-between mt-6'>

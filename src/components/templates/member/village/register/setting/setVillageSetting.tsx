@@ -22,7 +22,6 @@ export const SetVillageSetting: React.FC<Props> = ({
     onClickCancel,
     validationError,
 }) => {
-
     return (
         <div className='px-10 py-10 bg-p-sub'>
             <div>
@@ -84,16 +83,6 @@ export const SetVillageSetting: React.FC<Props> = ({
             <div className='mt-4'>
                 <div className='mb-2'>
                     <FormLabel htmlFor={''}>開示条件</FormLabel>
-                </div>
-                <div className='flex items-center'>
-                    <FormCheckBox 
-                        name="nickname_flg" 
-                        id="nickname_flg" 
-                        checked={formData.nickname_flg}
-                        onChange={changeInputHandler}
-                    />
-                    <FormLabel htmlFor={'nickname_flg'} _class={'ml-3'}>ニックネーム</FormLabel>
-                    <ValidationErrors validationErrors={validationError.errors} id={'nickname_flg'}/>
                 </div>
                 <div className='flex items-center'>
                     <FormCheckBox 

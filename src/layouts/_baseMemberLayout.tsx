@@ -8,6 +8,7 @@ import Image from 'next/image';
 type Props = {
     children?: React.ReactNode;
     title? : string;
+    isShowBgDecoration? : boolean;
     isShowDecoration? : boolean;
 
 };
@@ -15,6 +16,7 @@ type Props = {
 const _BaseMemberLayout: NextPage<Props> = ({ 
     children,
     title,
+    isShowBgDecoration = true,
     isShowDecoration = false,
 }) => {
     return (
@@ -25,9 +27,10 @@ const _BaseMemberLayout: NextPage<Props> = ({
             <div className="relative flex flex-col bg-main text-sub font-main min-h-screen">
                 <MemberHeader title={title}/>
                 <div className="relative pb-32 flex-1">
-                    <div className='bg-polygon fixed top-0 bg-p-sub w-full h-screen'>
-
-                    </div>
+                    {
+                        isShowBgDecoration && 
+                        <div className='bg-polygon fixed top-0 bg-p-sub w-full h-screen'></div>
+                    }
                     {
                         isShowDecoration && 
                         <div className="absolute top-2 left-2">
