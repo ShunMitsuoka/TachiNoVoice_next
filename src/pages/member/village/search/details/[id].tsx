@@ -29,65 +29,65 @@ const Details: NextPage = () => {
   const villageState = useVillage();
 
   useEffect(() => {
-      if(status === "authenticated"){
-        pageLoading.show();
-        axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource)+"/"+id, ApiService.getAuthHeader(session))
+    if (status === "authenticated") {
+      pageLoading.show();
+      axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource) + "/" + id, ApiService.getAuthHeader(session))
         .then(function (response) {
-            const res = ApiService.makeApiResponse(response);
-            if(res.getSuccess()){
-              console.log(res);
-              const result = res.getResult();
-              villageState.setVillage(result);
-            }else{
-                alert('失敗');
-            }
+          const res = ApiService.makeApiResponse(response);
+          if (res.getSuccess()) {
+            console.log(res);
+            const result = res.getResult();
+            villageState.setVillage(result);
+          } else {
+            alert('失敗');
+          }
         }).catch((error) => {
           alert('');
           const res = ApiService.makeApiResponse(error.response);
         }).finally(() => {
-            pageLoading.close();
+          pageLoading.close();
         })
-      }
-  },[status]);
-  
+    }
+  }, [status]);
+
   const onClickEntry = async () => {
     const params = {
       village_id: villageState.village.village_id
     };
     // console.log(villageData.id);
-      pageLoading.show();
-      await ApiService.getCSRF();
-      axios.post(ApiService.getFullURL(RouteManager.apiRoute.member.village.join), params, ApiService.getAuthHeader(session))
+    pageLoading.show();
+    await ApiService.getCSRF();
+    axios.post(ApiService.getFullURL(RouteManager.apiRoute.member.village.join), params, ApiService.getAuthHeader(session))
       .then(function (response) {
-          const res = ApiService.makeApiResponse(response);
-          if(res.getSuccess()){
-              alert("「"+villageState.village.title+"」に参加しました。");
-          }else{
-              alert('失敗');
-          }
+        const res = ApiService.makeApiResponse(response);
+        if (res.getSuccess()) {
+          alert("「" + villageState.village.title + "」に参加しました。");
+        } else {
+          alert('失敗');
+        }
       })
       .catch((error) => {
-          alert('登録失敗');
-          const res = ApiService.makeApiResponse(error.response);
+        alert('登録失敗');
+        const res = ApiService.makeApiResponse(error.response);
       }).finally(() => {
-          pageLoading.close();
+        pageLoading.close();
       })
   }
 
   const contents = () => {
     let contents = [];
-    if(villageState.village.phase_end_setting?.by_manual.is_selected){
+    if (villageState.village.phase_end_setting?.by_manual.is_selected) {
       contents.push(
-      <div key={1}>
-        {villageState.village.phase_end_setting?.by_manual.label}
-      </div>);
+        <div key={1}>
+          {villageState.village.phase_end_setting?.by_manual.label}
+        </div>);
     }
-    if(villageState.village.phase_end_setting?.by_limit.is_selected){
+    if (villageState.village.phase_end_setting?.by_limit.is_selected) {
       contents.push(<div key={2}>{
         villageState.village.phase_end_setting?.by_limit.label
       }</div>);
     }
-    if(villageState.village.phase_end_setting?.by_date.is_selected){
+    if (villageState.village.phase_end_setting?.by_date.is_selected) {
       contents.push(<div key={3}>{
         villageState.village.phase_end_setting?.by_date.label
       }</div>);
@@ -97,53 +97,70 @@ const Details: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
-      <div className='mt-5 flex justify-center'>
-        <FormLabel htmlFor={'title'}>{villageState.village.title}</FormLabel>
-      </div>
-      <div className='mt-2 px-10'>
-        <div className='mt-2 text-center'>
+      <div className=' flex flex-col text-center rounded-lg drop-shadow bg-white overflow-hidden shadow-lg m-20 my-5'>
+        <div className='flex justify-center text-2xl  font-bold bg-sub text-white py-3 px-6'>
+          <FormLabel htmlFor={'title'}>{villageState.village.title}</FormLabel>
+        </div>
+
+        <div className='grid grid-cols-12 bg-slate-100'>
+          <div className='mt-3 col-span-4'>
+            <FormLabel htmlFor={'content'} _class='pl-2'>内容</FormLabel>
+          </div>
+          <div className=' col-span-8'>
             <p
-                className='w-full rounded-lg px-2 py-2'
+              className='pr-3 mt-3 text-left'
             >
               {villageState.village.content}
             </p>
+          </div>
         </div>
-        <div className='mt-4 text-center'>
-            <FormLabel htmlFor={'note'} _class=''>注意事項</FormLabel>
+        <div className='mt-3 grid grid-cols-12'>
+          <div className=' col-span-4'>
+            <FormLabel htmlFor={'note'} _class='pl-2'>注意事項</FormLabel>
+          </div>
+          <div className=' col-span-8'>
             <p
-                className='w-full rounded-lg px-2 py-2'
+              className='pr-3 text-left'
             >
               {villageState.village.note}
             </p>
+          </div>
         </div>
-        <div className='mt-4 text-center'>
-            <FormLabel htmlFor={'condition'}>参加条件</FormLabel>
+        <div className='mt-3 grid grid-cols-12 bg-slate-100 py-4'>
+          <div className=' col-span-4'>
+            <FormLabel htmlFor={'condition'} _class='pl-2'>参加条件</FormLabel>
+          </div>
+          <div className=' col-span-8'>
             <p
-                className='w-full rounded-lg px-2 py-2'
+              className='pr-3 text-left'
             >
               {villageState.village.requirement}
             </p>
+          </div>
         </div>
-        <div className='mt-4 text-center'>
-            <FormLabel htmlFor={'recruitment_period'}>募集情報</FormLabel>
-            <div
-              className='w-full rounded-lg px-2 py-2'
-            >
-              {/* 募集終了条件 <br /> */}
-              {
-                contents()
-              }
-            </div>
-        </div>
-        <div className="text-center mt-6">
-            <BaseButton
-              onClick={onClickEntry}
-            >
-                参加する
-            </BaseButton>
+        <div className=' my-3 grid grid-cols-12'>
+          <div className=' col-span-4'>
+            <FormLabel htmlFor={'recruitment_period'} _class='pl-2'>募集情報</FormLabel>
+          </div>
+          <div
+            className='pr-3 col-span-8 text-left'
+          >
+            {/* 募集終了条件 <br /> */}
+            {
+              contents()
+            }
+          </div>
         </div>
       </div>
-    </_BaseMemberLayout>
+      <div className="text-center">
+        <BaseButton
+          onClick={onClickEntry}
+        >
+          参加する
+        </BaseButton>
+      </div>
+
+    </_BaseMemberLayout >
   )
 }
 
@@ -153,7 +170,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
   console.log(session);
   if (AuthService.check(session)) {
-      return { props: {} }
+    return { props: {} }
   }
   return AuthService.authFailed();
 }
