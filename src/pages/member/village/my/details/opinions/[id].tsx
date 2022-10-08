@@ -79,9 +79,8 @@ const MyVillageOpinios: NextPage = () => {
     }
     for (const key in categories) {
       const category = categories[key];
-      let existOpinionFlg = false;
       if(category.opinions  && category.opinions.length > 0){
-        existOpinionFlg = true;
+        setExistOpinion(true);
         if(category.category_id! == slectedCategoryId){
           updateDispCategory(slectedCategoryId);
         }else{
@@ -89,7 +88,6 @@ const MyVillageOpinios: NextPage = () => {
         }
         break;
       }
-      setExistOpinion(existOpinionFlg);
     }
   }, [categories]);
 

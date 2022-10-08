@@ -4,6 +4,7 @@ interface Props {
     name?: string;
     id?: string;
     value?: string;
+    placeholder?: string;
     rows?: number;
     cols?: number;
     onChange?: (e: any) => void
@@ -13,6 +14,7 @@ export const BaseTextArea: React.FC<Props> = ({
     name,
     id,
     value = '',
+    placeholder = '',
     onChange,
     rows = 10,
     cols = 30,
@@ -20,6 +22,7 @@ export const BaseTextArea: React.FC<Props> = ({
     return (
         <textarea
             name={name}
+            placeholder={placeholder}
             id={id}
             value={value}
             onChange={onChange}
