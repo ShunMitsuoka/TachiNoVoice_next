@@ -15,6 +15,8 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Category } from "villageType";
 import { LinkButton } from "@/components/atoms/buttons/linkButton";
+import { useValidationError } from "@/hooks/common/useValidationError";
+import { ValidationErrors } from "@/components/modules/common/validation/validationErrors";
 
 const MyVillageCategory: NextPage = () => {
 
@@ -24,6 +26,7 @@ const MyVillageCategory: NextPage = () => {
   const pageLoading = usePageLoading();
   const villageState = useVillage();
   const [categories, setCategories] = useState<Category[]>([]);
+  const validationError = useValidationError();
 
   const [category, setCategory] = useState<string>('');
 
@@ -41,6 +44,7 @@ const MyVillageCategory: NextPage = () => {
 
   const addCategory = async () => {
     pageLoading.show();
+    validationError.clearError();
     await axios.post(ApiService.getFullURL(
       RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.category, { 'id': villageState.village.village_id })
     ), {
@@ -50,10 +54,14 @@ const MyVillageCategory: NextPage = () => {
       const res = ApiService.makeApiResponse(response);
       if(res.getSuccess()){
         setCategory('');
+        reload();
       }
     })
+    .catch((error) =>{
+      const res = ApiService.makeApiErrorResponse(error);
+      validationError.showError(res);
+  })
     .finally(pageLoading.close);
-    reload();
   }
 
   const reload = () => {
@@ -102,6 +110,7 @@ const MyVillageCategory: NextPage = () => {
             value={category}
             onChange={changeInputHandler}
           />
+          <ValidationErrors validationErrors={validationError.errors} id={'category'}/>
           <div className="mt-4 text-right">
             <MiddleButton onClick={addCategory}>
               追加

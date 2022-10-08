@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Category, MemberDetail } from "villageType";
 import { LinkButton } from "@/components/atoms/buttons/linkButton";
+import { ColorService } from "@/app/services/colorService";
 
 interface Opinion {
     categoryId?: number,
@@ -125,7 +126,14 @@ const MyVillageCategory: NextPage = () => {
                     <div className="flex-1 mx-4">
                         {
                             opinions[opinionIndex] && 
-                            opinions[opinionIndex].opinion
+                            <div className="bg-white rounded-xl shadow-xl overflow-hidden">
+                                <div className={'px-3 py-2 ' + ColorService.bgRoleColre(opinions[opinionIndex].member.role_id)}>
+                                    {opinions[opinionIndex].member.nickname}
+                                </div>
+                                <div className="px-3 py-4">
+                                    {opinions[opinionIndex].opinion}
+                                </div>
+                            </div>
                         }
                     </div>
                     <div className="flex items-center justify-center w-8 h-8 bg-sub rounded-full text-white text-lg font-bold" onClick={nextOpinion}>
