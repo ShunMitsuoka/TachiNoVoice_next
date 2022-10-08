@@ -31,30 +31,38 @@ export default function Dashboard() {
                         {session?.user.name}さん
                     </div>
                 </div>
-                <div className="absolute top-[500px] bottom-0 right-10 ">
-                    <div className=" font-bold bg-red text-center rounded-[50%] w-[200px] h-[100px] leading-[100px] drop-shadow-lg">
-                        <Link href={RouteManager.webRoute.member.village.register.index} className="">
-                            ビレッジ作成
-                        </Link>
-                    </div>
-                </div>
-                <div className="absolute top-[400px] bottom-0 left-10">
-                    <div className=" font-bold bg-lime-100 text-center rounded-[50%] w-[200px] h-[100px] leading-[100px] drop-shadow-lg">
-                        <Link href={RouteManager.webRoute.member.village.search.index}>
-                            ビレッジを探す
-                        </Link>
-                    </div>
-                </div>
-                <div className="absolute top-[300px] bottom-0 right-10">
-                    <div className=" font-bold bg-orange text-center rounded-[50%] w-[200px] h-[100px] leading-[100px] drop-shadow-lg">
-                        <Link href={RouteManager.webRoute.member.village.my.index}>
-                            参加中のビレッジへ
-                        </Link>
-                    </div>
-                </div>
-            </div>
+                <Link href={RouteManager.webRoute.member.village.register.index} className="">
+                    <div className="absolute top-[500px] bottom-0 right-10 ">
+                        <div className=" font-bold bg-red text-center rounded-[50%] w-[200px] h-[100px] leading-[100px] drop-shadow-lg">
 
-        </_BaseMemberLayout>
+                            ビレッジ作成
+
+                        </div>
+                    </div>
+                </Link>
+                <Link href={RouteManager.webRoute.member.village.search.index}>
+                    <div className="absolute top-[400px] bottom-0 left-10">
+                        <div className=" font-bold bg-lime-100 text-center rounded-[50%] w-[200px] h-[100px] leading-[100px] drop-shadow-lg">
+
+                            ビレッジを探す
+
+                        </div>
+                    </div>
+                </Link>
+
+
+                <Link href={RouteManager.webRoute.member.village.my.index}>
+                    <div className="absolute top-[300px] bottom-0 right-10">
+                        <div className=" font-bold bg-orange text-center rounded-[50%] w-[200px] h-[100px] leading-[100px] drop-shadow-lg">
+                            参加中のビレッジへ
+                        </div>
+                    </div>
+
+                </Link>
+
+            </div >
+
+        </_BaseMemberLayout >
     )
 }
 
