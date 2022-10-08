@@ -20,19 +20,20 @@ export const Confirm: React.FC<Props> = ({
 }) => {
     return (
         <div className=''>
-            <div>
+            <div className='py-2 text-white bg-rise text-lg'>
                 {
                     category.category_name
                 }
             </div>
-            <div className='w-full'>
-                {opinion}
-            </div>
-            <div className=' flex justify-between'>
-                <div>
-                    <BaseButton onClick={onBack}>戻る</BaseButton>
+            <div className='px-6'>
+                <div className='mt-6'>
+                    以下の意見でよろしいですか？
                 </div>
-                <div>
+                <div className='w-full mt-6 text-lg'>
+                    {opinion}
+                </div>
+                <div className=' flex justify-between mt-6'>
+                    <BaseButton onClick={onBack}>戻る</BaseButton>
                     <BaseButton onClick={onRegister}>意見する</BaseButton>
                 </div>
             </div>

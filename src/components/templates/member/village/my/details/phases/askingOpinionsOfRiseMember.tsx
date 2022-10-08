@@ -57,7 +57,7 @@ export const AskingOpinionsOfRiseMember: React.FC<Props> = ({
 
     const coreMemberComponent = (
         <div>
-            ライズメンバー意見募集まで<br />
+            ライズメンバー意見募集中です。<br />
             しばらくお待ちください。
         </div>
     );

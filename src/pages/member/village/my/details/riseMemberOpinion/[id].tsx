@@ -1,6 +1,7 @@
 import { RouteManager } from "@/app/manages/routeManager";
 import { ApiService } from "@/app/services/apiService";
 import { AuthService } from "@/app/services/authService";
+import { LinkButton } from "@/components/atoms/buttons/linkButton";
 import { VillageTitle } from "@/components/modules/member/village/villageTitle";
 import { PhaseDetailsHeader } from "@/components/templates/member/village/my/details/phaseDetailsHeader";
 import { CategoryList } from "@/components/templates/member/village/my/details/riseOpinion/categoryList";
@@ -25,7 +26,7 @@ const RiseMemberOpinion: NextPage = () => {
   const { id } = router.query;
   const villageState = useVillage();
   const [categories, setCategories] = useState<Category[]>([]);
-  const [page, setPage] = useState<number>();
+  const [page, setPage] = useState<number>(0);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
   const [myOpinions, setMyOpinions] = useState<MyOpinion[]>([]);
 
@@ -43,26 +44,30 @@ const RiseMemberOpinion: NextPage = () => {
 
   useEffect(() => {
     if (status === "authenticated") {
-      pageLoading.show();
-      axios.get(ApiService.getFullURL(
-        RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.opinion.riseMember, { 'id': id })
-      ), ApiService.getAuthHeader(session))
-        .then((response) => {
-          const res = ApiService.makeApiResponse(response);
-          console.log(res);
-          if (res.getSuccess()) {
-            villageState.setVillage(res.getResult());
-            console.log(res.getResult());
-            setCategories(res.getResult().categories);
-            setMyOpinions(res.getResult().my_details.opinios)
-            setPage(0);
-          } else {
-            alert('失敗');
-          }
-        })
-      .finally(pageLoading.close);
+      reload();
     }
   }, [status]);
+
+  const reload = () => {
+    pageLoading.show();
+    axios.get(ApiService.getFullURL(
+      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.opinion.riseMember, { 'id': id })
+    ), ApiService.getAuthHeader(session))
+      .then((response) => {
+        const res = ApiService.makeApiResponse(response);
+        console.log(res);
+        if (res.getSuccess()) {
+          villageState.setVillage(res.getResult());
+          console.log(res.getResult());
+          setCategories(res.getResult().categories);
+          setMyOpinions(res.getResult().my_details.opinios)
+          setPage(0);
+        } else {
+          alert('失敗');
+        }
+      })
+    .finally(pageLoading.close);
+  }
 
   const nextPage = () => {
     setPage(page!+1);
@@ -72,7 +77,14 @@ const RiseMemberOpinion: NextPage = () => {
     setPage(page!-1);
   }
 
+  const firstPage = () => {
+    setOpinion('');
+    setPage(0);
+    reload();
+  }
+
   const onRegister = () => {
+    pageLoading.show();
     axios.post(ApiService.getFullURL(
       RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.opinion.riseMember, { 'id': villageState.village.village_id })
     ), {
@@ -86,7 +98,8 @@ const RiseMemberOpinion: NextPage = () => {
         } else {
           alert('失敗')
         }
-      });
+      })
+      .finally(pageLoading.close)
   }
 
   const content = useMemo(() => {
@@ -98,6 +111,7 @@ const RiseMemberOpinion: NextPage = () => {
             categories={categories} 
             onClick={(category) => {
               setOpinion('');
+              setPage(1);
               setSelectedCategory(category);
             }} 
             myOpinions={myOpinions}          
@@ -134,7 +148,7 @@ const RiseMemberOpinion: NextPage = () => {
           <Complete 
             village={villageState.village} 
             category={selectedCategory} 
-            onBack={backPage} 
+            onBack={firstPage} 
           />
         );
       default:
@@ -149,6 +163,19 @@ const RiseMemberOpinion: NextPage = () => {
         <VillageTitle village={villageState.village} _class=''/>
         <div className="mt-4 text-center">
           {
+            villageState.village && villageState.village.is_task_done ?
+            <>
+              <div>
+                ご意見有難うございました。<br />
+                次のフェーズが始まるまでお待ちください。
+              </div>
+              <div className="mt-6">
+                <LinkButton href={RouteManager.webRoute.member.village.my.details.index+villageState.village.village_id}>
+                  フェーズへ戻る
+                </LinkButton>
+              </div>
+            </>
+            :
             content
           }
         </div>

@@ -16,12 +16,12 @@ export const Complete: React.FC<Props> = ({
 }) => {
     return (
         <div className=''>
-            <div>
+            <div className='py-2 text-white bg-rise text-lg'>
                 {
                     category.category_name
                 }
             </div>
-            <div>
+            <div className='my-8 px-6'>
                 ご意見、有難うございます。<br />
                 他カテゴリーへの意見投稿もよろしくお願いいたします。
             </div>
