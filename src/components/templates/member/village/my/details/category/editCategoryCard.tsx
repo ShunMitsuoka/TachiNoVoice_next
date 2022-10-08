@@ -30,7 +30,7 @@ export const EditCategoryCard: React.FC<Props> = ({
       }
 
     return (
-        <div className='px-6 py-6'>
+        <div className='px-6 py-6 bg-white rounded-lg shadow-md overflow-hidden'>
             <div className='py-4 text-center text-xl'>
                 カテゴリー編集
             </div>

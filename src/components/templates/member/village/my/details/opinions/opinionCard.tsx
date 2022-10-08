@@ -48,6 +48,23 @@ export const OpinionCard: React.FC<Props> = ({
         return undefined;
     }
 
+    const evaluationIcon = () => {
+        const evaluation = mySelfEvaluation();
+        if(evaluation == undefined){
+            return null;
+        }
+        switch (evaluation) {
+            case appConst.village.evaluation.good:
+                return <RiThumbUpFill className="text-sub text-xl" />;
+            case appConst.village.evaluation.bad:
+                return <RiThumbDownFill className="text-sub text-xl" />;
+            case appConst.village.evaluation.uncertain:
+                return <RiQuestionFill className="text-sub text-xl" />;
+            default:
+                break;
+        }
+    }
+
     const countEvaluation = (type : number) => {
         let count = 0;
         if(opinion.evaluations){
@@ -63,7 +80,8 @@ export const OpinionCard: React.FC<Props> = ({
             {
                 modal.content(                    
                     <div>
-                        <div className='flex items-center px-2 py-1 bg-core'>
+                        <div className='w-full bg-white rounded-lg shadow-md overflow-hidden'>
+                            <div className='flex items-center px-2 py-1 bg-core'>
                                 {
                                     opinion.member.gender &&
                                     <div className='flex justify-center items-center mr-2'>
@@ -83,6 +101,7 @@ export const OpinionCard: React.FC<Props> = ({
                             <div className='px-2 py-2 text-sm'>
                                 {opinion.opinion}
                             </div>
+                        </div>
                         <div>
                             {
                                 myDetails && reload &&
@@ -107,6 +126,12 @@ export const OpinionCard: React.FC<Props> = ({
                         opinion.member.age &&
                         <div className='ml-1'>
                             ({opinion.member.age})
+                        </div>
+                    }
+                    {
+                        !isShowEvaluation && 
+                        <div className='absolute right-4 flex'>
+                            {evaluationIcon()}
                         </div>
                     }
                     {
