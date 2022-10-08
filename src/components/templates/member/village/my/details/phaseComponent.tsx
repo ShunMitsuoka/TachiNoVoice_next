@@ -38,8 +38,10 @@ export const PhaseComponent: React.FC<Props> = ({
       <div className='text-right mt-2'>
         {
           isSettingShow &&
-          <Link href={RouteManager.webRoute.member.village.my.details.phaseSetting + village.village_id }>
-            フェーズ設定
+          <Link 
+            href={RouteManager.webRoute.member.village.my.details.phaseSetting + village.village_id }
+          >
+            <span className='underline'>フェーズ設定</span>
           </Link>
         }
       </div>

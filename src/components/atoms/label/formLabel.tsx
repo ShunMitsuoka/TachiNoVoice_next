@@ -16,8 +16,8 @@ export const FormLabel: React.FC<Props> = ({
     isRequired = false,
 }) => {
     return (
-        <div className={'flex items-center '+ _class}>
-            <label htmlFor={htmlFor} id={id} className="text-xl font-bold">
+        <div className={'flex items-center text-xl '+ _class}>
+            <label htmlFor={htmlFor} id={id} className="font-bold">
                 {children}
             </label>
             { isRequired && 

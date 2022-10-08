@@ -19,7 +19,6 @@ export const RecruitmentOfMember: React.FC<Props> = ({
     village,
     setVillage
 }) => {
-
     const phaseHook = usePhase(phaseNo, village);
     const phaseComponet = usePhaseComponent(village);
     const villageMethod = useVillageMethod(village, setVillage);

@@ -1,6 +1,7 @@
 import { RouteManager } from "@/app/manages/routeManager";
 import { ApiService } from "@/app/services/apiService";
 import { AuthService } from "@/app/services/authService";
+import { LinkButton } from "@/components/atoms/buttons/linkButton";
 import { MiddleButton } from "@/components/atoms/buttons/middleButton";
 import { FormLabel } from "@/components/atoms/label/formLabel";
 import { usePageLoading } from "@/hooks/common/usePageLoading";
@@ -115,98 +116,107 @@ const MyVillagePhaseSetting: NextPage = () => {
 
   return (
     <_BaseMemberLayout title="フェーズ設定">
-      <div>
+      <div className="px-6">
         <div className="mt-10 text-center text-2xl font-bold">
           {villageState.village.title}
         </div>
         <div className="mt-6 text-center text-xl">
           {villageState.village.phase_name}
         </div>
-        <div className="px-10 mt-6">
+        <div className="mt-6">
           {
             villageState.village.is_necessary_to_set_phase_start_setting &&
-            <div>
-              <div>【フェーズ開始条件】</div>
-              {
-                villageState.village.phase_start_setting?.by_instant.is_need &&
-                <div className='flex items-center'>
-                  <input
-                    type={'checkbox'}
-                    name="start_by_instant_flg"
-                    id="start_by_instant_flg"
-                    checked={setting.start_by_instant_flg}
-                    onChange={changeInputHandler}
-                  />
-                  <FormLabel htmlFor={'start_by_instant_flg'} _class='ml-3'>
-                    {
-                      villageState.village.phase_start_setting?.by_instant.label
-                    }
-                  </FormLabel>
-                </div>
-              }
-              {
-                villageState.village.phase_start_setting?.by_date.is_need &&
-                <div className='flex items-center mt-2'>
-                  <input
-                    type={'checkbox'}
-                    name="start_by_date_flg"
-                    id="start_by_date_flg"
-                    checked={setting.start_by_date_flg}
-                    onChange={changeInputHandler}
-                  />
-                  <FormLabel htmlFor={'start_by_date_flg'} _class='ml-3'>
-                    {
-                      villageState.village.phase_start_setting?.by_date.label
-                    }
-                  </FormLabel>
-                </div>
-              }
+            <div className=" bg-white rounded-lg shadow-xl overflow-hidden mb-6">
+              <div className="py-3 text-xl font-bold mb-2 bg-sub text-white text-center">
+                フェーズ開始条件
+              </div>
+              <div className="px-4 py-4">
+                {
+                  villageState.village.phase_start_setting?.by_instant.is_need &&
+                  <div className='flex items-center'>
+                    <input
+                      type={'checkbox'}
+                      name="start_by_instant_flg"
+                      id="start_by_instant_flg"
+                      checked={setting.start_by_instant_flg}
+                      onChange={changeInputHandler}
+                    />
+                    <FormLabel htmlFor={'start_by_instant_flg'} _class='ml-3 text-lg'>
+                      {
+                        villageState.village.phase_start_setting?.by_instant.label
+                      }
+                    </FormLabel>
+                  </div>
+                }
+                {
+                  villageState.village.phase_start_setting?.by_date.is_need &&
+                  <div className='flex items-center mt-4'>
+                    <input
+                      type={'checkbox'}
+                      name="start_by_date_flg"
+                      id="start_by_date_flg"
+                      checked={setting.start_by_date_flg}
+                      onChange={changeInputHandler}
+                    />
+                    <FormLabel htmlFor={'start_by_date_flg'} _class='ml-3 text-lg'>
+                      {
+                        villageState.village.phase_start_setting?.by_date.label
+                      }
+                    </FormLabel>
+                  </div>
+                }
+              </div>
             </div>
           }
           {
             villageState.village.is_necessary_to_set_phase_end_setting &&
-            <div>
-              <div className="text-xl font-bold mb-2">
-                【フェーズ終了条件】
+            <div className="bg-white rounded-lg shadow-xl overflow-hidden">
+              <div className="py-3 text-xl font-bold mb-2 bg-sub text-white text-center">
+                フェーズ終了条件
               </div>
-              {
-                villageState.village.phase_end_setting?.by_limit.is_need &&
-                <div className='flex items-center'>
-                  <input
-                    type={'checkbox'}
-                    name="end_by_limit_flg"
-                    id="end_by_limit_flg"
-                    checked={setting.end_by_limit_flg}
-                    onChange={changeInputHandler}
-                  />
-                  <FormLabel htmlFor={'end_by_limit_flg'} _class='ml-3'>
-                    {
-                      villageState.village.phase_end_setting?.by_limit.label
-                    }
-                  </FormLabel>
-                </div>
-              }
-              {
-                villageState.village.phase_end_setting?.by_date.is_need &&
-                <div className='flex items-center mt-2'>
-                  <input
-                    type={'checkbox'}
-                    name="end_by_date_flg"
-                    id="end_by_date_flg"
-                    checked={setting.end_by_date_flg}
-                    onChange={changeInputHandler}
-                  />
-                  <FormLabel htmlFor={'end_by_date_flg'} _class='ml-3'>
-                    {
-                      villageState.village.phase_end_setting?.by_date.label
-                    }
-                  </FormLabel>
-                </div>
-              }
+              <div className="px-4 py-4">
+                {
+                  villageState.village.phase_end_setting?.by_limit.is_need &&
+                  <div className='flex items-center'>
+                    <input
+                      type={'checkbox'}
+                      name="end_by_limit_flg"
+                      id="end_by_limit_flg"
+                      checked={setting.end_by_limit_flg}
+                      onChange={changeInputHandler}
+                    />
+                    <FormLabel htmlFor={'end_by_limit_flg'} _class='ml-3 text-lg'>
+                      {
+                        villageState.village.phase_end_setting?.by_limit.label
+                      }
+                    </FormLabel>
+                  </div>
+                }
+                {
+                  villageState.village.phase_end_setting?.by_date.is_need &&
+                  <div className='flex items-center mt-4'>
+                    <input
+                      type={'checkbox'}
+                      name="end_by_date_flg"
+                      id="end_by_date_flg"
+                      checked={setting.end_by_date_flg}
+                      onChange={changeInputHandler}
+                    />
+                    <FormLabel htmlFor={'end_by_date_flg'} _class='ml-3 text-lg'>
+                      {
+                        villageState.village.phase_end_setting?.by_date.label
+                      }
+                    </FormLabel>
+                  </div>
+                }
+              </div>
             </div>
           }
         </div>
-        <div className="text-center mt-4">
+        <div className="flex justify-between mt-6">
+          <LinkButton href={RouteManager.webRoute.member.village.my.details.index + villageState.village.village_id}>
+            戻る
+          </LinkButton>
           <MiddleButton onClick={onClickSave}>
             設定保存
           </MiddleButton>
