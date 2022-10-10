@@ -128,6 +128,10 @@ const Register: NextPage = () => {
         router.replace(RouteManager.webRoute.member.village.register.index);
     }
 
+    const onClickVillageList = () => {
+        router.replace(RouteManager.webRoute.member.village.my.index);
+    }
+
     const onClickRegister = async () => {
         pageLoading.show();
         await ApiService.getCSRF();
@@ -212,7 +216,7 @@ const Register: NextPage = () => {
                     break;
                 case 6:
                     result.title = (<>ビレッジを作成完了</>);
-                    result.component = <CompleteRegisterVillage/>;
+                    result.component = <CompleteRegisterVillage onClickVillageList={onClickVillageList}/>;
                     break;
             default:
                 break;
