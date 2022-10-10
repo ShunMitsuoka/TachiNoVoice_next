@@ -62,6 +62,7 @@ const Details: NextPage = () => {
         const res = ApiService.makeApiResponse(response);
         if (res.getSuccess()) {
           alert("「" + villageState.village.title + "」に参加しました。");
+          router.replace(RouteManager.webRoute.member.village.my.details.index + villageState.village.village_id);
         } else {
           alert('失敗');
         }
@@ -97,7 +98,7 @@ const Details: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
-      <div className=' flex flex-col text-center rounded-lg drop-shadow bg-white overflow-hidden shadow-lg m-20 my-5'>
+      <div className=' flex flex-col text-center rounded-lg drop-shadow bg-white overflow-hidden shadow-lg my-6 mx-8'>
         <div className='flex justify-center text-2xl  font-bold bg-sub text-white py-3 px-6'>
           <FormLabel htmlFor={'title'}>{villageState.village.title}</FormLabel>
         </div>
