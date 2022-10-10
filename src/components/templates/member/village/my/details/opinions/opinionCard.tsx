@@ -13,6 +13,7 @@ interface Props {
     opinion: Opinion;
     myDetails?:MemberDetail;
     reload?: () => void;
+    canEvaluation? : boolean; 
     isShowEvaluation? : boolean; 
 }
 
@@ -23,6 +24,7 @@ export const OpinionCard: React.FC<Props> = ({
     opinion,
     myDetails,
     reload,
+    canEvaluation,
     isShowEvaluation,
 }) => {
     const modal = useModal();
@@ -104,8 +106,13 @@ export const OpinionCard: React.FC<Props> = ({
                         </div>
                         <div>
                             {
-                                myDetails && reload &&
-                                <EvaluationComponet opinion={opinion} mySelfEvaluation={mySelfEvaluation()} villageId={villageId} reload={reload} />
+                                myDetails && reload && canEvaluation &&
+                                <EvaluationComponet 
+                                    opinion={opinion} 
+                                    mySelfEvaluation={mySelfEvaluation()} 
+                                    villageId={villageId} 
+                                    reload={reload} 
+                                />
                             }
                         </div>
                     </div>

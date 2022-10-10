@@ -263,6 +263,10 @@ const MyVillageOpinios: NextPage = () => {
                         || villageState.village.phase_no == appConst.village.phase.decidingPolicy
                         || villageState.village.phase_no == appConst.village.phase.surveyingSatisfaction
                       }
+                      canEvaluation = {
+                        villageState.village.phase_no == appConst.village.phase.evaluation 
+                        && !villageState.village.is_phase_preparing
+                      }
                     />
                 </div>
               );
