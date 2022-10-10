@@ -24,10 +24,10 @@ export default function Dashboard() {
                 </div>
 
                 <div className=" flex flex-col ">
-                    <div className="text-center text-4xl py-6">
+                    <div className="text-center text-2xl mt-6 mb-4">
                         ようこそ<br />
                     </div>
-                    <div className="flex justify-center text-center text-4xl">
+                    <div className="flex justify-center text-center text-2xl">
                         {session?.user.name}さん
                     </div>
                 </div>
