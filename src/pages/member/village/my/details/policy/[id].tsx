@@ -104,7 +104,9 @@ const Policy: NextPage = () => {
           village={villageState.village} 
           categories={categories} 
           onDecidePolicy={onDecidePolicy} 
-          nextPhase={villageMethod.nextPhase}
+          nextPhase={ () => villageMethod.nextPhase(() => {
+            router.replace(RouteManager.webRoute.member.village.my.details.index + villageState.village.village_id);
+          })}
         />
       case 1:
         return <RegisterPolicy 
