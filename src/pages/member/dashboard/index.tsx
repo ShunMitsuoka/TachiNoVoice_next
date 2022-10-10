@@ -13,7 +13,7 @@ export default function Dashboard() {
 
     return (
         <_BaseMemberLayout>
-            <div className="relative w-[100%] h-[100%]">
+            <div className="relative w-full h-full">
 
                 <div className="absolute top-2 left-2">
                     <Image
@@ -32,7 +32,7 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <Link href={RouteManager.webRoute.member.village.register.index} className="">
-                    <div className="absolute top-[500px] bottom-0 right-10 ">
+                    <div className="absolute top-[430px] right-5 ">
                         <div className=" font-bold bg-red text-center rounded-[50%] w-[200px] h-[100px] leading-[100px] drop-shadow-lg">
 
                             ビレッジ作成
@@ -41,7 +41,7 @@ export default function Dashboard() {
                     </div>
                 </Link>
                 <Link href={RouteManager.webRoute.member.village.search.index}>
-                    <div className="absolute top-[400px] bottom-0 left-10">
+                    <div className="absolute top-[330px] left-5">
                         <div className=" font-bold bg-lime-100 text-center rounded-[50%] w-[200px] h-[100px] leading-[100px] drop-shadow-lg">
 
                             ビレッジを探す
@@ -52,7 +52,7 @@ export default function Dashboard() {
 
 
                 <Link href={RouteManager.webRoute.member.village.my.index}>
-                    <div className="absolute top-[300px] bottom-0 right-10">
+                    <div className="absolute top-[230px] right-5">
                         <div className=" font-bold bg-orange text-center rounded-[50%] w-[200px] h-[100px] leading-[100px] drop-shadow-lg">
                             参加中のビレッジへ
                         </div>
