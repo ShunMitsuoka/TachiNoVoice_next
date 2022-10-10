@@ -50,7 +50,9 @@ export const Satisfaction: React.FC<Props> = ({
                     :
                     <>
                         { village.is_task_done ?
-                            <div className='text-xl'>登録済み</div>
+                            <LinkButton href={RouteManager.webRoute.member.village.my.details.satisfaction.result + village.village_id}>
+                                結果を見る
+                            </LinkButton>
                         :
                             <LinkButton href={RouteManager.webRoute.member.village.my.details.satisfaction.index + village.village_id}>
                                 登録する

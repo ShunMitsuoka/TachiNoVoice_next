@@ -75,6 +75,9 @@ const Satisfaction: NextPage = () => {
         if (res.getSuccess()) {
           villageState.setVillage(res.getResult());
           console.log(res.getResult());
+          if(res.getResult().is_task_done){
+            router.replace(RouteManager.webRoute.member.village.my.details.satisfaction.result + villageState.village.village_id);
+          }
           setCategories(res.getResult().categories);
         } else {
           alert('失敗');
