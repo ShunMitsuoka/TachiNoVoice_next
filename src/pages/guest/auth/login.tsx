@@ -106,7 +106,7 @@ export default function Login() {
                 </div>
             </div>
             <div className="mt-6 text-center text-lg">
-                <Link href={RouteManager.webRoute.guest.auth.register}>
+                <Link href={RouteManager.webRoute.guest.auth.register} className='py-1'>
                     <a className="underline">新規会員登録はこちら</a>
                 </Link>
             </div>

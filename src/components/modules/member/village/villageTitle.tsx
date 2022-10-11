@@ -11,7 +11,7 @@ export const VillageTitle: React.FC<Props> = ({
     _class
 }) => {
     return (
-        <div className={'text-center text-xl font-bold ' + _class}>
+        <div className={'px-6 text-center text-xl font-bold ' + _class}>
             {village.title}
         </div >
     );

@@ -17,7 +17,7 @@ export const SearchResultCard: React.FC<Props> = ({
         <div className='col-span-12 md:col-span-6 mt-6'>
             <Link href={RouteManager.webRoute.member.village.search.details + id}>
                 <div className='text-sub text-center rounded-lg drop-shadow bg-white overflow-hidden shadow-lg'>
-                    <div className='text-2xl text-center font-bold bg-sub text-white py-3'>{title}</div>
+                    <div className='text-2xl text-center font-bold bg-sub text-white py-3 px-4'>{title}</div>
                     <div className='px-4 py-4 overflow-auto'>
                         {content}
                     </div>

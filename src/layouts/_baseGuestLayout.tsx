@@ -25,13 +25,15 @@ const _BaseGuestLayout: NextPage<Props> = ({
                             height={130}
                         />
                     </div>
-                    {children}
                     <div className="absolute bottom-1 right-2">
                         <Image
                             src={'/images/common/decoration/br-deco.svg'}
                             width={300}
                             height={130}
                         />
+                    </div>
+                    <div className="relative">
+                        {children}
                     </div>
                 </div>
                 <div className="mt-auto">

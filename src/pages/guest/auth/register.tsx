@@ -116,7 +116,7 @@ export default function Register() {
                         onChange={changeHandler}
                     />
                     <ValidationErrors validationErrors={validationError.errors} id={'nickname'}/>
-                    <div className='text-xs mt-1'>
+                    <div className='text-sm mt-1'>
                         ※ニックネーム未設定の場合は氏名が表示名として使用されます。
                     </div>
                 </div>
@@ -223,7 +223,7 @@ export default function Register() {
                 </div>
             </div>
             <div className="mt-6 text-center text-lg">
-                <Link href={RouteManager.webRoute.guest.auth.login}>
+                <Link href={RouteManager.webRoute.guest.auth.login} className='py-1'>
                     <a className="underline">既に会員の方はこちら</a>
                 </Link>
             </div>
