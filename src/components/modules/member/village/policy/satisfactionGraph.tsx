@@ -61,11 +61,15 @@ export const SatisfactionGraph: React.FC<Props> = ({
   const levelColor = (level : number) => {
     switch (level) {
       case 1:
-        return "#A0D2ED";
+        return "#ECACB5";
       case 2:
-        return "#E9C3CE";
+        return "#F9E3AA";
       case 3:
-        return "#DFE7C0";
+        return "#A6E39D";
+      case 4:
+      return "#97D3E3";
+      case 5:
+        return "#F5CBAB";
       default:
         break;
     }

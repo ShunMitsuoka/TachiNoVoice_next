@@ -15,7 +15,7 @@ interface graphDataType {
 export const AgeGraph: React.FC<Props> = ({
   data
 }) => {
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  const COLORS = ["#FFF599", "#B5B9D8", "#80D7C2", "#E496B7", "#E7EF9A", "#D495C3", "#86C5E1", "#F3C19B", "#83DADA"];
 
   const [graphData, setGraphData] = useState([
     { name: 'それ以下', key: 0, value: 0 },
