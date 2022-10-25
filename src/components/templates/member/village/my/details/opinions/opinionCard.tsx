@@ -7,6 +7,7 @@ import { RiThumbDownFill } from "react-icons/ri";
 import { RiQuestionFill } from "react-icons/ri";
 import { appConst } from '@/app/const/appConst';
 import { useModal } from '@/hooks/common/useModal';
+import nl2br from 'react-nl2br';
 
 interface Props {
     villageId: Number;
@@ -101,7 +102,7 @@ export const OpinionCard: React.FC<Props> = ({
                                 }
                             </div>
                             <div className='px-2 py-2 text-sm'>
-                                {opinion.opinion}
+                                {nl2br(opinion.opinion)}
                             </div>
                         </div>
                         <div>
@@ -166,7 +167,7 @@ export const OpinionCard: React.FC<Props> = ({
                     }
                 </div>
                 <div className='px-2 py-2 text-sm'>
-                    {slicedOpinion()}
+                    {nl2br(slicedOpinion())}
                 </div>
             </div>
         </>
