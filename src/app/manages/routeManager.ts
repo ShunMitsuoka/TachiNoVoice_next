@@ -2,6 +2,8 @@ type route = {
     guest: {
         top: string,
         auth: {
+            preRegisterComp: string;
+            RegisterComp: string;
             register: string,
             login: string,
         },
@@ -55,6 +57,7 @@ type apiRoute = {
     guest:{
         auth: {
             register: string,
+            mainRegister: string,
         },
     },
     member: {
@@ -99,6 +102,8 @@ export class RouteManager {
         guest: {
             top: '/',
             auth: {
+                preRegisterComp: '/guest/auth/preRegisterComp',
+                RegisterComp: '/guest/auth/RegisterComp',
                 register: '/guest/auth/register',
                 login: '/guest/auth/login',
             }
@@ -153,6 +158,7 @@ export class RouteManager {
         guest:{
             auth: {
                 register: '/api/auth/register',
+                mainRegister: '/api/auth/mainRegister',
             },
         },
         member: {

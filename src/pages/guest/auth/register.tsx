@@ -73,8 +73,8 @@ export default function Register() {
             )
             , params)
         .then(function (response) {
-            alert('会員登録に成功しました。\nログインしてください。');
-            router.replace(RouteManager.webRoute.guest.auth.login);
+            // alert('仮会員登録に成功しました。\nログインしてください。');
+            router.replace(RouteManager.webRoute.guest.auth.preRegisterComp);
         })
         .catch((error) =>{
             const res = ApiService.makeApiErrorResponse(error);
