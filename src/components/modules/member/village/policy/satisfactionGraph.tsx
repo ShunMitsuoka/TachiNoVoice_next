@@ -1,6 +1,7 @@
 import { appConst } from "@/app/const/appConst";
 import { useEffect, useState } from "react";
-import { Cell, Pie, PieChart, ResponsiveContainer, Text } from "recharts";
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Text } from "recharts";
+import { LayoutType } from "recharts/types/util/types";
 import { Satisfaction } from "villageType";
 
 interface Props {
@@ -46,11 +47,11 @@ export const SatisfactionGraph: React.FC<Props> = ({
       }
     });
     setGraphData([
-        { key: 1, value: level_1, name : 'test'},
-        { key: 2, value: level_2, name : 'test'},
-        { key: 3, value: level_3, name : 'test'},
-        { key: 4, value: level_4, name : 'test'},
-        { key: 5, value: level_5, name : 'test'},
+        { key: 1, value: level_1, name : '満足度1'},
+        { key: 2, value: level_2, name : '満足度2'},
+        { key: 3, value: level_3, name : '満足度3'},
+        { key: 4, value: level_4, name : '満足度4'},
+        { key: 5, value: level_5, name : '満足度5'},
     ]);
   }, [data]);
 
@@ -85,9 +86,17 @@ export const SatisfactionGraph: React.FC<Props> = ({
   // }
 
   return (
-    <ResponsiveContainer aspect={1} height={"100%"}>
+    <ResponsiveContainer width={'70%'} height={150}>
       <PieChart>
-          <Pie data={graphData} dataKey="value" cx="50%" cy="50%" outerRadius={50} fill="#82ca9d" legendType="none">
+          <Pie 
+            data={graphData} 
+            dataKey="value" 
+            cx="50%" 
+            cy="50%" 
+            outerRadius={'80%'} 
+            fill="#82ca9d" 
+            legendType="circle"
+          >
             {graphData.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
@@ -95,6 +104,11 @@ export const SatisfactionGraph: React.FC<Props> = ({
               />
             ))}
           </Pie>
+          <Legend   
+            layout={'vertical' as LayoutType} 
+            align='right'
+            verticalAlign="middle" 
+          />
       </PieChart>
     </ResponsiveContainer>
   );
