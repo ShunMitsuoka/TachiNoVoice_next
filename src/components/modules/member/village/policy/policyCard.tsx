@@ -32,7 +32,7 @@ export const PolicyCard: React.FC<Props> = ({
                         satisfactions && 
                         <div className='mt-2'>
                             <div className='mb-1 font-bold'>【満足度】</div>
-                            <div className="relative w-28 h-32">
+                            <div className="relative">
                                 <SatisfactionGraph data={satisfactions} />
                             </div>
                         </div>
