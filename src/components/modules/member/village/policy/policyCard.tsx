@@ -1,6 +1,7 @@
 import React from 'react';
 import { Category, Satisfaction } from 'villageType';
 import dynamic from "next/dynamic";
+import nl2br from 'react-nl2br';
 
 interface Props {
     category : Category;
@@ -26,7 +27,7 @@ export const PolicyCard: React.FC<Props> = ({
                 <>
                     <div className=''>
                         <div className='mb-1 font-bold'>【方針】</div>
-                        {category.policy.policy}
+                        {nl2br(category.policy.policy)}
                     </div>
                     {
                         satisfactions && 
