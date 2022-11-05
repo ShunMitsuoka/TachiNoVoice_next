@@ -30,12 +30,18 @@ const Satisfaction: NextPage = () => {
   const [index, setIndex] = useState<number>(0);
 
   const [comment, setComment] = useState("");
+  const [isPublicComment, setIsPublicComment] = useState(false);
   const [satisfactions, setSatisfactions] = useState<SatisfactionType[]>([]);
 
   const changeTextAreaHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       const target = e.target;
       const value = target.value;
       setComment(value);
+  }
+
+  const changeInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target;
+    setIsPublicComment(target.checked);
   }
 
   useEffect(() => {
@@ -115,6 +121,7 @@ const Satisfaction: NextPage = () => {
     axios.post(ApiService.getFullURL(RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.satisfaction, { 'id': id })),
       {
         comment : comment,
+        comment_public_flg : isPublicComment,
         satisfactions :satisfactions
       }, 
       ApiService.getAuthHeader(session)
@@ -155,7 +162,9 @@ const Satisfaction: NextPage = () => {
           onBack={onBack}
           onRegister={onRegister}
           comment={comment}
+          isPublicComment={isPublicComment}
           changeTextAreaHandler={changeTextAreaHandler}
+          changeInputHandler={changeInputHandler}
         />
       default:
         break;
