@@ -86,7 +86,7 @@ export const SatisfactionGraph: React.FC<Props> = ({
   // }
 
   return (
-    <ResponsiveContainer width={'70%'}>
+    <ResponsiveContainer width={'70%'} height={150}>
       <PieChart>
           <Pie 
             data={graphData} 
