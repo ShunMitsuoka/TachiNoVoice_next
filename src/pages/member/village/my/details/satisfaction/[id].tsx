@@ -142,12 +142,14 @@ const Satisfaction: NextPage = () => {
     switch (page) {
       case 0:
         return <SatisfactionConfirm 
+          key={0}
           village={villageState.village} 
           categories={categories}
           onAnswere={onAnswere}
         />
       case 1:
-        return <DecidingSatisfaction 
+        return <DecidingSatisfaction
+          key={1}
           village={villageState.village}
           category={categories[index]}
           onBack={onBack}
@@ -156,7 +158,8 @@ const Satisfaction: NextPage = () => {
           setSatisfactions={setSatisfactions}
         />
       case 2:
-        return <CommentSatisfaction 
+        return <CommentSatisfaction
+          key={2}
           village={villageState.village}
           category={categories[index]}
           onBack={onBack}
