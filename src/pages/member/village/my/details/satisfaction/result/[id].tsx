@@ -83,7 +83,7 @@ const SatisfactionResult: NextPage = () => {
             {
               comments.map((comment, index) => {
                 return(
-                    <div className=" px-4 py-2 mb-4 bg-white rounded-lg shadow-lg text-gray-500">
+                    <div key={index} className=" px-4 py-2 mb-4 bg-white rounded-lg shadow-lg text-gray-500">
                       {nl2br(comment)}
                     </div>
                 );
