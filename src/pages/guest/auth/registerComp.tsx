@@ -48,6 +48,7 @@ export default function registerComp() {
             <div className="bg-p-sub px-8 py-10 text-lg">
                 <div className=' text-center'>
                     <p>本会員登録が完了しました。</p>
+                    <p>ご登録いただいたメールアドレス、パスワードをご使用になり、ログインを行ってください。</p>
                 </div>
                 <div className="text-center mt-6">
                     <LargeButton
