@@ -3,12 +3,12 @@ import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 import { RouteManager } from '../../../app/manages/routeManager';
 import { LargeButton } from '../../../components/atoms/buttons/largeButton';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 
 export default function registerComp() {
-    const router = useRouter();
+    // const router = useRouter();
     const onClickSave = () => {
-        router.replace(RouteManager.webRoute.guest.auth.login);
+        Router.replace(RouteManager.webRoute.guest.auth.login);
     }
     return (
         <_BaseGuestLayout title="本会員登録完了">
