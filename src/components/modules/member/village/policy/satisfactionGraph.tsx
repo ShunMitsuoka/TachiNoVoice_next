@@ -93,7 +93,7 @@ export const SatisfactionGraph: React.FC<Props> = ({
             dataKey="value" 
             cx="50%" 
             cy="50%" 
-            outerRadius={'80%'} 
+            outerRadius={'85%'} 
             fill="#82ca9d" 
             legendType="circle"
           >
@@ -108,6 +108,7 @@ export const SatisfactionGraph: React.FC<Props> = ({
             layout={'vertical' as LayoutType} 
             align='right'
             verticalAlign="middle" 
+            wrapperStyle={{fontSize: ".8rem"}}
           />
       </PieChart>
     </ResponsiveContainer>

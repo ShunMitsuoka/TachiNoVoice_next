@@ -17,7 +17,7 @@ export const VillageMemberCard: React.FC<Props> = ({
     role_id,
 }) => {
     return (
-        <div className='col-span-6 text-sub rounded-lg drop-shadow bg-white overflow-hidden'>
+        <div className='col-span-6 text-sub rounded-lg shadow-lg bg-white overflow-hidden'>
         <div className={ColorService.bgRoleColre(role_id) + ' px-2 py-1 text-sm'}>
                 <div className='font-bold'>{name}</div>
             </div>
