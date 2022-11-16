@@ -23,6 +23,7 @@ export default function VerifyEmail() {
       }
       if(status === "unauthenticated"){
         router.replace(RouteManager.webRoute.guest.auth.login);
+        pageLoading.close();
       }
     },[status]);
 
