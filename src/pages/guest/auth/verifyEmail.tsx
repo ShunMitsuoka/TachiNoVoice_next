@@ -3,12 +3,14 @@ import Head from 'next/head';
 import React, { useEffect } from 'react';
 import { RouteManager } from '../../../app/manages/routeManager';
 import { LargeButton } from '../../../components/atoms/buttons/largeButton';
-import { useSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { usePageLoading } from '@/hooks/common/usePageLoading';
 import { LinkButton } from '@/components/atoms/buttons/linkButton';
 import axios from '@/libs/axios/axios';
 import { ApiService } from '@/app/services/apiService';
 import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
+import { AuthService } from '@/app/services/authService';
 
 export default function VerifyEmail() {
 
@@ -18,11 +20,7 @@ export default function VerifyEmail() {
   
     useEffect(() => {
       pageLoading.show();
-      if(status === "authenticated"){
-        pageLoading.close();
-      }
-      if(status === "unauthenticated"){
-        router.replace(RouteManager.webRoute.guest.auth.login);
+      if(status !== "loading"){
         pageLoading.close();
       }
     },[status]);
@@ -71,4 +69,12 @@ export default function VerifyEmail() {
             </div>
         </_BaseGuestLayout>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const session = await getSession(context);
+    if (AuthService.check(session)) {
+        return { props: {} }
+    }
+    return AuthService.authFailed();
 }
