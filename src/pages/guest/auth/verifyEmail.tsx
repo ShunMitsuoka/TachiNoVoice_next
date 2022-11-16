@@ -10,7 +10,7 @@ import axios from '@/libs/axios/axios';
 import { ApiService } from '@/app/services/apiService';
 import { useRouter } from 'next/router';
 
-export default function verifyEmail() {
+export default function VerifyEmail() {
 
     const { data: session, status } = useSession();
     const pageLoading = usePageLoading();

@@ -5,7 +5,7 @@ import { RouteManager } from '../../../app/manages/routeManager';
 import { LargeButton } from '../../../components/atoms/buttons/largeButton';
 import Router from 'next/router';
 
-export default function registerComp() {
+export default function RegisterComp() {
     // const router = useRouter();
     const onClickSave = () => {
         Router.replace(RouteManager.webRoute.guest.auth.login);
