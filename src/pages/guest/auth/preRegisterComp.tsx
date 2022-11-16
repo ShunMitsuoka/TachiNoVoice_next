@@ -1,51 +1,13 @@
 import _BaseGuestLayout from '../../../layouts/_baseGuestLayout';
 import Head from 'next/head';
-import React, { useEffect, useState } from 'react';
-import { BaseInput } from '../../../components/atoms/input/baseInput';
-import { FormLabel } from '../../../components/atoms/label/formLabel';
-import axios from '../../../libs/axios/axios';
-import { ApiService } from '@/app/services/apiService';
-import { ValidationErrors } from '@/components/modules/common/validation/validationErrors';
-import Link from 'next/link';
+import React from 'react';
 import { RouteManager } from '@/app/manages/routeManager';
-import { FormSelect } from '@/components/atoms/select/formSelect';
-import { YearSelect } from '@/components/modules/common/dateSelect/yearSelect';
-import { MonthSelect } from '@/components/modules/common/dateSelect/monthSelect';
-import { DateSelect } from '@/components/modules/common/dateSelect/dateSelect';
-import { usePageLoading } from '@/hooks/common/usePageLoading';
 import { LargeButton } from '@/components/atoms/buttons/largeButton';
-import { useValidationError } from '@/hooks/common/useValidationError';
 import { useRouter } from 'next/router';
-
-type formDate = {
-    user_name: string,
-    nickname: string,
-    email: string,
-    password: string,
-    passwordConfirmation: string,
-    gender: string,
-    birthyear: string,
-    birthmonth: string,
-    birthday: string;
-};
 
 export default function PreRegisterComp() {
 
-    const validationError = useValidationError();
-    const pageLoading = usePageLoading();
     const router = useRouter()
-
-    const [formData, setFormData] = useState<formDate>({
-        user_name: "",
-        nickname: "",
-        email: "",
-        password: "",
-        passwordConfirmation: "",
-        gender: "",
-        birthyear: "",
-        birthmonth: "",
-        birthday: "",
-    });
 
     const onClickSave = () => {
         router.replace(RouteManager.webRoute.guest.auth.login);

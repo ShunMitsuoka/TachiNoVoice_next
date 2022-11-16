@@ -6,6 +6,7 @@ type route = {
             RegisterComp: string;
             register: string,
             login: string,
+            verifyEmail: string,
         },
     },
     member: {
@@ -58,6 +59,7 @@ type apiRoute = {
         auth: {
             register: string,
             mainRegister: string,
+            resendVerifiedEmail: string,
         },
     },
     member: {
@@ -106,6 +108,7 @@ export class RouteManager {
                 RegisterComp: '/guest/auth/RegisterComp',
                 register: '/guest/auth/register',
                 login: '/guest/auth/login',
+                verifyEmail: '/guest/auth/verifyEmail',
             }
         },
         member: {
@@ -159,6 +162,7 @@ export class RouteManager {
             auth: {
                 register: '/api/auth/register',
                 mainRegister: '/api/auth/mainRegister',
+                resendVerifiedEmail: '/api/email/verification-notification',
             },
         },
         member: {

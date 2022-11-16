@@ -1,6 +1,6 @@
 import _BaseGuestLayout from '../../../layouts/_baseGuestLayout';
 import Head from 'next/head';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { RouteManager } from '../../../app/manages/routeManager';
 import { LargeButton } from '../../../components/atoms/buttons/largeButton';
 import Router from 'next/router';
