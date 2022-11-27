@@ -236,10 +236,20 @@ const MyVillageOpinios: NextPage = () => {
         })}
           {
             dispCategory && 
-            <div className="relative py-3 mt-6 text-center bg-rise text-white text-lg font-bold">
-              {dispCategory.category_name}
-              <FaExchangeAlt className="absolute top-4 right-6 text-xl" onClick={onOpenCategoryList}/>
-            </div>
+            <>
+              <div className="relative py-3 mt-6 text-center bg-rise text-white text-lg font-bold">
+                {dispCategory.category_name}
+                <FaExchangeAlt className="absolute top-4 right-6 text-xl" onClick={onOpenCategoryList}/>
+              </div>
+              <div className="px-4 pt-4">
+                {
+                  slectedCategoryId == appConst.village.category.uncategorized ? 
+                  <img src={process.env.NEXT_PUBLIC_API_URL+'storage/village/'+villageState.village.village_id+'/core_member.png'} alt="" />
+                  :
+                  <img src={process.env.NEXT_PUBLIC_API_URL+'storage/village/'+villageState.village.village_id+'/'+slectedCategoryId+'/member_opinion.png'} alt="" />
+                }
+              </div>
+            </>
           }
         <div className="px-4 mt-6">
           {

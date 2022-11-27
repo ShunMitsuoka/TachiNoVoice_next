@@ -145,6 +145,9 @@ const MyVillageCategory: NextPage = () => {
         )
       }
       <div className="px-8">
+        <div className="mb-4">
+          <img src={process.env.NEXT_PUBLIC_API_URL+'storage/village/'+villageState.village.village_id+'/core_member.png'} alt="" />
+        </div>
         <div className="mb-6 text-center">
           カテゴリーを追加、編集してください。
         </div>
