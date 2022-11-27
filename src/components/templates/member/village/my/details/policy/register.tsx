@@ -2,6 +2,7 @@ import { MiddleButton } from '@/components/atoms/buttons/middleButton';
 import { BaseTextArea } from '@/components/atoms/textarea/baseTextArea';
 import React from 'react';
 import { Category, Village } from 'villageType';
+import { OpinionCard } from '../opinions/opinionCard';
 
 interface Props {
     village: Village;
@@ -42,6 +43,28 @@ export const RegisterPolicy: React.FC<Props> = ({
                         登録
                     </MiddleButton>
                 </div>
+            </div>
+            <div className='px-8 mt-6'>
+                <div className="flex items-end w-full">
+                    <div className="w-8 h-8 bg-sub"></div>
+                    <div className="flex-1 px-2 border-b border-b-sub text-sub text-lg">意見</div>
+                </div>
+                <div className='mt-4'>
+                  <img src={process.env.NEXT_PUBLIC_API_URL+'storage/village/'+village.village_id+'/'+category.category_id+'/member_opinion.png'} alt="" />
+                </div>
+                { 
+                    category?.opinions?.map((opinion, index) => {
+                        return (
+                            <div key={index} className="mt-4">
+                                <OpinionCard
+                                    opinion={opinion} 
+                                    villageId={village.village_id} 
+                                    isShowEvaluation={true}
+                                />
+                            </div>
+                        );
+                    })
+                }
             </div>
 
         </div>
