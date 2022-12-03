@@ -16,6 +16,7 @@ import React, { useEffect, useState } from "react";
 import { Category, MemberDetail } from "villageType";
 import { LinkButton } from "@/components/atoms/buttons/linkButton";
 import { ColorService } from "@/app/services/colorService";
+import { ComponentLoading } from "@/components/templates/common/loading/componentLoading";
 
 interface Opinion {
     categoryId?: number,
@@ -62,7 +63,7 @@ const MyVillageCategory: NextPage = () => {
     const setCategory = async (categoryId: number) => {
         pageLoading.show();
         await axios.post(ApiService.getFullURL(
-          RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.opinion.setCategory, { 'id': villageState.village.village_id })
+          RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.opinion.setCategory, { 'id': villageState.village?.village_id })
         ), {
             categoryId: categoryId,
             opinionId: opinions[opinionIndex].opinionId,
@@ -116,59 +117,66 @@ const MyVillageCategory: NextPage = () => {
 
     return (
         <_BaseMemberLayout>
-            <PhaseDetailsHeader village={villageState.village} menuType={"opinion"} />
-            <VillageTitle village={villageState.village} _class='my-8' />
-            <div className="px-8">
-                <div className="flex items-center mb-6">
-                    <div className="flex items-center justify-center w-8 h-8 bg-sub rounded-full text-white text-lg font-bold" onClick={prevOpinion}>
-                        {'<'}
-                    </div>
-                    <div className="flex-1 mx-4">
-                        {
-                            opinions[opinionIndex] && 
-                            <div className="bg-white rounded-xl shadow-xl overflow-hidden">
-                                <div className={'px-3 py-2 ' + ColorService.bgRoleColre(opinions[opinionIndex].member.role_id)}>
-                                    {opinions[opinionIndex].member.nickname}
-                                </div>
-                                <div className="px-3 py-4">
-                                    {opinions[opinionIndex].opinion}
-                                </div>
+            <ComponentLoading isShow={!villageState.isInitializedVillage()} loadingText='ビレッジ情報を読み込んでいます' />
+            {
+                villageState.villageComponent(
+                <>
+                    <PhaseDetailsHeader village={villageState.village!} menuType={"opinion"} />
+                    <VillageTitle village={villageState.village!} _class='my-8' />
+                    <div className="px-8">
+                        <div className="flex items-center mb-6">
+                            <div className="flex items-center justify-center w-8 h-8 bg-sub rounded-full text-white text-lg font-bold" onClick={prevOpinion}>
+                                {'<'}
                             </div>
-                        }
-                    </div>
-                    <div className="flex items-center justify-center w-8 h-8 bg-sub rounded-full text-white text-lg font-bold" onClick={nextOpinion}>
-                        {'>'}
-                    </div>
-                </div>
-                <div>
-                    {
-                        categories.map((category, index) => {
-                            if (category.category_id && category.category_id > 0 && opinions[opinionIndex]) {
-                                return (
-                                    <div 
-                                        key={index} 
-                                        className={"px-3 py-2 mb-4 rounded-lg text-xl text-white drop-shadow-lg " + (category.category_id == opinions[opinionIndex].categoryId ? "bg-rise" : "bg-gray-300") }
-                                        onClick={() => setCategory(category.category_id!)}>
-                                        {category.category_name}
+                            <div className="flex-1 mx-4">
+                                {
+                                    opinions[opinionIndex] && 
+                                    <div className="bg-white rounded-xl shadow-xl overflow-hidden">
+                                        <div className={'px-3 py-2 ' + ColorService.bgRoleColre(opinions[opinionIndex].member.role_id)}>
+                                            {opinions[opinionIndex].member.nickname}
+                                        </div>
+                                        <div className="px-3 py-4">
+                                            {opinions[opinionIndex].opinion}
+                                        </div>
                                     </div>
-                                );
+                                }
+                            </div>
+                            <div className="flex items-center justify-center w-8 h-8 bg-sub rounded-full text-white text-lg font-bold" onClick={nextOpinion}>
+                                {'>'}
+                            </div>
+                        </div>
+                        <div>
+                            {
+                                categories.map((category, index) => {
+                                    if (category.category_id && category.category_id > 0 && opinions[opinionIndex]) {
+                                        return (
+                                            <div 
+                                                key={index} 
+                                                className={"px-3 py-2 mb-4 rounded-lg text-xl text-white drop-shadow-lg " + (category.category_id == opinions[opinionIndex].categoryId ? "bg-rise" : "bg-gray-300") }
+                                                onClick={() => setCategory(category.category_id!)}>
+                                                {category.category_name}
+                                            </div>
+                                        );
+                                    }
+                                })
                             }
-                        })
-                    }
-                </div>
-                <div className="flex justify-between mt-4">
-                    <div>
-                        <LinkButton href={RouteManager.webRoute.member.village.my.details.category.make + villageState.village.village_id}>
-                          カテゴリー編集
-                        </LinkButton>
+                        </div>
+                        <div className="flex justify-between mt-4">
+                            <div>
+                                <LinkButton href={RouteManager.webRoute.member.village.my.details.category.make + villageState.village?.village_id}>
+                                カテゴリー編集
+                                </LinkButton>
+                            </div>
+                            <div>
+                                <LinkButton href={RouteManager.webRoute.member.village.my.details.opinions + villageState.village?.village_id}>
+                                    意見一覧
+                                </LinkButton>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <LinkButton href={RouteManager.webRoute.member.village.my.details.opinions + villageState.village.village_id}>
-                            意見一覧
-                        </LinkButton>
-                    </div>
-                </div>
-            </div>
+                </>
+                )
+            }
         </_BaseMemberLayout>
     )
 }

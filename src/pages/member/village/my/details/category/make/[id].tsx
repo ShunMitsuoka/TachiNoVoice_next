@@ -20,6 +20,7 @@ import { ValidationErrors } from "@/components/modules/common/validation/validat
 import { useModal } from "@/hooks/common/useModal";
 import { BaseInput } from "@/components/atoms/input/baseInput";
 import { EditCategoryCard } from "@/components/templates/member/village/my/details/category/editCategoryCard";
+import { ComponentLoading } from "@/components/templates/common/loading/componentLoading";
 
 const MyVillageCategory: NextPage = () => {
 
@@ -51,64 +52,64 @@ const MyVillageCategory: NextPage = () => {
     pageLoading.show();
     validationError.clearError();
     await axios.post(ApiService.getFullURL(
-      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.category, { 'id': villageState.village.village_id })
+      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.category, { 'id': villageState.village?.village_id })
     ), {
       category: category
     }, ApiService.getAuthHeader(session))
-    .then((response) => {
-      const res = ApiService.makeApiResponse(response);
-      if(res.getSuccess()){
-        setCategory('');
-        reload();
-      }
-    })
-    .catch((error) =>{
-      const res = ApiService.makeApiErrorResponse(error);
-      validationError.showError(res);
-      pageLoading.close();
-  });
+      .then((response) => {
+        const res = ApiService.makeApiResponse(response);
+        if (res.getSuccess()) {
+          setCategory('');
+          reload();
+        }
+      })
+      .catch((error) => {
+        const res = ApiService.makeApiErrorResponse(error);
+        validationError.showError(res);
+        pageLoading.close();
+      });
   }
 
-  const updateCategory = async (category_id : number, categoryName : string) => {
+  const updateCategory = async (category_id: number, categoryName: string) => {
     pageLoading.show();
     validationError.clearError();
     await axios.put(ApiService.getFullURL(
-      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.category+'/'+category_id, { 'id': villageState.village.village_id })
+      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.category + '/' + category_id, { 'id': villageState.village?.village_id })
     ), {
       category: categoryName
     }, ApiService.getAuthHeader(session))
-    .then((response) => {
-      const res = ApiService.makeApiResponse(response);
-      if(res.getSuccess()){
-        modal.close();
-        reload();
-      }
-    })
-    .catch((error) =>{
+      .then((response) => {
+        const res = ApiService.makeApiResponse(response);
+        if (res.getSuccess()) {
+          modal.close();
+          reload();
+        }
+      })
+      .catch((error) => {
         const res = ApiService.makeApiErrorResponse(error);
         validationError.showError(res);
         pageLoading.close();
-    });
+      });
   }
 
-  const deleteCategory = async (categoryId : number) => {
+  const deleteCategory = async (categoryId: number) => {
     pageLoading.show();
     validationError.clearError();
     await axios.delete(ApiService.getFullURL(
-      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.category+'/'+categoryId, { 'id': villageState.village.village_id })
+      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.category + '/' + categoryId, { 'id': villageState.village?.village_id })
     ), ApiService.getAuthHeader(session))
-    .then((response) => {
-      const res = ApiService.makeApiResponse(response);
-      if(res.getSuccess()){
-        modal.close();
-        reload();
-      }
-    })
-    .catch((error) =>{
+      .then((response) => {
+        const res = ApiService.makeApiResponse(response);
+        if (res.getSuccess()) {
+          modal.close();
+          reload();
+        }
+      })
+      .catch((error) => {
         const res = ApiService.makeApiErrorResponse(error);
         validationError.showError(res);
         pageLoading.close();
-    });
+      });
   }
 
   const reload = () => {
@@ -131,71 +132,78 @@ const MyVillageCategory: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
-      <PhaseDetailsHeader village={villageState.village} menuType={"opinion"} />
-      <VillageTitle village={villageState.village} _class='my-8' />
+      <ComponentLoading isShow={!villageState.isInitializedVillage()} loadingText='ビレッジ情報を読み込んでいます' />
       {
-        modal.content(
-          <EditCategoryCard 
-            villageId={villageState.village.village_id}
-            category={selectedCategory!}
-            validationError={validationError}
-            update={updateCategory} 
-            deleteCategory={deleteCategory}          
-          />
+        villageState.villageComponent(
+          <>
+            <PhaseDetailsHeader village={villageState.village!} menuType={"opinion"} />
+            <VillageTitle village={villageState.village!} _class='my-8' />
+            {
+              modal.content(
+                <EditCategoryCard
+                  villageId={villageState.village?.village_id!}
+                  category={selectedCategory!}
+                  validationError={validationError}
+                  update={updateCategory}
+                  deleteCategory={deleteCategory}
+                />
+              )
+            }
+            <div className="px-8">
+              <div className="mb-4">
+                <img src={process.env.NEXT_PUBLIC_API_URL + 'storage/village/' + villageState.village?.village_id + '/core_member.png'} alt="" />
+              </div>
+              <div className="mb-6 text-center">
+                カテゴリーを追加、編集してください。
+              </div>
+              <div>
+                {
+                  categories.map((category, index) => {
+                    if (category.category_id && category.category_id > 0) {
+                      return (
+                        <div key={index}
+                          className="px-3 py-2 mb-4 bg-rise rounded-lg text-xl text-white drop-shadow-lg"
+                          onClick={() => {
+                            setSelectedCategory(category);
+                            modal.show();
+                          }}>
+                          {category.category_name}
+                        </div>
+                      );
+                    }
+                  })
+                }
+              </div>
+              <div>
+                <FormInput
+                  id='category'
+                  name='category'
+                  value={category}
+                  onChange={changeInputHandler}
+                />
+                <ValidationErrors validationErrors={validationError.errors} id={'category'} />
+                <div className="mt-4 text-right">
+                  <MiddleButton onClick={addCategory}>
+                    追加
+                  </MiddleButton>
+                </div>
+              </div>
+              <div className="mt-6 flex justify-between">
+                <div>
+                  <LinkButton href={RouteManager.webRoute.member.village.my.details.opinions + villageState.village?.village_id}>
+                    意見一覧
+                  </LinkButton>
+                </div>
+                <div>
+                  <LinkButton href={RouteManager.webRoute.member.village.my.details.category.categorize + villageState.village?.village_id}>
+                    意見分類
+                  </LinkButton>
+                </div>
+              </div>
+            </div>
+          </>
         )
       }
-      <div className="px-8">
-        <div className="mb-4">
-          <img src={process.env.NEXT_PUBLIC_API_URL+'storage/village/'+villageState.village.village_id+'/core_member.png'} alt="" />
-        </div>
-        <div className="mb-6 text-center">
-          カテゴリーを追加、編集してください。
-        </div>
-        <div>
-          {
-             categories.map((category, index) => {
-              if(category.category_id && category.category_id > 0){
-                return (
-                  <div key={index} 
-                    className="px-3 py-2 mb-4 bg-rise rounded-lg text-xl text-white drop-shadow-lg" 
-                    onClick={() => {
-                      setSelectedCategory(category);
-                      modal.show();
-                    }}>
-                    {category.category_name}
-                  </div>
-                );
-              }
-            })
-          }
-        </div>
-        <div>
-          <FormInput
-            id='category'
-            name='category'
-            value={category}
-            onChange={changeInputHandler}
-          />
-          <ValidationErrors validationErrors={validationError.errors} id={'category'}/>
-          <div className="mt-4 text-right">
-            <MiddleButton onClick={addCategory}>
-              追加
-            </MiddleButton>
-          </div>
-        </div>
-        <div className="mt-6 flex justify-between">
-          <div>
-            <LinkButton href={RouteManager.webRoute.member.village.my.details.opinions + villageState.village.village_id}>
-              意見一覧
-            </LinkButton>
-          </div>
-          <div>
-            <LinkButton href={RouteManager.webRoute.member.village.my.details.category.categorize + villageState.village.village_id}>
-              意見分類
-            </LinkButton>
-          </div>
-        </div>
-      </div>
     </_BaseMemberLayout>
   )
 }
