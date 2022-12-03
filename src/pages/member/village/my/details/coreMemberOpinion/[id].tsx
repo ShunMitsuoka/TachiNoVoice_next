@@ -4,13 +4,15 @@ import { AuthService } from "@/app/services/authService";
 import { BaseButton } from "@/components/atoms/buttons/baseButton";
 import { LinkButton } from "@/components/atoms/buttons/linkButton";
 import { BaseTextArea } from "@/components/atoms/textarea/baseTextArea";
+import { VillageTitle } from "@/components/modules/member/village/villageTitle";
+import { ComponentLoading } from "@/components/templates/common/loading/componentLoading";
+import { PhaseDetailsHeader } from "@/components/templates/member/village/my/details/phaseDetailsHeader";
 import { usePageLoading } from "@/hooks/common/usePageLoading";
 import { useVillage } from "@/hooks/components/member/village/my/useVillage";
 import _BaseMemberLayout from "@/layouts/_baseMemberLayout";
 import axios from "@/libs/axios/axios";
 import { NextPage, GetServerSideProps } from "next";
 import { getSession, useSession } from "next-auth/react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
@@ -41,22 +43,7 @@ const CoreMemberOpinion: NextPage = () => {
   const villageState = useVillage();
   useEffect(() => {
     if (status === 'authenticated') {
-      pageLoading.show();
-      axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.my.details) + id, ApiService.getAuthHeader(session))
-        .then(function (response) {
-          const res = ApiService.makeApiResponse(response);
-          if (res.getSuccess()) {
-            console.log(res);
-            const result = res.getResult();
-            villageState.setVillage(result);
-          } else {
-            alert('失敗');
-          }
-        }).catch((error) => {
-          const res = ApiService.makeApiResponse(error.response);
-        }).finally(() => {
-          pageLoading.close();
-        })
+      villageState.setVillageDetails(id as string);
     }
   }, [status]);
 
@@ -69,7 +56,7 @@ const CoreMemberOpinion: NextPage = () => {
   const postOpinion = () => {
     pageLoading.show()
     axios.post(ApiService.getFullURL(
-      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.opinion.coreMember, { 'id': villageState.village.village_id })
+      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.opinion.coreMember, { 'id': villageState.village?.village_id })
     ), {
       opinion: opinion
     }, ApiService.getAuthHeader(session))
@@ -92,12 +79,6 @@ const CoreMemberOpinion: NextPage = () => {
             <>
               <div className='text-center text-sub text-xl'>
                 以下の意見で問題ありませんか？
-              </div>
-              <div className='text-center text-sub text-2xl fint-bold mt-6'>
-                {villageState.village.title}
-              </div>
-              <div className='text-center text-sub text-xl mt-6'>
-                {villageState.village.content}
               </div>
               <div className='text-sub text-xl mt-6'>
                 <div>【ご意見】</div>
@@ -130,14 +111,14 @@ const CoreMemberOpinion: NextPage = () => {
       case 2:
         return (
           <>
-            <div className='text-xl text-center text-sub mt-10'>
+            <div className='text-xl text-center text-sub'>
                 <p>
                   ご意見ありがとうございます。<br />
                   評価フェーズまで<br />
                   しばらくお待ちください。
                 </p>
               <div className='flex justify-center mt-6'>
-                <LinkButton href={RouteManager.webRoute.member.village.my.details.index + villageState.village.village_id}>
+                <LinkButton href={RouteManager.webRoute.member.village.my.details.index + villageState.village?.village_id}>
                   戻る
                 </LinkButton>
               </div>
@@ -148,13 +129,7 @@ const CoreMemberOpinion: NextPage = () => {
         return (
           <>
             <div className='text-center text-sub text-xl'>
-              以下の問題について意見してください
-            </div>
-            <div className='text-center text-sub text-2xl fint-bold mt-6'>
-              {villageState.village.title}
-            </div>
-            <div className='text-center text-sub text-xl mt-6'>
-              {villageState.village.content}
+              本議題について意見してください
             </div>
             <div className='mt-6'>
               <BaseTextArea 
@@ -183,9 +158,18 @@ const CoreMemberOpinion: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
-      <div className="px-8 py-10">
-        {content()}
-      </div>
+      <ComponentLoading isShow={!villageState.isInitializedVillage()} loadingText='ビレッジ情報を読み込んでいます' />
+      {
+        villageState.villageComponent(
+          <>
+            <PhaseDetailsHeader village={villageState.village!} menuType={'opinion'} />
+            <VillageTitle village={villageState.village!} showContent={true}/>
+            <div className="px-8 py-8">
+              {content()}
+            </div>
+          </>
+        )
+      }
     </_BaseMemberLayout>
   )
 }
