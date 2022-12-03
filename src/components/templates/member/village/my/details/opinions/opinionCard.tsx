@@ -101,7 +101,7 @@ export const OpinionCard: React.FC<Props> = ({
                                     </div>
                                 }
                             </div>
-                            <div className='px-2 py-2 text-sm'>
+                            <div className='px-2 py-2 text-sm text-left'>
                                 {nl2br(opinion.opinion)}
                             </div>
                         </div>
@@ -166,7 +166,7 @@ export const OpinionCard: React.FC<Props> = ({
                         </div>
                     }
                 </div>
-                <div className='px-2 py-2 text-sm'>
+                <div className='px-2 py-2 text-sm text-left'>
                     {nl2br(slicedOpinion())}
                 </div>
             </div>

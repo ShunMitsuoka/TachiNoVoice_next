@@ -3,6 +3,7 @@ import { ApiService } from "@/app/services/apiService";
 import { AuthService } from "@/app/services/authService";
 import { LinkButton } from "@/components/atoms/buttons/linkButton";
 import { VillageTitle } from "@/components/modules/member/village/villageTitle";
+import { ComponentLoading } from "@/components/templates/common/loading/componentLoading";
 import { PhaseDetailsHeader } from "@/components/templates/member/village/my/details/phaseDetailsHeader";
 import { PolicyList } from "@/components/templates/member/village/my/details/policy/list";
 import { RegisterPolicy } from "@/components/templates/member/village/my/details/policy/register";
@@ -25,7 +26,7 @@ const Policy: NextPage = () => {
   const { id } = router.query;
   const pageLoading = usePageLoading();
   const villageState = useVillage();
-  const villageMethod = useVillageMethod(villageState.village, villageState.setVillage);
+  const villageMethod = useVillageMethod(villageState.village, villageState.setVillageDetails);
   const [categories, setCategories] = useState<Category[]>([]);
 
   const [page, setPage] = useState<number>(0);
@@ -101,16 +102,16 @@ const Policy: NextPage = () => {
     switch (page) {
       case 0:
         return <PolicyList 
-          village={villageState.village} 
+          village={villageState.village!} 
           categories={categories} 
           onDecidePolicy={onDecidePolicy} 
           nextPhase={ () => villageMethod.nextPhase(() => {
-            router.replace(RouteManager.webRoute.member.village.my.details.index + villageState.village.village_id);
+            router.replace(RouteManager.webRoute.member.village.my.details.index + villageState.village?.village_id);
           })}
         />
       case 1:
         return <RegisterPolicy 
-          village={villageState.village}
+          village={villageState.village!}
           category={selectedCategory!}
           onBack={onBack}
           policy={policy}
@@ -123,13 +124,20 @@ const Policy: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
-      <PhaseDetailsHeader village={villageState.village} menuType={"opinion"} />
-      <div className="relative py-8">
-        <VillageTitle village={villageState.village} _class=''/>
-      </div>
-      <div>
-        {content()}
-      </div>
+      <ComponentLoading isShow={!villageState.isInitializedVillage()} loadingText='ビレッジ情報を読み込んでいます' />
+      {
+        villageState.villageComponent(
+          <>
+            <PhaseDetailsHeader village={villageState.village!} menuType={"opinion"} />
+            <div className="relative py-8">
+              <VillageTitle village={villageState.village!} _class=''/>
+            </div>
+            <div>
+              {content()}
+            </div>
+          </>
+        )
+      }
     </_BaseMemberLayout>
   )
 }

@@ -29,6 +29,10 @@ export const Register: React.FC<Props> = ({
                 }
             </div>
             <div className='px-4'>
+                <div className="flex items-end w-full mt-4 text-left">
+                    <div className="w-8 h-8 bg-sub"></div>
+                    <div className="flex-1 px-2 border-b border-b-sub text-sub text-lg">コアメンバー意見</div>
+                </div>
                 <div className='mt-4'>
                     {
                         category.opinions &&
@@ -41,6 +45,10 @@ export const Register: React.FC<Props> = ({
                             </div>
                         })
                     }
+                </div>
+                <div className="flex items-end w-full mt-4 text-left">
+                    <div className="w-8 h-8 bg-sub"></div>
+                    <div className="flex-1 px-2 border-b border-b-sub text-sub text-lg">意見を入力してください</div>
                 </div>
                 <div className='mt-4'>
                     <BaseTextArea

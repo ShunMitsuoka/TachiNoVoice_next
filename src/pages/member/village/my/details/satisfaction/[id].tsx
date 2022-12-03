@@ -1,8 +1,8 @@
 import { RouteManager } from "@/app/manages/routeManager";
 import { ApiService } from "@/app/services/apiService";
 import { AuthService } from "@/app/services/authService";
-import { LinkButton } from "@/components/atoms/buttons/linkButton";
 import { VillageTitle } from "@/components/modules/member/village/villageTitle";
+import { ComponentLoading } from "@/components/templates/common/loading/componentLoading";
 import { PhaseDetailsHeader } from "@/components/templates/member/village/my/details/phaseDetailsHeader";
 import { CommentSatisfaction } from "@/components/templates/member/village/my/details/satisfaction/comment";
 import { SatisfactionConfirm } from "@/components/templates/member/village/my/details/satisfaction/confirm";
@@ -82,7 +82,7 @@ const Satisfaction: NextPage = () => {
           villageState.setVillage(res.getResult());
           console.log(res.getResult());
           if(res.getResult().is_task_done){
-            router.replace(RouteManager.webRoute.member.village.my.details.satisfaction.result + villageState.village.village_id);
+            router.replace(RouteManager.webRoute.member.village.my.details.satisfaction.result + villageState.village?.village_id);
           }
           setCategories(res.getResult().categories);
         } else {
@@ -142,13 +142,13 @@ const Satisfaction: NextPage = () => {
     switch (page) {
       case 0:
         return <SatisfactionConfirm 
-          village={villageState.village} 
+          village={villageState.village!} 
           categories={categories}
           onAnswere={onAnswere}
         />
       case 1:
         return <DecidingSatisfaction
-          village={villageState.village}
+          village={villageState.village!}
           category={categories[index]}
           onBack={onBack}
           onNext={onNext}
@@ -157,7 +157,7 @@ const Satisfaction: NextPage = () => {
         />
       case 2:
         return <CommentSatisfaction
-          village={villageState.village}
+          village={villageState.village!}
           category={categories[index]}
           onBack={onBack}
           onRegister={onRegister}
@@ -173,13 +173,20 @@ const Satisfaction: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
-      <PhaseDetailsHeader village={villageState.village} menuType={"phase"} />
-      <div className="relative py-8">
-        <VillageTitle village={villageState.village} _class=''/>
-      </div>
-      <div>
-        {content()}
-      </div>
+      <ComponentLoading isShow={!villageState.isInitializedVillage()} loadingText='ビレッジ情報を読み込んでいます' />
+      {
+        villageState.villageComponent(
+          <>
+            <PhaseDetailsHeader village={villageState.village!} menuType={"phase"} />
+            <div className="relative py-8">
+              <VillageTitle village={villageState.village!} _class=''/>
+            </div>
+            <div>
+              {content()}
+            </div>
+          </>
+        )
+      }
     </_BaseMemberLayout>
   )
 }

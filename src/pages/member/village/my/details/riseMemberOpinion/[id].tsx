@@ -3,6 +3,7 @@ import { ApiService } from "@/app/services/apiService";
 import { AuthService } from "@/app/services/authService";
 import { LinkButton } from "@/components/atoms/buttons/linkButton";
 import { VillageTitle } from "@/components/modules/member/village/villageTitle";
+import { ComponentLoading } from "@/components/templates/common/loading/componentLoading";
 import { PhaseDetailsHeader } from "@/components/templates/member/village/my/details/phaseDetailsHeader";
 import { CategoryList } from "@/components/templates/member/village/my/details/riseOpinion/categoryList";
 import { Complete } from "@/components/templates/member/village/my/details/riseOpinion/complete";
@@ -79,6 +80,8 @@ const RiseMemberOpinion: NextPage = () => {
 
   const firstPage = () => {
     setOpinion('');
+    setCategories([]);
+    setMyOpinions([]);
     setPage(0);
     reload();
   }
@@ -86,7 +89,7 @@ const RiseMemberOpinion: NextPage = () => {
   const onRegister = () => {
     pageLoading.show();
     axios.post(ApiService.getFullURL(
-      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.opinion.riseMember, { 'id': villageState.village.village_id })
+      RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.opinion.riseMember, { 'id': villageState.village?.village_id })
     ), {
       opinion: opinion,
       category_id: selectedCategory?.category_id,
@@ -107,7 +110,7 @@ const RiseMemberOpinion: NextPage = () => {
       case 0:
         return (
           <CategoryList 
-            village={villageState.village} 
+            village={villageState.village!} 
             categories={categories} 
             onClick={(category) => {
               setOpinion('');
@@ -121,11 +124,15 @@ const RiseMemberOpinion: NextPage = () => {
         return (
           selectedCategory && 
           <Register 
-            village={villageState.village}
+            village={villageState.village!}
             category={selectedCategory}
             onBack={backPage}
             onConfirm={() => {
-              setPage(page + 1);
+              if (opinion !== '') {
+                setPage(page + 1);
+              }else{
+                alert('意見を入力してください')
+              }
             } }
             opinion={opinion}
             changeTextAreaHandler={changeTextAreaHandler} 
@@ -135,7 +142,7 @@ const RiseMemberOpinion: NextPage = () => {
         return (
           selectedCategory && 
           <Confirm 
-            village={villageState.village} 
+            village={villageState.village!} 
             category={selectedCategory} 
             onBack={backPage} 
             onRegister={onRegister} 
@@ -146,7 +153,7 @@ const RiseMemberOpinion: NextPage = () => {
         return (
           selectedCategory && 
           <Complete 
-            village={villageState.village} 
+            village={villageState.village!} 
             category={selectedCategory} 
             onBack={firstPage} 
           />
@@ -154,32 +161,39 @@ const RiseMemberOpinion: NextPage = () => {
       default:
         break;
     }
-  }, [page, opinion]);
+  }, [page, opinion, categories]);
 
   return (
     <_BaseMemberLayout>
-      <PhaseDetailsHeader village={villageState.village} menuType={"opinion"} />
-      <div className="relative py-8">
-        <VillageTitle village={villageState.village} _class=''/>
-        <div className="mt-4 text-center">
-          {
-            villageState.village && villageState.village.is_task_done ?
-            <>
-              <div>
-                ご意見有難うございました。<br />
-                次のフェーズが始まるまでお待ちください。
+      <ComponentLoading isShow={!villageState.isInitializedVillage()} loadingText='ビレッジ情報を読み込んでいます' />
+      {
+        villageState.villageComponent(
+          <>
+            <PhaseDetailsHeader village={villageState.village!} menuType={"opinion"} />
+            <div className="relative mb-8">
+              <VillageTitle village={villageState.village!} _class='' showContent={true}/>
+              <div className="mt-4 text-center">
+                {
+                  villageState.village && villageState.village.is_task_done ?
+                  <>
+                    <div>
+                      ご意見有難うございました。<br />
+                      次のフェーズが始まるまでお待ちください。
+                    </div>
+                    <div className="mt-6">
+                      <LinkButton href={RouteManager.webRoute.member.village.my.details.index+villageState.village.village_id}>
+                        フェーズへ戻る
+                      </LinkButton>
+                    </div>
+                  </>
+                  :
+                  content
+                }
               </div>
-              <div className="mt-6">
-                <LinkButton href={RouteManager.webRoute.member.village.my.details.index+villageState.village.village_id}>
-                  フェーズへ戻る
-                </LinkButton>
-              </div>
-            </>
-            :
-            content
-          }
-        </div>
-      </div>
+            </div>
+          </>
+        )
+      }
     </_BaseMemberLayout>
   );
 }
