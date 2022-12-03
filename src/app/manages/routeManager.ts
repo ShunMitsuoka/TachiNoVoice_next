@@ -29,24 +29,25 @@ type route = {
                     phaseSetting: string,
                     coreMemberOpinion: string,
                     riseMemberOpinion: {
-                        index : string,
+                        index: string,
                     },
                     category: {
-                        make : string,
-                        categorize : string,
+                        make: string,
+                        categorize: string,
                     },
-                    policy : {
-                        index : string
+                    policy: {
+                        index: string
                     }
-                    satisfaction : {
-                        index : string,
-                        result : string,
+                    satisfaction: {
+                        index: string,
+                        result: string,
                     }
                 }
             },
         },
         setting: {
             index: string,
+            userinfomation: string,
         },
         news: {
             index: string,
@@ -55,7 +56,7 @@ type route = {
 }
 
 type apiRoute = {
-    guest:{
+    guest: {
         auth: {
             register: string,
             mainRegister: string,
@@ -85,16 +86,17 @@ type apiRoute = {
                 list: string
             },
             opinion: {
-                index:string,
+                index: string,
                 coreMember: string,
                 riseMember: string,
                 setCategory: string,
             },
-            evaluation : string,
+            evaluation: string,
             category: string,
-            policy : string,
-            satisfaction : string,
+            policy: string,
+            satisfaction: string,
         },
+        index: string,
     }
 }
 
@@ -131,24 +133,26 @@ export class RouteManager {
                         phaseSetting: '/member/village/my/details/phaseSetting/',
                         coreMemberOpinion: '/member/village/my/details/coreMemberOpinion/',
                         riseMemberOpinion: {
-                            index : '/member/village/my/details/riseMemberOpinion/',
+                            index: '/member/village/my/details/riseMemberOpinion/',
                         },
                         category: {
-                            make : '/member/village/my/details/category/make/',
-                            categorize : '/member/village/my/details/category/categorize/',
+                            make: '/member/village/my/details/category/make/',
+                            categorize: '/member/village/my/details/category/categorize/',
                         },
-                        policy : {
-                            index : '/member/village/my/details/policy/'
+                        policy: {
+                            index: '/member/village/my/details/policy/'
                         },
-                        satisfaction : {
-                            index : '/member/village/my/details/satisfaction/',
-                            result : '/member/village/my/details/satisfaction/result/',
+                        satisfaction: {
+                            index: '/member/village/my/details/satisfaction/',
+                            result: '/member/village/my/details/satisfaction/result/',
                         }
                     }
                 },
+
             },
             setting: {
                 index: '/member/setting',
+                userinfomation: '/member/setting/userinfomation',
             },
             news: {
                 index: '/member/news',
@@ -158,7 +162,7 @@ export class RouteManager {
     }
 
     static readonly apiRoute: apiRoute = {
-        guest:{
+        guest: {
             auth: {
                 register: '/api/auth/register',
                 mainRegister: '/api/auth/mainRegister',
@@ -193,11 +197,12 @@ export class RouteManager {
                     riseMember: '/api/my/village/:id/rise_member/opinion',
                     setCategory: '/api/my/village/:id/opinion/set_category',
                 },
-                evaluation : '/api/my/village/:id/evaluation',
+                evaluation: '/api/my/village/:id/evaluation',
                 category: '/api/my/village/:id/category',
-                policy : '/api/my/village/:id/policy',
-                satisfaction : '/api/my/village/:id/satisfaction',
+                policy: '/api/my/village/:id/policy',
+                satisfaction: '/api/my/village/:id/satisfaction',
             },
+            index: '/api/user/',
         }
     }
 

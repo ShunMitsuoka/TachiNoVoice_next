@@ -20,34 +20,34 @@ const MyVillage: NextPage = () => {
 
   useEffect(() => {
     pageLoading.show();
-    if(status === "authenticated"){
+    if (status === "authenticated") {
       axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.my.index), ApiService.getAuthHeader(session))
-      .then(function (response) {
+        .then(function (response) {
           const res = ApiService.makeApiResponse(response);
-          if(res.getSuccess()){
+          if (res.getSuccess()) {
             const result = res.getResult();
             setLists(result);
             console.log(res);
-          }else{
-              alert('失敗');
+          } else {
+            alert('失敗');
           }
-      })
-      .finally(() => {
-        pageLoading.close();
-      });
+        })
+        .finally(() => {
+          pageLoading.close();
+        });
     }
-  },[status]);
+  }, [status]);
 
-  const roleName = (role_id : number) : string => {
+  const roleName = (role_id: number): string => {
     switch (role_id) {
       case appConst.member.role.host:
         return 'ホスト';
       case appConst.member.role.villageMember:
-        return 'ビレッジメンバー';  
+        return 'ビレッジメンバー';
       case appConst.member.role.coreMember:
-        return 'コアメンバー';  
+        return 'コアメンバー';
       case appConst.member.role.riseMember:
-          return 'ライズメンバー';  
+        return 'ライズメンバー';
       default:
         break;
     }
@@ -57,35 +57,35 @@ const MyVillage: NextPage = () => {
   return (
     <_BaseMemberLayout title='ビレッジ'>
       <Head>
-          <title>My ビレッジ</title>
+        <title>My ビレッジ</title>
       </Head>
       <div className=''>
-          <div className='my-12 text-2xl font-bold text-center'>
-            参加中ビレッジ一覧
-          </div>
-          <div className='px-6'>
-            {
-              lists.map((village, index) => {
-                return (
-                  <Link key={index} href={RouteManager.webRoute.member.village.my.details.index + village.village_id}>
-                    <div className=' bg-white rounded-lg shadow-xl mb-10 overflow-hidden'>
-                      <div className={' px-2 py-2 ' + ColorService.bgRoleColre(village.role_id) }>
-                        <span className='px-2 py-1 bg-white rounded-md'>
-                          {roleName(village.role_id)}
-                        </span>
-                        <div className='mt-1 pb-3 text-center font-bold text-lg'>{village.title}</div>
-                      </div>
-                      <div className='px-3 py-6 text-lg'>
-                        {village.phase_name}
-                      </div>
+        <div className='my-12 text-2xl font-bold text-center'>
+          参加中ビレッジ一覧
+        </div>
+        <div className='px-6'>
+          {
+            lists.map((village, index) => {
+              return (
+                <Link key={index} href={RouteManager.webRoute.member.village.my.details.index + village.village_id}>
+                  <div className=' bg-white rounded-lg shadow-xl mb-10 overflow-hidden'>
+                    <div className={' px-2 py-2 ' + ColorService.bgRoleColre(village.role_id)}>
+                      <span className='px-2 py-1 bg-white rounded-md'>
+                        {roleName(village.role_id)}
+                      </span>
+                      <div className='mt-1 pb-3 text-center font-bold text-lg'>{village.title}</div>
                     </div>
-                  </Link>
-                );
-              })
-            }
-          </div>
+                    <div className='px-3 py-6 text-lg'>
+                      {village.phase_name}
+                    </div>
+                  </div>
+                </Link>
+              );
+            })
+          }
+        </div>
       </div>
-  </_BaseMemberLayout>
+    </_BaseMemberLayout>
   )
 }
 
