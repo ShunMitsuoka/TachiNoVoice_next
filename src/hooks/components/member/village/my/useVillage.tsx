@@ -46,5 +46,5 @@ export const useVillage = () => {
         )
     }
 
-    return { village, setVillageDetails, isInitializedVillage, villageComponent};
+    return { village, setVillage, setVillageDetails, isInitializedVillage, villageComponent};
 }

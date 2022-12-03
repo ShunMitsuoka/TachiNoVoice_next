@@ -13,7 +13,7 @@ export const ComponentLoading: React.FC<Props> = ({
     return (
         <>
             { isShow &&
-                <div className='relative flex flex-col justify-center items-center py-6 z-40 '>
+                <div className='relative flex flex-col justify-center items-center py-6 '>
                     <div className={' font-bold'}>
                         {loadingText}
                     </div>

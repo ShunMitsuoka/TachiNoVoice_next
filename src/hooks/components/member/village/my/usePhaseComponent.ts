@@ -22,10 +22,11 @@ export type phaseComponentType = {
     other? : roleComponentType,
 }
 
-export const usePhaseComponent = (village: Village) => {
+export const usePhaseComponent = (village: Village | undefined) => {
 
     const roleComponent = (roleComponent :roleComponentType) : React.ReactNode => {
         let component = null;
+        if(!village) return component;
         if(roleComponent.other){
             component = roleComponent.other;
         }
@@ -58,6 +59,7 @@ export const usePhaseComponent = (village: Village) => {
 
     const phaseComponent = (phaseComponent: phaseComponentType) : React.ReactNode => {
         let target : roleComponentType = {};
+        if(!village) return null;
         if(phaseComponent.other){
             target = phaseComponent.other;
         }

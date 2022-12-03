@@ -44,10 +44,6 @@ export const GenderGraph: React.FC<Props> = ({
     ]);
   }, [data]);
 
-  useEffect(() => {
-    console.log(graphData);
-  }, [graphData]);
-
   const genderColor = (gender : number) => {
     switch (gender) {
       case appConst.user.gender.man:

@@ -34,6 +34,7 @@ export const useVillageMethod = (village: Village | undefined, setVillageDetails
             if(callbackFunc && typeof callbackFunc === 'function'){
                 callbackFunc()
             };
+            pageLoading.close();
         });
     }
 
@@ -58,6 +59,7 @@ export const useVillageMethod = (village: Village | undefined, setVillageDetails
             if(callbackFunc && typeof callbackFunc === 'function'){
                 callbackFunc()
             };
+            pageLoading.close();
         });
         
     }

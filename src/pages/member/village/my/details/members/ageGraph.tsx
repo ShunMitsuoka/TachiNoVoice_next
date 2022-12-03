@@ -91,10 +91,6 @@ export const AgeGraph: React.FC<Props> = ({
     ]);
   }, [data]);
 
-  useEffect(() => {
-    console.log(graphData);
-  }, [graphData]);
-
   return (
     <ResponsiveContainer aspect={1} height={"100%"}>
       <PieChart>

@@ -17,6 +17,8 @@ import { useVillageMethod } from "@/hooks/components/member/village/my/useVillag
 import { appConst } from "@/app/const/appConst";
 import { usePageLoading } from "@/hooks/common/usePageLoading";
 import { PhaseDetailsHeader } from "@/components/templates/member/village/my/details/phaseDetailsHeader";
+import { ComponentLoading } from "@/components/templates/common/loading/componentLoading";
+import { VillageTitle } from "@/components/modules/member/village/villageTitle";
 
 
 export type memberType = {
@@ -39,7 +41,7 @@ const MyVillageMembers: NextPage = () => {
 
   const villageState = useVillage();
   const phaseComponet = usePhaseComponent(villageState.village);
-  const villageMethod = useVillageMethod(villageState.village, villageState.setVillage);
+  const villageMethod = useVillageMethod(villageState.village, villageState.setVillageDetails);
 
   const [villageMembers, setVillageMembers] = useState<memberType[]>([]);
   const [coreMembers, setCoreMembers] = useState<memberType[]>([]);
@@ -53,8 +55,6 @@ const MyVillageMembers: NextPage = () => {
   }, [status]);
 
   const reloadMembers = () => {
-    console.log('reloadMembers');
-    pageLoading.show();
     axios.get(ApiService.getFullURL(
       RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.members.list, { 'id': id })
     ), ApiService.getAuthHeader(session))
@@ -71,7 +71,7 @@ const MyVillageMembers: NextPage = () => {
         alert('失敗');
       }
     })
-    .finally(pageLoading.close);
+    .finally();
   }
 
   useEffect(() => {
@@ -80,130 +80,135 @@ const MyVillageMembers: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
-      <PhaseDetailsHeader village={villageState.village} menuType={"member"} />
-      <div className='mt-5 flex justify-center'>
-        <FormLabel htmlFor={'title'}>{villageState.village.title}</FormLabel>
-      </div>
-      <>
-        {phaseComponet.phaseComponent({
-          recruitmentOfMember : {
-            other : (
-              <>
-                <div className='mt-3 flex justify-center'>
-                  <FormLabel htmlFor={'coremember'}>ビレッジメンバー</FormLabel>
+      <ComponentLoading isShow={!villageState.isInitializedVillage()} loadingText='ビレッジ情報を読み込んでいます' />
+      {
+        villageState.villageComponent(
+          <>
+            <PhaseDetailsHeader village={villageState.village!} menuType={"member"} />
+            <VillageTitle village={villageState.village!} _class=''/>
+            <>
+              {phaseComponet.phaseComponent({
+                recruitmentOfMember : {
+                  other : (
+                    <>
+                      <div className='mt-3 flex justify-center'>
+                        <FormLabel htmlFor={'coremember'}>ビレッジメンバー</FormLabel>
+                      </div>
+                      <div className='mt-3 flex justify-center'>
+                        <FormLabel htmlFor={'coremember'}>{villageState.village?.village_member_count}/{villageState.village?.village_member_limit}</FormLabel>
+                      </div>
+                    </>
+                  )
+                },
+                drawingCoreMember : {
+                  other : (
+                    <>
+                      <div className='mt-3 flex justify-center'>
+                        <FormLabel htmlFor={'coremember'}>ビレッジメンバー</FormLabel>
+                      </div>
+                      <div className='mt-3 flex justify-center'>
+                        <FormLabel htmlFor={'coremember'}>{villageState.village?.village_member_count}/{villageState.village?.village_member_limit}</FormLabel>
+                      </div>
+                    </>
+                  )
+                },
+                other : {
+                  other : (
+                    <>
+                      <div className='mt-3 flex justify-center'>
+                        <FormLabel htmlFor={'coremember'}>コアメンバー</FormLabel>
+                      </div>
+                      <div className='mt-3 flex justify-center'>
+                        <FormLabel htmlFor={'coremember'}>{villageState.village?.core_member_count}/{villageState.village?.core_member_limit}</FormLabel>
+                      </div>
+                    </>
+                  )
+                }
+              })}
+            </>
+            <div>
+              <div className='mt-3 flex justify-center'>
+                {phaseComponet.phaseComponent({
+                  recruitmentOfMember : {
+                    host : (
+                      <MiddleButton onClick={villageMethod.nextPhase}>
+                        募集を締め切る
+                      </MiddleButton>
+                    )
+                  },
+                  drawingCoreMember : {
+                    host : (
+                      <MiddleButton onClick={() => {
+                        villageMethod.startPhase(reloadMembers);
+                      }}>
+                        抽選を行う
+                      </MiddleButton>
+                    )
+                  }
+                })}
+              </div>
+            </div>
+            <div className="grid grid-cols-2 mt-4">
+                <div className="relative col-span-1 flex flex-col items-center">
+                  <div>
+                    年齢
+                  </div>
+                  <div className="relative w-28 h-32">
+                    <AgeGraph data={memberData} />
+                  </div>
                 </div>
-                <div className='mt-3 flex justify-center'>
-                  <FormLabel htmlFor={'coremember'}>{villageState.village.village_member_count}/{villageState.village.village_member_limit}</FormLabel>
+                <div className="relative col-span-1 flex flex-col items-center">
+                  <div>
+                    性別
+                  </div>
+                  <div className="relative w-28 h-32">
+                    <GenderGraph data={memberData}/>
+                  </div>
                 </div>
-              </>
-            )
-          },
-          drawingCoreMember : {
-            other : (
-              <>
-                <div className='mt-3 flex justify-center'>
-                  <FormLabel htmlFor={'coremember'}>ビレッジメンバー</FormLabel>
+            </div>
+            {
+              villageMembers.length > 0 && (
+                <div className="px-6">
+                  <div className="font-bold">ビレッジメンバー</div>
+                  <div className='grid grid-cols-12 gap-4 mt-2'>
+                      {
+                          villageMembers.map((elem, index) => {
+                              return <VillageMemberCard key={index} name={elem.nickname} age={elem.age} gender={elem.gender_name} id={elem.member_id} role_id={appConst.member.role.villageMember} />
+                          })
+                      }
+                  </div>
                 </div>
-                <div className='mt-3 flex justify-center'>
-                  <FormLabel htmlFor={'coremember'}>{villageState.village.village_member_count}/{villageState.village.village_member_limit}</FormLabel>
-                </div>
-              </>
-            )
-          },
-          other : {
-            other : (
-              <>
-                <div className='mt-3 flex justify-center'>
-                  <FormLabel htmlFor={'coremember'}>コアメンバー</FormLabel>
-                </div>
-                <div className='mt-3 flex justify-center'>
-                  <FormLabel htmlFor={'coremember'}>{villageState.village.core_member_count}/{villageState.village.core_member_limit}</FormLabel>
-                </div>
-              </>
-            )
-          }
-        })}
-      </>
-      <div>
-        <div className='mt-3 flex justify-center'>
-          {phaseComponet.phaseComponent({
-            recruitmentOfMember : {
-              host : (
-                <MiddleButton onClick={villageMethod.nextPhase}>
-                  募集を締め切る
-                </MiddleButton>
-              )
-            },
-            drawingCoreMember : {
-              host : (
-                <MiddleButton onClick={() => {
-                  villageMethod.startPhase(reloadMembers);
-                }}>
-                  抽選を行う
-                </MiddleButton>
               )
             }
-          })}
-        </div>
-      </div>
-      <div className="grid grid-cols-2 mt-4">
-          <div className="relative col-span-1 flex flex-col items-center">
-            <div>
-              年齢
-            </div>
-            <div className="relative w-28 h-32">
-              <AgeGraph data={memberData} />
-            </div>
-          </div>
-          <div className="relative col-span-1 flex flex-col items-center">
-            <div>
-              性別
-            </div>
-            <div className="relative w-28 h-32">
-              <GenderGraph data={memberData}/>
-            </div>
-          </div>
-      </div>
-      {
-        villageMembers.length > 0 && (
-          <div className="px-6">
-            <div className="font-bold">ビレッジメンバー</div>
-            <div className='grid grid-cols-12 gap-4 mt-2'>
-                {
-                    villageMembers.map((elem, index) => {
-                        return <VillageMemberCard key={index} name={elem.nickname} age={elem.age} gender={elem.gender_name} id={elem.member_id} role_id={appConst.member.role.villageMember} />
-                    })
-                }
-            </div>
-          </div>
-        )
-      }
-      {
-        coreMembers.length > 0 && (
-          <div className="px-6">
-            <div className="font-bold">コアメンバー</div>
-            <div className='grid grid-cols-12 gap-4 mt-2'>
-                {
-                    coreMembers.map((elem, index) => {
-                        return <VillageMemberCard key={index} name={elem.nickname} age={elem.age} gender={elem.gender_name} id={elem.member_id} role_id={appConst.member.role.coreMember} />
-                    })
-                }
-            </div>
-          </div>
-        )
-      }
-      {
-        riseMembers.length > 0 && (
-          <div className="px-6 mt-4">
-            <div className="font-bold">ライズメンバー</div>
-            <div className='grid grid-cols-12 gap-4 mt-2'>
-                {
-                    riseMembers.map((elem, index) => {
-                        return <VillageMemberCard key={index} name={elem.nickname} age={elem.age} gender={elem.gender_name} id={elem.member_id} role_id={appConst.member.role.riseMember} />
-                    })
-                }
-            </div>
-          </div>
+            {
+              coreMembers.length > 0 && (
+                <div className="px-6">
+                  <div className="font-bold">コアメンバー</div>
+                  <div className='grid grid-cols-12 gap-4 mt-2'>
+                      {
+                          coreMembers.map((elem, index) => {
+                              return <VillageMemberCard key={index} name={elem.nickname} age={elem.age} gender={elem.gender_name} id={elem.member_id} role_id={appConst.member.role.coreMember} />
+                          })
+                      }
+                  </div>
+                </div>
+              )
+            }
+            {
+              riseMembers.length > 0 && (
+                <div className="px-6 mt-4">
+                  <div className="font-bold">ライズメンバー</div>
+                  <div className='grid grid-cols-12 gap-4 mt-2'>
+                      {
+                          riseMembers.map((elem, index) => {
+                              return <VillageMemberCard key={index} name={elem.nickname} age={elem.age} gender={elem.gender_name} id={elem.member_id} role_id={appConst.member.role.riseMember} />
+                          })
+                      }
+                  </div>
+                </div>
+              )
+            }
+          </>
         )
       }
     </_BaseMemberLayout>
