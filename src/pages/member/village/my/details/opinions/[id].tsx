@@ -267,16 +267,8 @@ const MyVillageOpinios: NextPage = () => {
                       myDetails={myDetails} 
                       villageId={villageState.village.village_id} 
                       reload={reload}
-                      isShowEvaluation={
-                        (villageState.village.phase_no == appConst.village.phase.evaluation 
-                          && villageState.village.role_id == appConst.member.role.host)
-                        || villageState.village.phase_no == appConst.village.phase.decidingPolicy
-                        || villageState.village.phase_no == appConst.village.phase.surveyingSatisfaction
-                      }
-                      canEvaluation = {
-                        villageState.village.phase_no == appConst.village.phase.evaluation 
-                        && !villageState.village.is_phase_preparing
-                      }
+                      isShowEvaluation={villageState.village.is_show_evaluation}
+                      canEvaluation = {villageState.village.can_evaluation}
                     />
                 </div>
               );

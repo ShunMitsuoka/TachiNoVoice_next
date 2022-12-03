@@ -21,6 +21,8 @@ declare module "villageType" {
         is_necessary_to_set_phase_setting : boolean,
         is_necessary_to_set_phase_start_setting : boolean,
         is_task_done? : boolean,
+        is_show_evaluation? : boolean,
+        can_evaluation? : boolean,
         phase_start_setting? : {
             by_manual: phaseSettingItem,
             by_instant:phaseSettingItem,
