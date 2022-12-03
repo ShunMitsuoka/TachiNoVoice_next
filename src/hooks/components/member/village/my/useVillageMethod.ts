@@ -9,27 +9,16 @@ import { Village } from 'villageType';
 
 
 
-export const useVillageMethod = (village: Village, setVillage : React.Dispatch<React.SetStateAction<Village>>) => {
+export const useVillageMethod = (village: Village | undefined, setVillageDetails : (village_id: number | string) => void) => {
 
     const { data: session, status } = useSession();
     const pageLoading = usePageLoading();
 
-    const setVillageDetails = (village_id : number|string) => {
-        pageLoading.show();
-        axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.my.details)+village_id, ApiService.getAuthHeader(session))
-        .then(function (response) {
-            const res = ApiService.makeApiResponse(response);
-            if(res.getSuccess()){
-              console.log(res);
-              setVillage(res.getResult());
-            }else{
-                alert('失敗');
-            }
-        })
-        .finally(pageLoading.close);
-    }
-
     const nextPhase = (callbackFunc? : Function) => {
+        if(village == undefined){
+            alert('ビレッジが読み込まれていません')
+            return;
+        }
         pageLoading.show();
         axios.post(ApiService.getFullURL(
             RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.phase.next, { 'id': village.village_id })
@@ -49,6 +38,10 @@ export const useVillageMethod = (village: Village, setVillage : React.Dispatch<R
     }
 
     const startPhase = (callbackFunc? : Function) => {
+        if(village == undefined){
+            alert('ビレッジが読み込まれていません')
+            return;
+        }
         pageLoading.show();
         axios.post(ApiService.getFullURL(
             RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.phase.start, { 'id': village.village_id })
@@ -69,5 +62,5 @@ export const useVillageMethod = (village: Village, setVillage : React.Dispatch<R
         
     }
 
-    return { setVillageDetails, nextPhase, startPhase};
+    return { nextPhase, startPhase};
 }

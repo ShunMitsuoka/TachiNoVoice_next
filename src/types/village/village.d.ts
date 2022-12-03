@@ -8,6 +8,7 @@ declare module "villageType" {
         note : string,
         requirement : string,
         role_id : number,
+        role_name : string,
         village_member_limit : number,
         village_member_count : number,
         core_member_limit : number,

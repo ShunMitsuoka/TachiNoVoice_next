@@ -11,18 +11,18 @@ import { PhaseComponent } from '../phaseComponent';
 interface Props {
     phaseNo: number,
     village: Village,
-    setVillage: React.Dispatch<React.SetStateAction<Village>>
+    setVillageDetails: (village_id: string | number) => void
 }
 
 export const AskingOpinionsOfRiseMember: React.FC<Props> = ({
     phaseNo,
     village,
-    setVillage
+    setVillageDetails
 }) => {
 
     const phaseHook = usePhase(phaseNo, village);
     const phaseComponet = usePhaseComponent(village);
-    const villageMethod = useVillageMethod(village, setVillage);
+    const villageMethod = useVillageMethod(village, setVillageDetails);
 
     const preparingComponet = () => {
         let component = null;

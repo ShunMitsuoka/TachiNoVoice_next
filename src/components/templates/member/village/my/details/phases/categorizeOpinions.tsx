@@ -9,7 +9,6 @@ import { PhaseComponent } from '../phaseComponent';
 interface Props {
     phaseNo: number,
     village: Village,
-    setVillage: React.Dispatch<React.SetStateAction<Village>>
 }
 
 export const CategorizeOpinions: React.FC<Props> = ({
