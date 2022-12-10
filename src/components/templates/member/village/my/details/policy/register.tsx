@@ -37,19 +37,21 @@ export const RegisterPolicy: React.FC<Props> = ({
         opinions.map(opinion => {
             let good = 0;
             let bad = 0;
-            let evaluations = opinion.evaluations!
-            evaluations.map(evaluation => {
-                switch (evaluation.value) {
-                    case appConst.village.evaluation.good:
-                        good += 1;
-                        break;
-                    case appConst.village.evaluation.bad:
-                        bad += 1;
-                        break;
-                    default:
-                        break;
-                }
-            })
+            let evaluations = opinion.evaluations;
+            if(evaluations){
+                evaluations.map(evaluation => {
+                    switch (evaluation.value) {
+                        case appConst.village.evaluation.good:
+                            good += 1;
+                            break;
+                        case appConst.village.evaluation.bad:
+                            bad += 1;
+                            break;
+                        default:
+                            break;
+                    }
+                })
+            }
             sortData.push({
                 opinion : opinion,
                 good : good,
