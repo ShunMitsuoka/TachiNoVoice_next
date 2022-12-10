@@ -53,7 +53,7 @@ export const Evaluation: React.FC<Props> = ({
                         { village.is_task_done ?
                             <div className='text-xl'>評価済み</div>
                         :
-                            <LinkButton href={RouteManager.webRoute.member.village.my.details.opinions + village.village_id}>
+                            <LinkButton href={RouteManager.webRoute.member.village.my.details.evaluation + village.village_id}>
                                 評価する
                             </LinkButton>
                         }

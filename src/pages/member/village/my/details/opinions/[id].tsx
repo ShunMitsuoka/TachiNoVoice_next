@@ -239,6 +239,13 @@ const MyVillageOpinios: NextPage = () => {
                   )
                 }
               })}
+              {(!villageState.village?.is_phase_preparing && villageState.village?.can_evaluation) &&
+                <div className="text-center">
+                    <LinkButton href={RouteManager.webRoute.member.village.my.details.evaluation + villageState.village?.village_id}>
+                      評価する
+                    </LinkButton>
+                </div>
+              }
               {
                 dispCategory &&
                 <>
@@ -273,7 +280,6 @@ const MyVillageOpinios: NextPage = () => {
                           villageId={villageState.village?.village_id!}
                           reload={reload}
                           isShowEvaluation={villageState.village?.is_show_evaluation}
-                          canEvaluation={villageState.village?.can_evaluation}
                         />
                       </div>
                     );

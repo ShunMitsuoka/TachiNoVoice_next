@@ -105,17 +105,6 @@ export const OpinionCard: React.FC<Props> = ({
                                 {nl2br(opinion.opinion)}
                             </div>
                         </div>
-                        <div>
-                            {
-                                myDetails && reload && canEvaluation &&
-                                <EvaluationComponet 
-                                    opinion={opinion} 
-                                    mySelfEvaluation={mySelfEvaluation()} 
-                                    villageId={villageId} 
-                                    reload={reload} 
-                                />
-                            }
-                        </div>
                     </div>
                 )
             }

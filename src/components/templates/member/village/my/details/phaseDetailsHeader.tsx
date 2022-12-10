@@ -6,7 +6,7 @@ import { Village } from 'villageType';
 type menuItem = 'phase' | 'member' | 'opinion'; 
 interface Props {
   villageId: number;
-  menuType: menuItem;
+  menuType?: menuItem;
 }
 
 export const PhaseDetailsHeader: React.FC<Props> = ({
