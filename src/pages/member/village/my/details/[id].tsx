@@ -74,11 +74,11 @@ const MyVillageDetails: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
+      <PhaseDetailsHeader villageId={Number(id)} menuType={'phase'} />
       <ComponentLoading isShow={!villageState.isInitializedVillage()} loadingText='ビレッジ情報を読み込んでいます' />
       {
         villageState.villageComponent(
           <>
-            <PhaseDetailsHeader village={villageState.village!} menuType={'phase'} />
             <VillageTitle village={villageState.village!} _class=''/>
             <div className='flex flex-col gap-6 px-6 mt-5'>
               {

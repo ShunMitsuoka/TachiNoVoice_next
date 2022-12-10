@@ -158,11 +158,11 @@ const CoreMemberOpinion: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
+      <PhaseDetailsHeader villageId={Number(id)} menuType={'opinion'} />
       <ComponentLoading isShow={!villageState.isInitializedVillage()} loadingText='ビレッジ情報を読み込んでいます' />
       {
         villageState.villageComponent(
           <>
-            <PhaseDetailsHeader village={villageState.village!} menuType={'opinion'} />
             <VillageTitle village={villageState.village!} showContent={true}/>
             <div className="px-8 py-8">
               {content()}
