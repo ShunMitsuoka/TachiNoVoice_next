@@ -38,22 +38,6 @@ const MyVillage: NextPage = () => {
     }
   }, [status]);
 
-  const roleName = (role_id: number): string => {
-    switch (role_id) {
-      case appConst.member.role.host:
-        return 'ホスト';
-      case appConst.member.role.villageMember:
-        return 'ビレッジメンバー';
-      case appConst.member.role.coreMember:
-        return 'コアメンバー';
-      case appConst.member.role.riseMember:
-        return 'ライズメンバー';
-      default:
-        break;
-    }
-    return ''
-  }
-
   return (
     <_BaseMemberLayout title='ビレッジ'>
       <Head>
@@ -70,13 +54,23 @@ const MyVillage: NextPage = () => {
                 <Link key={index} href={RouteManager.webRoute.member.village.my.details.index + village.village_id}>
                   <div className=' bg-white rounded-lg shadow-xl mb-10 overflow-hidden'>
                     <div className={' px-2 py-2 ' + ColorService.bgRoleColre(village.role_id)}>
-                      <span className='px-2 py-1 bg-white rounded-md'>
-                        {roleName(village.role_id)}
+                      <span className='px-2 py-1 bg-white rounded-md text-sm'>
+                        {village.role_name}
                       </span>
-                      <div className='mt-1 pb-3 text-center font-bold text-lg'>{village.title}</div>
+                      <div className='mt-2 pb-3 text-center font-bold text-lg'>{village.title}</div>
                     </div>
-                    <div className='px-3 py-6 text-lg'>
-                      {village.phase_name}
+                    <div className='px-3 py-2 text-lg'>
+                      <div className=' text-sm'>
+                        <span>
+                          コアメンバー：{village.core_member_count}
+                        </span>
+                        <span className='ml-4'>
+                          ライズメンバー：{village.rise_member_count}
+                        </span>
+                      </div>
+                      <div className='mt-2 text-base'>
+                        ・{village.phase_name}
+                      </div>
                     </div>
                   </div>
                 </Link>
