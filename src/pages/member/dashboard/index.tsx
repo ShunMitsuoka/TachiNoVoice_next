@@ -3,8 +3,8 @@ import { AuthService } from "@/app/services/authService";
 import _BaseMemberLayout from "@/layouts/_baseMemberLayout";
 import { GetServerSideProps } from "next";
 import { getSession, useSession } from "next-auth/react";
-import Link from "next/link";
-import Image from 'next/image'
+import { MyVillageList } from "@/components/templates/member/village/dashboard/myVillageList";
+import { LinkButton } from "@/components/atoms/buttons/linkButton";
 
 
 export default function Dashboard() {
@@ -12,26 +12,40 @@ export default function Dashboard() {
     const { data: session, status } = useSession();
 
     return (
-        <_BaseMemberLayout>
+        <_BaseMemberLayout isShowDecoration={true}>
             <div className="relative w-full h-full">
-
-                <div className="absolute top-2 left-2">
-                    <Image
-                        src={'/images/common/decoration/tl-deco.svg'}
-                        width={300}
-                        height={130}
-                    />
-                </div>
-
                 <div className=" flex flex-col ">
-                    <div className="text-center text-2xl mt-6 mb-4">
+                    <div className="text-center text-2xl mt-10 mb-2">
                         ようこそ<br />
                     </div>
                     <div className="flex justify-center text-center text-2xl">
                         {session?.user.name}さん
                     </div>
                 </div>
-                <Link href={RouteManager.webRoute.member.village.register.index} className="">
+                <div className="px-6 pt-8">
+                    <div className="border-b border-sub font-bold">参加中ビレッジ</div>
+                    <MyVillageList />
+                </div>
+                <div className="px-6 mt-3">
+                    <div className="border-b border-sub font-bold">ビレッジを作る</div>
+                    <div className=" grid grid-cols-12 mt-4">
+                        <div className=" col-span-4">
+                            <span className="flex justify-center items-center w-20 h-20 bg-host rounded-full">ホスト</span>
+                        </div>
+                        <div className=" col-span-8 text-sm">
+                            問題提起を行って<br />
+                            共に考えていくメンバーを募集し<br />
+                            様々な意見を取り入れながら<br />
+                            問題解決へと導きます。
+                        </div>
+                        <div className=" col-span-12 text-center mt-4">
+                            <LinkButton href={RouteManager.webRoute.member.village.register.setting}>
+                            ビレッジを作成する
+                            </LinkButton>
+                        </div>
+                    </div>
+                </div>
+                {/* <Link href={RouteManager.webRoute.member.village.register.index} className="">
                     <div className="absolute top-[430px] right-5 ">
                         <div className=" font-bold bg-red text-center rounded-[50%] w-[200px] h-[100px] leading-[100px] drop-shadow-lg">
 
@@ -58,7 +72,7 @@ export default function Dashboard() {
                         </div>
                     </div>
 
-                </Link>
+                </Link> */}
 
             </div >
 
