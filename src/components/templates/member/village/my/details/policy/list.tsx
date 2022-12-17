@@ -1,5 +1,3 @@
-import { RouteManager } from '@/app/manages/routeManager';
-import { LinkButton } from '@/components/atoms/buttons/linkButton';
 import { MiddleButton } from '@/components/atoms/buttons/middleButton';
 import { PolicyCard } from '@/components/modules/member/village/policy/policyCard';
 import React from 'react';

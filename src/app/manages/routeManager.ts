@@ -35,6 +35,7 @@ type route = {
                         make: string,
                         categorize: string,
                     },
+                    evaluation: string,
                     policy: {
                         index: string
                     }
@@ -139,6 +140,7 @@ export class RouteManager {
                             make: '/member/village/my/details/category/make/',
                             categorize: '/member/village/my/details/category/categorize/',
                         },
+                        evaluation: '/member/village/my/details/evaluation/',
                         policy: {
                             index: '/member/village/my/details/policy/'
                         },

@@ -12,14 +12,14 @@ import { MemberDetail, Opinion } from 'villageType';
 
 interface Props {
     villageId: Number;
-    opinion: Opinion;
+    opinion_id : number;
     mySelfEvaluation?: number;
     reload: () => void;
 }
 
 export const EvaluationComponet: React.FC<Props> = ({
     villageId,
-    opinion,
+    opinion_id,
     mySelfEvaluation,
     reload,
 }) => {
@@ -31,19 +31,19 @@ export const EvaluationComponet: React.FC<Props> = ({
         axios.post(ApiService.getFullURL(
             RouteManager.getUrlWithParam(RouteManager.apiRoute.member.village.evaluation, { 'id': villageId })
         ), {
-            opinion_id: opinion.opinion_id,
+            opinion_id: opinion_id,
             value: value,
         }, ApiService.getAuthHeader(session))
-            .then((response) => {
-                const res = ApiService.makeApiResponse(response);
-                if (res.getSuccess()) {
-                    reload();
-                } else {
-                    pageLoading.close();
-                    alert('失敗')
-                }
-            })
-            .catch(pageLoading.close);
+        .then((response) => {
+            const res = ApiService.makeApiResponse(response);
+            if (res.getSuccess()) {
+                reload();
+            } else {
+                pageLoading.close();
+                alert('失敗')
+            }
+        })
+        .catch(pageLoading.close);
     }
 
     return (

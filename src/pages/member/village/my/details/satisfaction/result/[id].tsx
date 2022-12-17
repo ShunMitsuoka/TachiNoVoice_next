@@ -55,11 +55,11 @@ const SatisfactionResult: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
+      <PhaseDetailsHeader villageId={Number(id)} menuType={"phase"} />
       <ComponentLoading isShow={!villageState.isInitializedVillage()} loadingText='ビレッジ情報を読み込んでいます' />
       {
         villageState.villageComponent(
           <>
-            <PhaseDetailsHeader village={villageState.village!} menuType={"phase"} />
             <div className="relative py-8">
               <VillageTitle village={villageState.village!} _class=''/>
             </div>

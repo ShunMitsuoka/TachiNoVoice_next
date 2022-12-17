@@ -117,11 +117,11 @@ const MyVillageCategory: NextPage = () => {
 
     return (
         <_BaseMemberLayout>
+            <PhaseDetailsHeader villageId={Number(id)} menuType={"opinion"} />
             <ComponentLoading isShow={!villageState.isInitializedVillage()} loadingText='ビレッジ情報を読み込んでいます' />
             {
                 villageState.villageComponent(
                 <>
-                    <PhaseDetailsHeader village={villageState.village!} menuType={"opinion"} />
                     <VillageTitle village={villageState.village!} _class='my-8' />
                     <div className="px-8">
                         <div className="flex items-center mb-6">

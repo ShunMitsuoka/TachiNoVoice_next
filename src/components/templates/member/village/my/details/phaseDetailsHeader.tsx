@@ -5,18 +5,18 @@ import { Village } from 'villageType';
 
 type menuItem = 'phase' | 'member' | 'opinion'; 
 interface Props {
-  village: Village;
-  menuType: menuItem;
+  villageId: number;
+  menuType?: menuItem;
 }
 
 export const PhaseDetailsHeader: React.FC<Props> = ({
-  village,
-  menuType
+    villageId,
+    menuType
 }) => {
   return (
     <div className='bg-white grid grid-cols-12 text-center drop-shadow-lg'>
         <div className='relative col-span-4'>
-            <Link href={RouteManager.webRoute.member.village.my.details.index + village.village_id}>
+            <Link href={RouteManager.webRoute.member.village.my.details.index + villageId}>
                 <span className='inline-block pt-2 pb-1'>
                     フェーズ
                 </span>
@@ -26,7 +26,7 @@ export const PhaseDetailsHeader: React.FC<Props> = ({
             }
         </div>
         <div className='relative col-span-4'>
-            <Link href={RouteManager.webRoute.member.village.my.details.members + village.village_id}>
+            <Link href={RouteManager.webRoute.member.village.my.details.members + villageId}>
                 <span className='inline-block pt-2 pb-1'>
                     メンバー
                 </span>
@@ -36,7 +36,7 @@ export const PhaseDetailsHeader: React.FC<Props> = ({
             }
         </div>
         <div className='relative col-span-4'>
-            <Link href={RouteManager.webRoute.member.village.my.details.opinions + village.village_id}>
+            <Link href={RouteManager.webRoute.member.village.my.details.opinions + villageId}>
                 <span className='inline-block pt-2 pb-1'>
                     意見
                 </span>

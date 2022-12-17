@@ -1,7 +1,8 @@
+import { appConst } from '@/app/const/appConst';
 import { MiddleButton } from '@/components/atoms/buttons/middleButton';
 import { BaseTextArea } from '@/components/atoms/textarea/baseTextArea';
-import React from 'react';
-import { Category, Village } from 'villageType';
+import React, { useEffect, useState } from 'react';
+import { Category, Opinion, Village } from 'villageType';
 import { OpinionCard } from '../opinions/opinionCard';
 
 interface Props {
@@ -13,6 +14,12 @@ interface Props {
     changeTextAreaHandler: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
+type sortDataType = {
+    opinion : Opinion,
+    good : number,
+    bad : number,
+}
+
 export const RegisterPolicy: React.FC<Props> = ({
     village,
     category,
@@ -21,6 +28,58 @@ export const RegisterPolicy: React.FC<Props> = ({
     policy,
     changeTextAreaHandler
 }) => {
+
+    const [opinions, setOpinions] = useState<Opinion[]>(category?.opinions!);
+    const [order, setOrder] = React.useState(appConst.village.evaluation.good);
+
+    useEffect(() => {
+        let sortData:sortDataType[] = [];
+        opinions.map(opinion => {
+            let good = 0;
+            let bad = 0;
+            let evaluations = opinion.evaluations;
+            if(evaluations){
+                evaluations.map(evaluation => {
+                    switch (evaluation.value) {
+                        case appConst.village.evaluation.good:
+                            good += 1;
+                            break;
+                        case appConst.village.evaluation.bad:
+                            bad += 1;
+                            break;
+                        default:
+                            break;
+                    }
+                })
+            }
+            sortData.push({
+                opinion : opinion,
+                good : good,
+                bad : bad,
+            })
+        })
+    
+        sortData.sort((a, b) => {
+            if(order == appConst.village.evaluation.good){
+                return a.good < b.good ? 1 : -1;
+            }
+            if(order == appConst.village.evaluation.bad){
+                return a.bad < b.bad ? 1 : -1;
+            }
+            return 1;
+        });
+    
+        let sortedOpinions:Opinion[] = [];
+        sortData.map(data => {
+            sortedOpinions.push(data.opinion);
+        });
+        setOpinions(sortedOpinions);
+      }, [order]);
+
+      const handleChange = (e:any) => {
+        setOrder(e.target.value);
+      };
+
 
     return (
         <div className=''>
@@ -52,8 +111,33 @@ export const RegisterPolicy: React.FC<Props> = ({
                 <div className='mt-4'>
                   <img src={process.env.NEXT_PUBLIC_API_URL+'storage/village/'+village.village_id+'/'+category.category_id+'/member_opinion.png'} alt="" />
                 </div>
+                <div className='flex items-center mt-2'>
+                    <div>
+                        【降順】
+                    </div>
+                    <div>
+                        <input
+                            type="radio"
+                            id='good'
+                            value={appConst.village.evaluation.good}
+                            onChange={handleChange}
+                            checked={order == appConst.village.evaluation.good}
+                        />
+                        <label htmlFor={'good'} className="ml-1">good</label>
+                    </div>
+                    <div className='ml-2'>
+                        <input
+                            type="radio"
+                            id='bad'
+                            value={appConst.village.evaluation.bad}
+                            onChange={handleChange}
+                            checked={order == appConst.village.evaluation.bad}
+                        />
+                        <label htmlFor={'bad'} className="ml-1">bad</label>
+                    </div>
+                </div>
                 { 
-                    category?.opinions?.map((opinion, index) => {
+                    opinions.map((opinion, index) => {
                         return (
                             <div key={index} className="mt-4">
                                 <OpinionCard

@@ -121,6 +121,7 @@ const MyVillageOpinios: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
+      <PhaseDetailsHeader villageId={Number(id)} menuType={"opinion"} />
       <ComponentLoading isShow={!villageState.isInitializedVillage()} loadingText='ビレッジ情報を読み込んでいます' />
       {
         openCategoryList &&
@@ -153,7 +154,6 @@ const MyVillageOpinios: NextPage = () => {
       {
         villageState.villageComponent(
           <>
-            <PhaseDetailsHeader village={villageState.village!} menuType={"opinion"} />
             <div className="relative mb-8">
               <VillageTitle village={villageState.village!} _class='' />
               <div className="mt-4 px-4 text-center">
@@ -239,6 +239,13 @@ const MyVillageOpinios: NextPage = () => {
                   )
                 }
               })}
+              {(!villageState.village?.is_phase_preparing && villageState.village?.can_evaluation) &&
+                <div className="text-center">
+                    <LinkButton href={RouteManager.webRoute.member.village.my.details.evaluation + villageState.village?.village_id}>
+                      評価する
+                    </LinkButton>
+                </div>
+              }
               {
                 dispCategory &&
                 <>
@@ -273,7 +280,6 @@ const MyVillageOpinios: NextPage = () => {
                           villageId={villageState.village?.village_id!}
                           reload={reload}
                           isShowEvaluation={villageState.village?.is_show_evaluation}
-                          canEvaluation={villageState.village?.can_evaluation}
                         />
                       </div>
                     );
