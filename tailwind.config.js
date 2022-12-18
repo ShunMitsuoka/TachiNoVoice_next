@@ -17,6 +17,7 @@ module.exports = {
         red : '#E9C3CE',
         green : '#DFE7C0',
         orange : '#EFB795',
+        blue : '#A0D2ED',
         host : '#E9C3CE',
         village : '#A0D2ED',
         core : '#DFE7C0',
