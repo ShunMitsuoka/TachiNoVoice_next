@@ -20,6 +20,7 @@ import { AuthService } from "@/app/services/authService";
 import { getSession, useSession } from 'next-auth/react';
 import { useSweetAlert } from "@/hooks/common/useSweetalert";
 import Image from "next/image";
+import { SectionTitle } from "@/components/modules/common/section/sectionTitle";
 
 type formData = {
     user_id: string,
@@ -57,23 +58,27 @@ const Userinfomation: NextPage = () => {
     }
     useEffect(() => {
         if (status === "authenticated") {
+            pageLoading.show();
             axios.get(ApiService.getFullURL(
                 RouteManager.apiRoute.member.index
             ), ApiService.getAuthHeader(session))
-                .then(async function (response) {
-                    console.log('response', response);
-                    const res = ApiService.makeApiResponse(response);
-                    if (res.getSuccess()) {
-                        const result = res.getResult();
-                        setFormData(result);
-                    } else {
-                        await sweet.error("ユーザー情報の取得に失敗しました", "");
-                    }
-                })
-                .catch(async (error) => {
+            .then(async function (response) {
+                console.log('response', response);
+                const res = ApiService.makeApiResponse(response);
+                if (res.getSuccess()) {
+                    const result = res.getResult();
+                    setFormData(result);
+                } else {
                     await sweet.error("ユーザー情報の取得に失敗しました", "");
-                    console.log('error', error);
-                })
+                }
+            })
+            .catch(async (error) => {
+                await sweet.error("ユーザー情報の取得に失敗しました", "");
+                console.log('error', error);
+            })
+            .finally(async () => {
+                pageLoading.close();
+            })
         }
     }, [status]);
 
@@ -119,11 +124,9 @@ const Userinfomation: NextPage = () => {
                     height={130}
                 />
             </div>
-            <div className="">
-                <div className="text-center pt-8">
-                    <h1 className="text-3xl">現在のユーザー情報</h1>
-                </div>
+            <div className="pt-10">
                 <div className="px-8 py-3 text-lg">
+                    <SectionTitle>現在のユーザー情報</SectionTitle>
                     {/*　氏名　*/}
                     <div className="position relative mt-4">
                         <FormLabel htmlFor="user_name">氏名</FormLabel>
