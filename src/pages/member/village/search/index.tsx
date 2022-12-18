@@ -100,7 +100,7 @@ const Search: NextPage = () => {
                             検索
                     </LargeButton>
                 </div>
-                <div className='mt-4'>
+                <div className='mt-2'>
                     <SectionTitle className=''>参加可能ビレッジ</SectionTitle>
                     {noresult ?
                         <div className='grid grid-cols-12'>
@@ -111,7 +111,7 @@ const Search: NextPage = () => {
                             }
                         </div>
                         :
-                        <div className='text-sub text-center text-xl'>
+                        <div className='text-sub mt-2'>
                             該当するものがありません
                         </div>
                     }
