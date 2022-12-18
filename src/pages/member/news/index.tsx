@@ -8,8 +8,10 @@ const MyVillage: NextPage = () => {
       <Head>
           <title>お知らせ</title>
       </Head>
-      <div className=''>
-      お知らせ画面
+      <div className=' flex justify-center items-center h-96 px-14'>
+        現在、実装中です。<br />
+        お知らせ機能に関しましては、<br />
+        今しばらくお待ちください。
       </div>
   </_BaseMemberLayout>
   )
