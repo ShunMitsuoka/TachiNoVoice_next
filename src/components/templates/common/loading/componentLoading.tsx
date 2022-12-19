@@ -1,5 +1,5 @@
 import React from 'react';
-import { Rings } from 'react-loader-spinner'
+import { ThreeDots } from 'react-loader-spinner'
 
 interface Props {
     isShow: boolean;
@@ -18,16 +18,15 @@ export const ComponentLoading: React.FC<Props> = ({
                         {loadingText}
                     </div>
                     <div>
-                        <Rings
-                            height="80"
-                            width="80"
-                            color="#A26749"
-                            radius="6"
-                            wrapperStyle={{}}
-                            wrapperClass=""
-                            visible={true}
-                            ariaLabel="rings-loading"
-                        />
+                    <ThreeDots 
+                        height="70" 
+                        width="70" 
+                        radius="4"
+                        color="#A26749" 
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        visible={true}
+                    />
                     </div>
                 </div>          
             }
