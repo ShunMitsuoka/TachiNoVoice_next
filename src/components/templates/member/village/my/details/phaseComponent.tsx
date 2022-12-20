@@ -26,6 +26,12 @@ export const PhaseComponent: React.FC<Props> = ({
     <div className=''>
       <div className={'px-6 py-4 bg-white rounded-lg ' + (isActive && 'drop-shadow-lg')}>
         <div className={'text-lg font-bold ' + (!isActive && 'text-gray-500')}>
+          {
+            isActive &&
+            <span className='inline-block mr-2'>
+              ▶︎
+            </span>
+          }
           {title}
         </div>
         {
