@@ -6,6 +6,7 @@ import { LinkButton } from '@/components/atoms/buttons/linkButton'
 import { FormLabel } from '@/components/atoms/label/formLabel'
 import { ComponentLoading } from '@/components/templates/common/loading/componentLoading'
 import { usePageLoading } from '@/hooks/common/usePageLoading'
+import { useSweetAlert } from '@/hooks/common/useSweetalert'
 import { useVillage } from '@/hooks/components/member/village/my/useVillage'
 import _BaseLayout from '@/layouts/_baseLayout'
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
@@ -19,6 +20,7 @@ import { useEffect, useState } from 'react'
 
 const Details: NextPage = () => {
 
+  const sweet = useSweetAlert();
 
   const { data: session, status } = useSession();
   const pageLoading = usePageLoading();
@@ -32,18 +34,17 @@ const Details: NextPage = () => {
     if (status === "authenticated") {
       pageLoading.show();
       axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.resource) + "/" + id, ApiService.getAuthHeader(session))
-        .then(function (response) {
+        .then(async function (response) {
           const res = ApiService.makeApiResponse(response);
           if (res.getSuccess()) {
             console.log(res);
             const result = res.getResult();
             villageState.setVillage(result);
           } else {
-            alert('失敗');
+            await sweet.error("ビレッジ情報の取得に失敗しました", "");
           }
-        }).catch((error) => {
-          alert('');
-          const res = ApiService.makeApiResponse(error.response);
+        }).catch(async (error) => {
+          await sweet.error("ビレッジ情報の取得に失敗しました", "");
         }).finally(() => {
           pageLoading.close();
         })
@@ -58,18 +59,17 @@ const Details: NextPage = () => {
     pageLoading.show();
     await ApiService.getCSRF();
     axios.post(ApiService.getFullURL(RouteManager.apiRoute.member.village.join), params, ApiService.getAuthHeader(session))
-      .then(function (response) {
+      .then(async function (response) {
         const res = ApiService.makeApiResponse(response);
         if (res.getSuccess()) {
-          alert("「" + villageState.village!.title + "」に参加しました。");
+          await sweet.success("「" + villageState.village!.title + "」に参加しました。", "OKをタッチしてください");
           router.replace(RouteManager.webRoute.member.village.my.details.index + villageState.village!.village_id);
         } else {
-          alert('失敗');
+          await sweet.error("ビレッジの参加に失敗しました", "");
         }
       })
-      .catch((error) => {
-        alert('登録失敗');
-        const res = ApiService.makeApiResponse(error.response);
+      .catch(async (error) => {
+        await sweet.error("ビレッジの参加に失敗しました", "");
       }).finally(() => {
         pageLoading.close();
       })
