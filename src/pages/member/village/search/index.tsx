@@ -14,6 +14,7 @@ import { usePageLoading } from '@/hooks/common/usePageLoading'
 import Image from 'next/image'
 import { LargeButton } from '@/components/atoms/buttons/largeButton'
 import { BaseInput } from '@/components/atoms/input/baseInput'
+import { SectionTitle } from '@/components/modules/common/section/sectionTitle'
 
 
 type cardtype = {
@@ -85,10 +86,8 @@ const Search: NextPage = () => {
                     height={130}
                 />
             </div>
-            <div className='relative flex flex-col px-8 pt-6'>
-                <FormLabel
-                    htmlFor={'keyword'}
-                    _class='block mb-2 pt-4 px-2text-sm font-medium text-sub'>キーワード</FormLabel>
+            <div className='relative flex flex-col px-8 pt-14'>
+                <SectionTitle className='mb-2'>キーワード</SectionTitle>
                 <BaseInput
                     type="text"
                     id="keyword"
@@ -101,7 +100,8 @@ const Search: NextPage = () => {
                             検索
                     </LargeButton>
                 </div>
-                <div className='mt-6'>
+                <div className='mt-2'>
+                    <SectionTitle className=''>参加可能ビレッジ</SectionTitle>
                     {noresult ?
                         <div className='grid grid-cols-12'>
                             {
@@ -111,7 +111,7 @@ const Search: NextPage = () => {
                             }
                         </div>
                         :
-                        <div className='text-sub text-center text-xl'>
+                        <div className='text-sub mt-2'>
                             該当するものがありません
                         </div>
                     }

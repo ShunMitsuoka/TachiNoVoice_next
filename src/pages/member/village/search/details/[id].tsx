@@ -2,6 +2,7 @@ import { RouteManager } from '@/app/manages/routeManager'
 import { ApiService } from '@/app/services/apiService'
 import { AuthService } from '@/app/services/authService'
 import { BaseButton } from '@/components/atoms/buttons/baseButton'
+import { LinkButton } from '@/components/atoms/buttons/linkButton'
 import { FormLabel } from '@/components/atoms/label/formLabel'
 import { ComponentLoading } from '@/components/templates/common/loading/componentLoading'
 import { usePageLoading } from '@/hooks/common/usePageLoading'
@@ -11,6 +12,7 @@ import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
 import axios from '@/libs/axios/axios'
 import type { GetServerSideProps, NextPage } from 'next'
 import { getSession, useSession } from 'next-auth/react'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useEffect, useState } from 'react'
@@ -96,75 +98,64 @@ const Details: NextPage = () => {
 
   return (
     <_BaseMemberLayout>
-      <ComponentLoading isShow={!villageState.isInitializedVillage()} loadingText='ビレッジ情報を読み込んでいます' />
-      {
-        villageState.villageComponent(
-          <>
-            <div className=' flex flex-col text-center rounded-lg drop-shadow bg-white overflow-hidden shadow-lg my-6 mx-8'>
-              <div className='flex justify-center text-2xl  font-bold bg-sub text-white py-3 px-6'>
-                <FormLabel htmlFor={'title'}>{villageState.village?.title}</FormLabel>
+      <div className="absolute top-2 right-2">
+          <Image
+              src={'/images/common/decoration/tr-deco.svg'}
+              width={300}
+              height={130}
+          />
+      </div>
+      <div className='relative px-6 pt-20 pb-10'>
+        <ComponentLoading isShow={!villageState.isInitializedVillage()} loadingText='ビレッジ情報を読み込んでいます' />
+        {
+          villageState.villageComponent(
+            <>
+              <div>
+                <div className=' inline-block px-2 py-1 text-white rounded-t bg-sub'>ビレッジタイトル</div>
+                <div className=' px-3 py-2 bg-white rounded-b rounded-tr shadow-lg font-bold text-lg'>
+                  {villageState.village?.title}
+                </div>
+              </div>
+              <div className='mt-6'>
+                <div className=' inline-block px-2 py-1 text-white rounded-t bg-sub'>ビレッジ詳細</div>
+                <div className='grid grid-cols-12 py-2 px-2 bg-slate-100 rounded-tr'>
+                  <div className='col-span-3'>内容</div>
+                  <div className=' col-span-9'>
+                    {villageState.village?.content}
+                  </div>
+                </div>
+                <div className='grid grid-cols-12 py-2 px-2 bg-white'>
+                  <div className=' col-span-3'>注意事項</div>
+                  <div className=' col-span-9'>
+                    {villageState.village?.note}
+                  </div>
+                </div>
+                <div className='grid grid-cols-12 py-2 px-2 bg-slate-100'>
+                  <div className=' col-span-3'>参加条件</div>
+                  <div className=' col-span-9'>
+                    {villageState.village?.requirement}
+                  </div>
+                </div>
+                <div className='grid grid-cols-12 py-2 px-2 bg-white rounded-b'>
+                  <div className='col-span-3'>募集情報</div>
+                  <div className='col-span-9'>
+                    { contents() }
+                  </div>
+                </div>
               </div>
 
-              <div className='grid grid-cols-12 bg-slate-100'>
-                <div className='mt-3 col-span-4'>
-                  <FormLabel htmlFor={'content'} _class='pl-2'>内容</FormLabel>
-                </div>
-                <div className=' col-span-8'>
-                  <p
-                    className='pr-3 mt-3 text-left'
-                  >
-                    {villageState.village?.content}
-                  </p>
-                </div>
+              <div className='flex justify-between mt-4'>
+                <LinkButton href={RouteManager.webRoute.member.village.search.index}>
+                  戻る
+                </LinkButton>
+                <BaseButton onClick={onClickEntry}>
+                  参加する
+                </BaseButton>
               </div>
-              <div className='mt-3 grid grid-cols-12'>
-                <div className=' col-span-4'>
-                  <FormLabel htmlFor={'note'} _class='pl-2'>注意事項</FormLabel>
-                </div>
-                <div className=' col-span-8'>
-                  <p
-                    className='pr-3 text-left'
-                  >
-                    {villageState.village?.note}
-                  </p>
-                </div>
-              </div>
-              <div className='mt-3 grid grid-cols-12 bg-slate-100 py-4'>
-                <div className=' col-span-4'>
-                  <FormLabel htmlFor={'condition'} _class='pl-2'>参加条件</FormLabel>
-                </div>
-                <div className=' col-span-8'>
-                  <p
-                    className='pr-3 text-left'
-                  >
-                    {villageState.village?.requirement}
-                  </p>
-                </div>
-              </div>
-              <div className=' my-3 grid grid-cols-12'>
-                <div className=' col-span-4'>
-                  <FormLabel htmlFor={'recruitment_period'} _class='pl-2'>募集情報</FormLabel>
-                </div>
-                <div
-                  className='pr-3 col-span-8 text-left'
-                >
-                  {/* 募集終了条件 <br /> */}
-                  {
-                    contents()
-                  }
-                </div>
-              </div>
-            </div>
-            <div className="text-center">
-              <BaseButton
-                onClick={onClickEntry}
-              >
-                参加する
-              </BaseButton>
-            </div>
-          </>
-        )
-      }
+            </>
+          )
+        }
+      </div>
     </_BaseMemberLayout >
   )
 }

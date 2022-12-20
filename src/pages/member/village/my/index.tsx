@@ -2,12 +2,14 @@ import { appConst } from '@/app/const/appConst';
 import { RouteManager } from '@/app/manages/routeManager';
 import { ApiService } from '@/app/services/apiService';
 import { ColorService } from '@/app/services/colorService';
+import { SectionTitle } from '@/components/modules/common/section/sectionTitle';
 import { usePageLoading } from '@/hooks/common/usePageLoading';
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
 import axios from '@/libs/axios/axios';
 import type { NextPage } from 'next'
 import { useSession } from 'next-auth/react';
 import Head from 'next/head'
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Village } from 'villageType';
@@ -43,41 +45,40 @@ const MyVillage: NextPage = () => {
       <Head>
         <title>My ビレッジ</title>
       </Head>
-      <div className=''>
-        <div className='my-12 text-2xl font-bold text-center'>
-          参加中ビレッジ一覧
-        </div>
-        <div className='px-6'>
-          {
-            lists.map((village, index) => {
-              return (
-                <Link key={index} href={RouteManager.webRoute.member.village.my.details.index + village.village_id}>
-                  <div className=' bg-white rounded-lg shadow-xl mb-10 overflow-hidden'>
-                    <div className={' px-2 py-2 ' + ColorService.bgRoleColre(village.role_id)}>
-                      <span className='px-2 py-1 bg-white rounded-md text-sm'>
-                        {village.role_name}
-                      </span>
-                      <div className='mt-2 pb-3 text-center font-bold text-lg'>{village.title}</div>
-                    </div>
-                    <div className='px-3 py-2 text-lg'>
-                      <div className=' text-sm'>
-                        <span>
-                          コアメンバー：{village.core_member_count}
-                        </span>
-                        <span className='ml-4'>
-                          ライズメンバー：{village.rise_member_count}
-                        </span>
+      <div className='px-6 pt-8'>
+        <SectionTitle className='mb-5'>参加中ビレッジ</SectionTitle>
+        {
+          lists.map((village, index) => {
+            return (
+              <Link key={index} href={RouteManager.webRoute.member.village.my.details.index + village.village_id}>
+                <div key={index} className='relative px-3 py-3 bg-white rounded-lg shadow-lg mb-4'>
+                  <div className="grid grid-cols-12 gap-3 pb-2 border-b border-gray-400">
+                      <div className=" col-span-4">
+                          <Image src={'/images/member/village/village.png'} width={30} height={17} layout={'responsive'}/>
                       </div>
-                      <div className='mt-2 text-base'>
-                        ・{village.phase_name}
+                      <div className=" col-span-8">
+                          <div className={' inline-block rounded-full px-1 text-white text-sm ' + ColorService.bgRoleColre(village.role_id)}>{village.role_name}</div>
+                          <div className=" font-bold mt-1">
+                              {village.title}
+                          </div>
                       </div>
-                    </div>
                   </div>
-                </Link>
-              );
-            })
-          }
-        </div>
+                  <div className='mt-2 text-sm'>
+                      <span>
+                        コアメンバー：{village.core_member_count}
+                      </span>
+                      <span className='ml-4'>
+                        ライズメンバー：{village.rise_member_count}
+                      </span>
+                  </div>
+                  <div className="mt-2">
+                      ・{village.phase_name}
+                  </div>
+              </div>
+              </Link>
+            );
+          })
+        }
       </div>
     </_BaseMemberLayout>
   )

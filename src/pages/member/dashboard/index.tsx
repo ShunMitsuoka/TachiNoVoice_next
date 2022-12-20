@@ -5,6 +5,7 @@ import { GetServerSideProps } from "next";
 import { getSession, useSession } from "next-auth/react";
 import { MyVillageList } from "@/components/templates/member/village/dashboard/myVillageList";
 import { LinkButton } from "@/components/atoms/buttons/linkButton";
+import { SectionTitle } from "@/components/modules/common/section/sectionTitle";
 
 
 export default function Dashboard() {
@@ -23,11 +24,11 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <div className="px-6 pt-8">
-                    <div className="border-b border-sub font-bold">参加中ビレッジ</div>
+                    <SectionTitle>参加中ビレッジ</SectionTitle>
                     <MyVillageList />
                 </div>
                 <div className="px-6 mt-3">
-                    <div className="border-b border-sub font-bold">ビレッジを作る</div>
+                    <SectionTitle>ビレッジを作る</SectionTitle>
                     <div className=" grid grid-cols-12 mt-4">
                         <div className=" col-span-4">
                             <span className="flex justify-center items-center w-20 h-20 bg-host rounded-full">ホスト</span>
@@ -45,35 +46,6 @@ export default function Dashboard() {
                         </div>
                     </div>
                 </div>
-                {/* <Link href={RouteManager.webRoute.member.village.register.index} className="">
-                    <div className="absolute top-[430px] right-5 ">
-                        <div className=" font-bold bg-red text-center rounded-[50%] w-[200px] h-[100px] leading-[100px] drop-shadow-lg">
-
-                            ビレッジ作成
-
-                        </div>
-                    </div>
-                </Link>
-                <Link href={RouteManager.webRoute.member.village.search.index}>
-                    <div className="absolute top-[330px] left-5">
-                        <div className=" font-bold bg-lime-100 text-center rounded-[50%] w-[200px] h-[100px] leading-[100px] drop-shadow-lg">
-
-                            ビレッジを探す
-
-                        </div>
-                    </div>
-                </Link>
-
-
-                <Link href={RouteManager.webRoute.member.village.my.index}>
-                    <div className="absolute top-[230px] right-5">
-                        <div className=" font-bold bg-orange text-center rounded-[50%] w-[200px] h-[100px] leading-[100px] drop-shadow-lg">
-                            参加中のビレッジへ
-                        </div>
-                    </div>
-
-                </Link> */}
-
             </div >
 
         </_BaseMemberLayout >
