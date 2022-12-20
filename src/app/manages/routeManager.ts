@@ -8,6 +8,9 @@ type route = {
             login: string,
             verifyEmail: string,
         },
+        password: {
+            forgot : string
+        }
     },
     member: {
         dashboard: string,
@@ -63,6 +66,10 @@ type apiRoute = {
             mainRegister: string,
             resendVerifiedEmail: string,
         },
+        password: {
+            forgot : string
+            reset : string
+        }
     },
     member: {
         village: {
@@ -112,6 +119,9 @@ export class RouteManager {
                 register: '/guest/auth/register',
                 login: '/guest/auth/login',
                 verifyEmail: '/guest/auth/verifyEmail',
+            },
+            password: {
+                forgot : '/guest/password/forgotPassword',
             }
         },
         member: {
@@ -170,6 +180,10 @@ export class RouteManager {
                 mainRegister: '/api/auth/mainRegister',
                 resendVerifiedEmail: '/api/email/verification-notification',
             },
+            password: {
+                forgot : '/api/password/forgot',
+                reset : '/api/password/reset'
+            }
         },
         member: {
             village: {

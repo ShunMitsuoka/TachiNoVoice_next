@@ -110,6 +110,11 @@ export default function Login() {
                     <a className="underline">新規会員登録はこちら</a>
                 </Link>
             </div>
+            <div className="mt-6 text-center text-lg">
+                <Link href={RouteManager.webRoute.guest.password.forgot} className='py-1'>
+                    <a className="underline">パスワードを忘れた方はこちら</a>
+                </Link>
+            </div>
         </_BaseGuestLayout>
     )
 }
