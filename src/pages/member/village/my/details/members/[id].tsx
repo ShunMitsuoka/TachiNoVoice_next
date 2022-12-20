@@ -115,11 +115,13 @@ const MyVillageMembers: NextPage = () => {
                 other : {
                   other : (
                     <>
-                      <div className='mt-3 flex justify-center'>
-                        <FormLabel htmlFor={'coremember'}>コアメンバー</FormLabel>
-                      </div>
-                      <div className='mt-3 flex justify-center'>
-                        <FormLabel htmlFor={'coremember'}>{villageState.village?.core_member_count}/{villageState.village?.core_member_limit}</FormLabel>
+                      <div className='mt-2 px-4'>
+                          <span>
+                            コアメンバー：{villageState.village?.core_member_count}/{villageState.village?.core_member_limit}
+                          </span>
+                          <span className='ml-4'>
+                            ライズメンバー：{villageState.village?.rise_member_count}
+                          </span>
                       </div>
                     </>
                   )
@@ -148,20 +150,20 @@ const MyVillageMembers: NextPage = () => {
                 })}
               </div>
             </div>
-            <div className="grid grid-cols-2 mt-4">
-                <div className="relative col-span-1 flex flex-col items-center">
+            <div className="grid grid-cols-12 mt-4">
+                <div className="relative col-span-7 flex flex-col items-center">
                   <div>
                     年齢
                   </div>
-                  <div className="relative w-28 h-32">
+                  <div className="relative w-52 h-32">
                     <AgeGraph data={memberData} />
                   </div>
                 </div>
-                <div className="relative col-span-1 flex flex-col items-center">
+                <div className="relative col-span-5 flex flex-col items-center">
                   <div>
                     性別
                   </div>
-                  <div className="relative w-28 h-32">
+                  <div className="relative w-24 h-32">
                     <GenderGraph data={memberData}/>
                   </div>
                 </div>

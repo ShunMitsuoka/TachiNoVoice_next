@@ -91,10 +91,35 @@ export const AgeGraph: React.FC<Props> = ({
     ]);
   }, [data]);
 
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = (pieLabel : any) => {
+    if(pieLabel.value === 0) return undefined;
+    const radius = 5 + pieLabel.innerRadius + (pieLabel.outerRadius - pieLabel.innerRadius);
+    console.log(pieLabel)
+    const x = pieLabel.cx + radius * Math.cos(-pieLabel.midAngle * RADIAN);
+    const y = pieLabel.cy + radius * Math.sin(-pieLabel.midAngle * RADIAN);
+  
+    return (
+      <text x={x} y={y} fill={'#A26749'} style={{fontSize: 11}} textAnchor={x > pieLabel.cx ? 'start' : 'end'} dominantBaseline="central" >
+        {pieLabel.name}
+      </text>
+    );
+  };
+
   return (
-    <ResponsiveContainer aspect={1} height={"100%"}>
+    <ResponsiveContainer width={"100%"} height={"100%"}>
       <PieChart>
-          <Pie data={graphData} dataKey="value" cx="50%" cy="50%" outerRadius={50} fill="#82ca9d" legendType="circle">
+          <Pie 
+            data={graphData} 
+            dataKey="value" 
+            cx="50%" 
+            cy="50%" 
+            outerRadius={50} 
+            fill="#82ca9d" 
+            legendType="circle"
+            labelLine={false}
+            label={renderCustomizedLabel}
+          >
             {graphData.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}

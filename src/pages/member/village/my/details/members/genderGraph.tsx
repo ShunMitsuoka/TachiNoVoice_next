@@ -1,7 +1,9 @@
 import { appConst } from "@/app/const/appConst";
 import { useEffect, useState } from "react";
-import { Cell, Pie, PieChart, ResponsiveContainer, Text } from "recharts";
+import { LayoutType } from "recharts/types/util/types";
+import { Cell, Legend, Pie, PieChart, PieLabel, ResponsiveContainer, Text } from "recharts";
 import { memberType } from "./[id]";
+import { type } from "os";
 
 interface Props {
   data : memberType[],
@@ -40,7 +42,7 @@ export const GenderGraph: React.FC<Props> = ({
     setGraphData([
       { name: '男性', value: manNum, gender : appConst.user.gender.man },
       { name: '女性', value: womanNum, gender : appConst.user.gender.woman },
-      { name: 'それ他', value: lgbtNum, gender : appConst.user.gender.LGBT },
+      { name: 'その他', value: lgbtNum, gender : appConst.user.gender.LGBT },
     ]);
   }, [data]);
 
@@ -58,18 +60,34 @@ export const GenderGraph: React.FC<Props> = ({
     return "";
   }
 
-  // const label = (prpps : { name : string, value : number, cx : any, x : number, y : number }) => {
-  //   return (
-  //     <>
-  //       <Text x={prpps.x} y={prpps.y} fill="#82ca9d" className="text-sm">{prpps.name}</Text>
-  //     </>
-  //   )
-  // }
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = (pieLabel : any) => {
+    if(pieLabel.value === 0) return null;
+    console.log(pieLabel)
+    const radius = pieLabel.innerRadius + (pieLabel.outerRadius - pieLabel.innerRadius) * 0.4;
+    const x = pieLabel.cx + radius * Math.cos(-pieLabel.midAngle * RADIAN);
+    const y = pieLabel.cy + radius * Math.sin(-pieLabel.midAngle * RADIAN);
+  
+    return (
+      <text x={x} y={y} fill="white" textAnchor={x > pieLabel.cx ? 'start' : 'end'} dominantBaseline="central" style={{fontSize: 13}}>
+        {pieLabel.name}
+      </text>
+    );
+  };
 
   return (
-    <ResponsiveContainer aspect={1} height={"100%"}>
+    <ResponsiveContainer width={"100%"} height={"100%"}>
       <PieChart>
-          <Pie data={graphData} dataKey="value" cx="50%" cy="50%" outerRadius={50} fill="#82ca9d" legendType="none">
+          <Pie 
+            data={graphData} 
+            dataKey="value" 
+            cx="50%" 
+            cy="50%" 
+            outerRadius={45} 
+            fill="#82ca9d" 
+            labelLine={false}
+            label={renderCustomizedLabel}
+          >
             {graphData.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
