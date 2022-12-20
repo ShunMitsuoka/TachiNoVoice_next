@@ -15,6 +15,7 @@ import { NextPage, GetServerSideProps } from "next";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import nl2br from "react-nl2br";
 
 
 
@@ -82,7 +83,7 @@ const CoreMemberOpinion: NextPage = () => {
               </div>
               <div className='text-sub text-xl mt-6'>
                 <div>【ご意見】</div>
-                {opinion}
+                {nl2br(opinion)}
               </div>
               <div className="flex justify-between mt-6">
                 <BaseButton onClick={onClickdefault}>

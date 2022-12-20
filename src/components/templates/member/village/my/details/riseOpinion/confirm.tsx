@@ -1,6 +1,7 @@
 import { BaseButton } from '@/components/atoms/buttons/baseButton';
 import { BaseTextArea } from '@/components/atoms/textarea/baseTextArea';
 import React, { useState } from 'react';
+import nl2br from 'react-nl2br';
 import { Category, Village } from 'villageType';
 
 interface Props {
@@ -30,7 +31,7 @@ export const Confirm: React.FC<Props> = ({
                     以下の意見でよろしいですか？
                 </div>
                 <div className='w-full mt-6 text-lg'>
-                    {opinion}
+                {nl2br(opinion)}
                 </div>
                 <div className=' flex justify-between mt-6'>
                     <BaseButton onClick={onBack}>戻る</BaseButton>
