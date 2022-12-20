@@ -221,10 +221,10 @@
     "@types/scheduler" "*"
     "csstype" "^3.0.2"
 
-"@types/recharts@^1.8.23":
-  "integrity" "sha512-O/mIPm9f6dwRWfenOI3GQwsGta3x1YWjwqXOCZqC0MATQ6C+A+Jc8VxFnSUr4N3uYv64zkq90RwXFaMNbhJKvg=="
-  "resolved" "https://registry.npmjs.org/@types/recharts/-/recharts-1.8.23.tgz"
-  "version" "1.8.23"
+"@types/recharts@^1.8.24":
+  "integrity" "sha512-PGugStujgxjMOUUJuGIrw71MIhTtl/FeNzuWZVDTS7Kq8NdiQfMrlC6GXJIvlQcrsUIn9IcXbi6sZJjK+6kfLQ=="
+  "resolved" "https://registry.npmjs.org/@types/recharts/-/recharts-1.8.24.tgz"
+  "version" "1.8.24"
   dependencies:
     "@types/d3-shape" "^1"
     "@types/react" "*"
