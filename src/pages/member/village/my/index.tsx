@@ -3,6 +3,7 @@ import { RouteManager } from '@/app/manages/routeManager';
 import { ApiService } from '@/app/services/apiService';
 import { ColorService } from '@/app/services/colorService';
 import { SectionTitle } from '@/components/modules/common/section/sectionTitle';
+import { VillageListHeader } from '@/components/templates/member/village/dashboard/villageListHeader';
 import { usePageLoading } from '@/hooks/common/usePageLoading';
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
 import axios from '@/libs/axios/axios';
@@ -19,16 +20,24 @@ const MyVillage: NextPage = () => {
   const { data: session, status } = useSession();
   const pageLoading = usePageLoading();
   const [lists, setLists] = useState<Village[]>([]);
+  const [isFinished, setIsFinished] = useState<boolean>(false);
 
   useEffect(() => {
     pageLoading.show();
     if (status === "authenticated") {
-      axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.my.index), ApiService.getAuthHeader(session))
+
+      const params = {
+        recordNum: 2,
+        finishedFlg: isFinished,
+      };
+      const config = ApiService.getAuthHeader(session);
+      const setconfig = ApiService.setConfig('params', params, config);
+      axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.my.index), setconfig)
         .then(function (response) {
           const res = ApiService.makeApiResponse(response);
           if (res.getSuccess()) {
             const result = res.getResult();
-            setLists(result);
+            setLists(result.data);
             console.log(res);
           } else {
             alert('失敗');
@@ -38,15 +47,19 @@ const MyVillage: NextPage = () => {
           pageLoading.close();
         });
     }
-  }, [status]);
+  }, [status, isFinished]);
+
+  const changeList = (flg : boolean) => {
+    setIsFinished(flg)
+  }
 
   return (
     <_BaseMemberLayout title='ビレッジ'>
       <Head>
         <title>My ビレッジ</title>
       </Head>
+      <VillageListHeader onClick={changeList} showFinishedVillage={isFinished} />
       <div className='px-6 pt-8'>
-        <SectionTitle className='mb-5'>参加中ビレッジ</SectionTitle>
         {
           lists.map((village, index) => {
             return (

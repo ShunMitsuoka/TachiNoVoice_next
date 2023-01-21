@@ -20,7 +20,13 @@ export const VillageTitle: React.FC<Props> = ({
                     {village.role_name}  
                 </div>
                 <div>
-                    {village.phase_name}
+                    {
+                        village.is_finished ?
+                        '終了'
+                        :
+                        village.phase_name
+                    }
+                    
                 </div>
             </div>
             <div className='px-2 py-4'>

@@ -19,12 +19,18 @@ export const MyVillageList = () => {
     useEffect(() => {
       if (status === "authenticated") {
         loading.show();
-        axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.my.index), ApiService.getAuthHeader(session))
+        const params = {
+            recordNum: 3,
+            finishedFlg: false,
+        };
+        const config = ApiService.getAuthHeader(session);
+        const setconfig = ApiService.setConfig('params', params, config);
+        axios.get(ApiService.getFullURL(RouteManager.apiRoute.member.village.my.index), setconfig)
           .then(function (response) {
             const res = ApiService.makeApiResponse(response);
             if (res.getSuccess()) {
               const result = res.getResult();
-              setLists(result);
+              setLists(result.data);
             } else {
               alert('失敗');
             }

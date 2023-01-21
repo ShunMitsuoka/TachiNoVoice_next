@@ -15,7 +15,9 @@ import React, { useEffect, useState } from "react";
 import { Category } from "villageType";
 import nl2br from 'react-nl2br';
 import { ComponentLoading } from "@/components/templates/common/loading/componentLoading";
-
+import { usePhaseComponent } from "@/hooks/components/member/village/my/usePhaseComponent";
+import { useVillageMethod } from "@/hooks/components/member/village/my/useVillageMethod";
+import { MiddleButton } from "@/components/atoms/buttons/middleButton";
 
 const SatisfactionResult: NextPage = () => {
 
@@ -24,6 +26,8 @@ const SatisfactionResult: NextPage = () => {
   const { id } = router.query;
   const pageLoading = usePageLoading();
   const villageState = useVillage();
+  const villageMethod = useVillageMethod(villageState.village, villageState.setVillageDetails);
+  const phaseComponet = usePhaseComponent(villageState.village);
   const [categories, setCategories] = useState<Category[]>([]);
   const [comments, setComments] = useState<string[]>([]);
 
@@ -66,6 +70,17 @@ const SatisfactionResult: NextPage = () => {
             <div className="mb-6 text-center text-xl font-bold">
               結果
             </div>
+            {!villageState.village?.is_finished && phaseComponet.phaseComponent({
+                surveyingSatisfaction: {
+                  host: (
+                    <div className="mb-4 text-center">
+                      <MiddleButton onClick={villageMethod.nextPhase}>
+                        ビレッジ終了
+                      </MiddleButton>
+                    </div>
+                  )
+                }
+              })}
             <div className="px-6">
             {
               categories.map((category, index) => {

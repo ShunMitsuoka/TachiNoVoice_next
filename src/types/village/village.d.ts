@@ -4,6 +4,7 @@ declare module "villageType" {
         title : string,
         phase_no : number,
         phase_name : string,
+        is_finished : boolean,
         content : string,
         note : string,
         requirement : string,
