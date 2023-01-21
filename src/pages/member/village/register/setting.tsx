@@ -24,7 +24,6 @@ type formData = {
     village_member_limit : string,
     core_member_limit : string,
     requirement: string,
-    nickname_flg:boolean,
     gender_flg:boolean,
     age_flg:boolean,
     start : {
@@ -57,9 +56,8 @@ const Register: NextPage = () => {
         village_member_limit : '30',
         core_member_limit : '10',
         requirement : '',
-        nickname_flg:false,
-        gender_flg:false,
-        age_flg:false,
+        gender_flg:true,
+        age_flg:true,
         start : {
             by_manual_flg:true,
             by_instant_flg:true,
