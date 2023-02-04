@@ -27,7 +27,7 @@ const MyVillage: NextPage = () => {
     if (status === "authenticated") {
       const params = {
         page : pagenation.page,
-        recordNum: 2,
+        recordNum: 4,
         finishedFlg: isFinished,
       };
       const config = ApiService.getAuthHeader(session);
