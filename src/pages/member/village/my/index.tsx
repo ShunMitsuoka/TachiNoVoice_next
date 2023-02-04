@@ -1,10 +1,9 @@
-import { appConst } from '@/app/const/appConst';
 import { RouteManager } from '@/app/manages/routeManager';
 import { ApiService } from '@/app/services/apiService';
 import { ColorService } from '@/app/services/colorService';
-import { SectionTitle } from '@/components/modules/common/section/sectionTitle';
 import { VillageListHeader } from '@/components/templates/member/village/dashboard/villageListHeader';
 import { usePageLoading } from '@/hooks/common/usePageLoading';
+import { usePagenation } from '@/hooks/common/usePagenation';
 import _BaseMemberLayout from '@/layouts/_baseMemberLayout'
 import axios from '@/libs/axios/axios';
 import type { NextPage } from 'next'
@@ -19,14 +18,15 @@ const MyVillage: NextPage = () => {
 
   const { data: session, status } = useSession();
   const pageLoading = usePageLoading();
+  const pagenation = usePagenation();
   const [lists, setLists] = useState<Village[]>([]);
   const [isFinished, setIsFinished] = useState<boolean>(false);
 
   useEffect(() => {
     pageLoading.show();
     if (status === "authenticated") {
-
       const params = {
+        page : pagenation.page,
         recordNum: 2,
         finishedFlg: isFinished,
       };
@@ -38,6 +38,7 @@ const MyVillage: NextPage = () => {
           if (res.getSuccess()) {
             const result = res.getResult();
             setLists(result.data);
+            pagenation.setPageInfo(result.pageInfo)
             console.log(res);
           } else {
             alert('失敗');
@@ -47,7 +48,7 @@ const MyVillage: NextPage = () => {
           pageLoading.close();
         });
     }
-  }, [status, isFinished]);
+  }, [status, isFinished, pagenation.page]);
 
   const changeList = (flg : boolean) => {
     setIsFinished(flg)
@@ -91,6 +92,30 @@ const MyVillage: NextPage = () => {
               </Link>
             );
           })
+        }
+        {
+          pagenation.hasPages() && 
+          <div className='flex justify-between'>
+            <div>
+              {
+                pagenation.hasPreviousPage() && 
+                <button onClick={pagenation.previousPage} className='px-4 py-2 bg-sub text-white rounded-full font-bold text-xl shadow-lg'>
+                  {'<'}
+                </button>
+              }
+            </div>
+            <div className='py-2 text-xl'>
+              {pagenation.page} / {pagenation.pageCount}
+            </div>
+            <div>
+              {
+                pagenation.hasNextPage() && 
+                <button onClick={pagenation.nextPage} className='px-4 py-2 bg-sub text-white rounded-full font-bold text-xl shadow-lg'>
+                  {'>'}
+                </button>
+              }
+            </div>
+          </div>
         }
       </div>
     </_BaseMemberLayout>
