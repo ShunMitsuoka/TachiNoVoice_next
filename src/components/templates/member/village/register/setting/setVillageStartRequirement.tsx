@@ -26,13 +26,16 @@ export const SetVillageStartRequirement: React.FC<Props> = ({
                 <FormLabel htmlFor={''} _class='mb-2'>募集開始条件</FormLabel>
                 <div className='flex items-center'>
                     <input 
-                        type={'radio'} 
-                        name="start.by_instant_flg" 
-                        id="start.by_instant_flg" 
-                        checked={formData.start.by_instant_flg}
+                        type={'checkbox'} 
+                        name="start_by_instant_flg" 
+                        id="start_by_instant_flg" 
+                        checked={formData.start_by_instant_flg}
                         onChange={changeInputHandler}
                     /> 
-                    <FormLabel htmlFor={'start.by_instant_flg'} _class='ml-3'>ビレッジ作成後、即時募集開始</FormLabel>
+                    <FormLabel htmlFor={'start_by_instant_flg'} _class='ml-3'>ビレッジ作成後、即時募集開始</FormLabel>
+                </div>
+                <div className='mt-2'>
+                    ※手動での開始は常に可能です。
                 </div>
             </div>
             <div className='flex justify-between mt-6'>

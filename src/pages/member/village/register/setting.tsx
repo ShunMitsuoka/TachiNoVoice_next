@@ -26,16 +26,10 @@ type formData = {
     requirement: string,
     gender_flg:boolean,
     age_flg:boolean,
-    start : {
-        by_manual_flg:boolean,
-        by_instant_flg:boolean,
-        by_date_flg:boolean,
-    }
-    end : {
-        by_manual_flg:boolean,
-        by_limit_flg:boolean,
-        by_date_flg:boolean,
-    }
+    start_by_instant_flg:boolean,
+    start_by_date_flg:boolean,
+    end_by_limit_flg:boolean,
+    end_by_date_flg:boolean,
 }
 
 type pageInfo = {
@@ -58,16 +52,10 @@ const Register: NextPage = () => {
         requirement : '',
         gender_flg:true,
         age_flg:true,
-        start : {
-            by_manual_flg:true,
-            by_instant_flg:true,
-            by_date_flg:false,
-        },
-        end : {
-            by_manual_flg:true,
-            by_limit_flg:true,
-            by_date_flg:false,
-        }
+        start_by_instant_flg:false,
+        start_by_date_flg:false,
+        end_by_limit_flg:false,
+        end_by_date_flg:false,
     });
     const validationError = useValidationError();
 
