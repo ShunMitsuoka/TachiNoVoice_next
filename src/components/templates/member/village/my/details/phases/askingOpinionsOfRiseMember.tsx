@@ -67,7 +67,7 @@ export const AskingOpinionsOfRiseMember: React.FC<Props> = ({
             {
                 phaseHook.isPreparing ?
                     <div>
-                        ライズメンバー意見募集まで<br />
+                        意見募集の開始まで<br />
                         しばらくお待ちください。
                     </div>
                     :
