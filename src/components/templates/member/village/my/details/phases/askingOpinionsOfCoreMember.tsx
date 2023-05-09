@@ -26,7 +26,7 @@ export const AskingOpinionsOfCoreMember: React.FC<Props> = ({
 
     const preparingComponet = () => {
         let component = null;
-        if (!village.exists_phase_end_setting) {
+        if (village.is_necessary_to_set_phase_setting && village.is_necessary_to_set_phase_end_setting && !village.exists_phase_end_setting) {
             component = (
                 <LinkButton href={RouteManager.webRoute.member.village.my.details.phaseSetting + village.village_id}>
                     終了条件設定

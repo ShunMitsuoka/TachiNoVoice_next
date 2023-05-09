@@ -1,11 +1,9 @@
 import { BaseButton } from '@/components/atoms/buttons/baseButton';
-import { FormCheckBox } from '@/components/atoms/checkbox/formCheckBox';
-import { FormInput } from '@/components/atoms/input/formInput';
-import { FormLabel } from '@/components/atoms/label/formLabel';
+import { formData } from '@/pages/member/village/register/setting';
 import React, { useMemo, useState } from 'react';
 
 interface Props {
-    formData: any;
+    formData: formData;
     onClickRegister: () => void;
     onClickCancel: () => void;
 }
@@ -20,9 +18,6 @@ export const ConfirmVillageSetting: React.FC<Props> = ({
 
     const publciInfoContent = () => {
         const list = [];
-        if(formData.nickname_flg){
-            list.push('ニックネーム');
-        }
         if(formData.age_flg){
             list.push('年齢');
         }
@@ -105,16 +100,20 @@ export const ConfirmVillageSetting: React.FC<Props> = ({
                         <span className='text-xl font-bold mr-1'>◆</span>
                         <span className='text-xl font-bold'>募集開始条件</span>
                         <div className='mt-2'>
-                            ビレッジ作成後、即時募集開始
+                            {
+                                formData.start_by_instant_flg ?
+                                <>ビレッジ作成後、即時募集開始</> :
+                                <>手動で開始</>
+                            }
                         </div>
                     </div>
-                    <div className='mt-2'>
+                    {/* <div className='mt-2'>
                         <span className='text-xl font-bold mr-1'>◆</span>
                         <span className='text-xl font-bold'>募集終了条件</span>
                         <div className='mt-2'>
                             定員になり次第終了
                         </div>
-                    </div>
+                    </div> */}
                 </>
             );
             default:

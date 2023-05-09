@@ -24,7 +24,7 @@ export const SetVillageEndRequirement: React.FC<Props> = ({
         <div className='px-10 py-10 bg-p-sub'>
             <div className='mt-2'>
                 <FormLabel htmlFor={''} _class='mb-2'>募集終了条件</FormLabel>
-                <div className='flex items-center'>
+                {/* <div className='flex items-center'>
                     <input 
                         type={'checkbox'} 
                         name="end_by_limit_flg" 
@@ -33,9 +33,9 @@ export const SetVillageEndRequirement: React.FC<Props> = ({
                         onChange={changeInputHandler}
                     /> 
                     <FormLabel htmlFor={'end_by_limit_flg'} _class='ml-3'>定員になり次第終了</FormLabel>
-                </div>
+                </div> */}
                 <div className='mt-2'>
-                    ※手動での終了は常に可能です。
+                    ※現在、手動でのみ終了可能です。
                 </div>
             </div>
             <div className='flex justify-between mt-6'>

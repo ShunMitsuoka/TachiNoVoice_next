@@ -17,7 +17,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
-type formData = {
+export type formData = {
     title: string,
     content: string,
     note: string,
@@ -52,7 +52,7 @@ const Register: NextPage = () => {
         requirement : '',
         gender_flg:true,
         age_flg:true,
-        start_by_instant_flg:false,
+        start_by_instant_flg:true,
         start_by_date_flg:false,
         end_by_limit_flg:false,
         end_by_date_flg:false,
